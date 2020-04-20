@@ -3,9 +3,19 @@
     h1.app-title Clientbase
     .app-grid
       .app-grid__sidebar
+        appMenu
       .app-grid__content
         nuxt
 </template>
+
+<script>
+import appMenu from '@/components/layout/app-menu'
+export default {
+  components: {
+    appMenu
+  }
+}
+</script>
 
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';

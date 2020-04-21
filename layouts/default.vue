@@ -1,6 +1,8 @@
 <template lang="pug">
   .app-container
     h1.app-title Clientbase
+    .scroll-up(@click="scrollTop")
+      svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
     .app-grid
       .app-grid__sidebar
         appMenu
@@ -13,6 +15,23 @@ import appMenu from '@/components/layout/app-menu'
 export default {
   components: {
     appMenu
+  },
+  data () {
+    return {
+      time: 0
+    }
+  },
+  methods: {
+    scrollTop () {
+      const top = Math.max(document.body.scrollTop, document.documentElement.scrollTop)
+      if (top > 0) {
+        window.scrollTo(0, Math.floor(top / 1.1))
+        this.time = setTimeout(this.scrollTop, 15)
+      } else {
+        clearTimeout(this.time)
+      }
+      return false
+    }
   }
 }
 </script>
@@ -47,4 +66,21 @@ export default {
  .app-grid__bottom-sidebar{
    margin-top:20px;
  }
+.scroll-up{
+   position: fixed;
+   bottom:50px;
+   left: 50px;
+   font-size: 32px;
+   cursor: pointer;
+   transition: all .3s;
+   z-index: 9999;
+}
+.scroll-up__icon{
+  fill:$mainColor;
+  transition: all .3s;
+  cursor: pointer;
+  &:hover{
+    fill:$accentColor;
+  }
+}
 </style>

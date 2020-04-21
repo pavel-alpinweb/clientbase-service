@@ -4,27 +4,32 @@
       Search
     .table__item
       .table__heading
+          svg-icon(class="table__icon", name="user-plus", width="20", height="20")
           span Новые (0)
           .hint-opener
       .table__content
     .table__item
       .table__heading
-          span Новые (0)
+          svg-icon(class="table__icon", name="user-clock", width="20", height="20")
+          span Спящие (0)
           .hint-opener
       .table__content
     .table__item
       .table__heading
-          span Новые (0)
+          svg-icon(class="table__icon", name="user-check", width="20", height="20")
+          span Открытые (0)
           .hint-opener
       .table__content
     .table__item
       .table__heading
-          span Новые (0)
+          svg-icon(class="table__icon", name="handshake", width="20", height="20")
+          span Постоянные (0)
           .hint-opener
       .table__content
     .table__item
       .table__heading
-          span Новые (0)
+          svg-icon(class="table__icon", name="gem", width="20", height="20")
+          span V.I.P. (0)
           .hint-opener
       .table__content
 </template>
@@ -38,50 +43,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@/assets/styles/layout/vars.scss';
-.table{
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(5, 1fr);
-  border-radius: 4px;
-  transition: all .4s;
-}
-.table__search{
-  grid-column: 1 / 6;
-  height:auto;
-  padding-bottom: 20px;
-  background:#ebebeb;
-}
-.table__item{
-    border:2px solid white;
-    border-right: none;
-    height: 90vh;
-    position: relative;
-    &:last-of-type{
-        border-right:2px solid white;
-    }
-}
-.table__content{
-    height: calc(100% - 3.44rem);
-    overflow-y: auto;
-    margin-top: 55px;
-}
-.table__heading {
-    background-color: $accentColor;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-size: $h5fontSize;
-    margin-bottom: 20px;
-    position: absolute;
-    width: 100%;
-    color: $mainColor;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    span{
-        margin: 0 10px;
-    }
-}
-</style>
+<style lang="scss" src="@/assets/styles/components/table.scss"></style>

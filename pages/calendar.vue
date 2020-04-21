@@ -2,6 +2,36 @@
   .table
     .table__search
       Search
+    .table__item
+      .table__heading
+          svg-icon(class="table__icon", name="archive", width="20", height="20")
+          span Архив (0)
+          .hint-opener
+      .table__content
+    .table__item
+      .table__heading
+          svg-icon(class="table__icon", name="user-clock", width="20", height="20")
+          span Спящие (0)
+          .hint-opener
+      .table__content
+    .table__item
+      .table__heading
+          svg-icon(class="table__icon", name="user-check", width="20", height="20")
+          span Открытые (0)
+          .hint-opener
+      .table__content
+    .table__item
+      .table__heading
+          svg-icon(class="table__icon", name="handshake", width="20", height="20")
+          span Постоянные (0)
+          .hint-opener
+      .table__content
+    .table__item
+      .table__heading
+          svg-icon(class="table__icon", name="gem", width="20", height="20")
+          span V.I.P. (0)
+          .hint-opener
+      .table__content
 </template>
 
 <script>
@@ -13,18 +43,4 @@ export default {
 }
 </script>
 
-<style lang="scss"  scoped>
-.table{
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(5, 1fr);
-  border-radius: 4px;
-  transition: all .4s;
-}
-.table__search{
-  grid-column: 1 / 6;
-  height:auto;
-  padding-bottom: 20px;
-  background:#ebebeb;
-}
-</style>
+<style lang="scss" src="@/assets/styles/components/table.scss"></style>

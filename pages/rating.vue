@@ -1,11 +1,21 @@
 <template lang="pug">
-  div
+  .rating
+    .rating_search
+      Search
 </template>
 
 <script>
-export default {}
+import Search from '@/components/pages/search'
+export default {
+  components: {
+    Search
+  }
+}
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  .rating{
+    width: 100%;
+    align-self: flex-start;
+  }
 </style>

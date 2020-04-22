@@ -8,13 +8,17 @@
         appMenu
       .app-grid__content
         nuxt
+      transition(name="component-fade",  mode="out-in")
+        windowDesc
 </template>
 
 <script>
 import appMenu from '@/components/layout/app-menu'
+import windowDesc from '@/components/layout/window-description'
 export default {
   components: {
-    appMenu
+    appMenu,
+    windowDesc
   },
   data () {
     return {

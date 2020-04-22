@@ -35,7 +35,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#feb63f' },
   /*
   ** Global CSS
   */
@@ -47,6 +47,10 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {
+      src: '~/plugins/event-bus.js',
+      ssr: false
+    }
   ],
   /*
   ** Nuxt.js dev-modules

@@ -1,10 +1,25 @@
 <template lang="pug">
   .progress
+    .hint(v-if="isHint")
+      |На этой странице показана общая статистика за все время использования этого приложения.
+      |Здесь вы можете узнать, сколько клиентов попадало в каждую из категрий.
+      |Чтобы узнать подобно, о том кто эти клиенты, зайдите на страницу "Списки"
     .progress__graffics
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      isHint: true
+    }
+  },
+  mounted () {
+    this.$EventBus.$on('switchHint', (data) => {
+      this.isHint = data.active
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

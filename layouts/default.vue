@@ -6,6 +6,8 @@
     .app-grid
       .app-grid__sidebar
         appMenu
+        .app-grid__bottom-sidebar
+          hintSwitcher(:hint="isHint")
       .app-grid__content
         nuxt
       transition(name="component-fade",  mode="out-in")
@@ -15,10 +17,12 @@
 <script>
 import appMenu from '@/components/layout/app-menu'
 import windowDesc from '@/components/layout/window-description'
+import hintSwitcher from '@/components/layout/hint-switcher'
 export default {
   components: {
     appMenu,
-    windowDesc
+    windowDesc,
+    hintSwitcher
   },
   data () {
     return {

@@ -1,5 +1,7 @@
 <template lang="pug">
   .rating
+    .hint(v-if="isHint")
+      |На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.
     .rating_search
       Search
     ul.rating__list
@@ -11,6 +13,16 @@ import Search from '@/components/pages/search'
 export default {
   components: {
     Search
+  },
+  data () {
+    return {
+      isHint: true
+    }
+  },
+  mounted () {
+    this.$EventBus.$on('switchHint', (data) => {
+      this.isHint = data.active
+    })
   }
 }
 </script>

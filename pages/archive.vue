@@ -1,5 +1,7 @@
 <template lang="pug">
   .archive
+    .hint(v-if="isHint")
+      |На этой странице находятся все клиенты, сотрудничество с которыми так или иначе не сложилось. Заметьте в этом приложении вообще нет кнопки "Удалить". Любого потерянного клиента можно вернуть в главную таблицу. Помните, каждый потерянный клиент это потерянная прибыль. Почитайте свои записи, оставленные к потерянному клиенту, посмотрите как развивалось Ваше сотрудничество, на странице "История". Может быть Вам удастся возобновить сотрудничество.
     .archive__search
       Search
 </template>
@@ -9,6 +11,16 @@ import Search from '@/components/pages/search'
 export default {
   components: {
     Search
+  },
+  data () {
+    return {
+      isHint: true
+    }
+  },
+  mounted () {
+    this.$EventBus.$on('switchHint', (data) => {
+      this.isHint = data.active
+    })
   }
 }
 </script>
@@ -27,3 +39,4 @@ export default {
   grid-column: 1 / 5;
 }
 </style>
+<style lang="scss" src="@/assets/styles/components/hint.scss"></style>

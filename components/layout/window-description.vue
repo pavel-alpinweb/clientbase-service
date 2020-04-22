@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       text: 'Какой-то текст по умолчанию',
-      visible: true
+      visible: false
     }
   },
   mounted () {

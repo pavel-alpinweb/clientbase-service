@@ -48,6 +48,7 @@ export default {
   @import '@/assets/styles/layout/vars.scss';
   .app-container{
     position: relative;
+    padding: 20px;
   }
   .app-grid{
     display:grid;

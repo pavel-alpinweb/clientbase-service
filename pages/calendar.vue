@@ -48,6 +48,7 @@
 <script>
 import Search from '@/components/pages/search'
 export default {
+  middleware: ['admin-auth'],
   components: {
     Search
   },

@@ -47,10 +47,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    {
-      src: '~/plugins/event-bus.js',
-      ssr: false
-    }
+    { src: '~/plugins/event-bus.js', ssr: true },
+    { src: '~/plugins/axios', ssr: true }
   ],
   /*
   ** Nuxt.js dev-modules

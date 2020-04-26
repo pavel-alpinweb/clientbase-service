@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  middleware: ['admin-auth'],
   data () {
     return {
       isHint: true

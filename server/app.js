@@ -15,12 +15,12 @@ mongoose.connect(keys.MONGO_URI, { useNewUrlParser: true })
     console.error(error)
   })
 
-app.use(passport.initialize())
-passport.use(passportStrategy)
+// app.use(passport.initialize())
+// passport.use(passportStrategy)
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/api/auth', authRoutes)
+// app.use('/api/auth', authRoutes)
 
 module.exports = app

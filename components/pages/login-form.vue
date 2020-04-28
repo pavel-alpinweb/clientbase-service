@@ -22,15 +22,19 @@ export default {
   },
   methods: {
     async onSubmit () {
-      try {
-        const formData = {
-          login: this.login,
-          password: this.password
+      if (this.login !== '' && this.password !== '') {
+        try {
+          const formData = {
+            login: this.login,
+            password: this.password
+          }
+          await this.$store.dispatch('auth/login', formData)
+          this.$router.push('/')
+        } catch (error) {
+          this.$EventBus.$emit('loginError', { message: error.response.data.message })
         }
-        await this.$store.dispatch('auth/login', formData)
-        this.$router.push('/')
-      } catch (error) {
-        this.$EventBus.$emit('loginError', { message: error.response.data.message })
+      } else {
+        this.$EventBus.$emit('loginError', { message: 'Все поля необходимо заполнить' })
       }
     }
   }

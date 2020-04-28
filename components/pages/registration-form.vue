@@ -22,15 +22,21 @@ export default {
   },
   methods: {
     async onSubmit () {
-      try {
-        const formData = {
-          login: this.login,
-          password: this.password
+      if (this.password.length < 6) {
+        this.$EventBus.$emit('loginError', { message: 'Пароль должен содержать не меньше 6-ти символов' })
+      } else if (this.login !== '' && this.password !== '') {
+        try {
+          const formData = {
+            login: this.login,
+            password: this.password
+          }
+          await this.$store.dispatch('auth/createUser', formData)
+          this.$router.push('/')
+        } catch (error) {
+          this.$EventBus.$emit('loginError', { message: error.response.data.message })
         }
-        await this.$store.dispatch('auth/createUser', formData)
-        this.$router.push('/')
-      } catch (error) {
-        this.$EventBus.$emit('loginError', { message: error.response.data.message })
+      } else {
+        this.$EventBus.$emit('loginError', { message: 'Все поля необходимо заполнить' })
       }
     }
   }

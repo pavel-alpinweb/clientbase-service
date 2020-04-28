@@ -30,7 +30,7 @@ export default {
         await this.$store.dispatch('auth/login', formData)
         this.$router.push('/')
       } catch (error) {
-        console.log(error)
+        this.$EventBus.$emit('loginError', { message: error.response.data.message })
       }
     }
   }

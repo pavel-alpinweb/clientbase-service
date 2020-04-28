@@ -1,5 +1,6 @@
 <template lang="pug">
   .login-page(:class="{'open' : isRotate}")
+    .message(v-if="message.visible", :class="message.class") {{ message.text }}
     .login-page__toggle
       .login-page__button(:class="{'login-page__button--active' : !isRotate}" @click="isRotate = false") Вход
       .login-page__button(:class="{'login-page__button--active' : isRotate}" @click="isRotate = true") Регистрация
@@ -21,8 +22,51 @@ export default {
   },
   data () {
     return {
-      isRotate: false
+      isRotate: false,
+      message: {
+        text: '',
+        class: '',
+        visible: false
+      }
     }
+  },
+  mounted () {
+    const { message } = this.$route.query
+    switch (message) {
+      case 'login':
+        this.message.visible = true
+        this.message.class = 'm-fail'
+        this.message.text = 'Для начала войдите в систему'
+        setTimeout(() => {
+          this.message.visible = false
+        }, 3000)
+        break
+      case 'logout':
+        this.message.visible = true
+        this.message.class = ''
+        this.message.text = 'Вы вышли из системы'
+        setTimeout(() => {
+          this.message.visible = false
+        }, 3000)
+        break
+      case 'session':
+        this.message.visible = true
+        this.message.class = 'm-fail'
+        this.message.text = 'Ваша сессия истекла, зайдите в систему снова'
+        setTimeout(() => {
+          this.message.visible = false
+        }, 3000)
+        break
+    }
+    this.$EventBus.$on('loginError', (data) => {
+      this.message.visible = true
+      this.message.class = 'm-fail'
+      this.message.text = data.message
+
+      setTimeout(() => {
+        this.message.visible = false
+      }, 3000)
+    })
   }
 }
 </script>
@@ -87,5 +131,23 @@ export default {
   }
   .login-page__button--active{
     background-color: $accentColor;
+  }
+  .message{
+    position: fixed;
+    top:20px;
+    right: 20px;
+    display: inline-block;
+    padding: 20px;
+    background-color: #44C21A;
+    border-radius:15px;
+    box-shadow: 0 0 15px 5px #ffce13;
+    font-size: 18px;
+    color: #fff;
+    font-family: $mainFont;
+    z-index: 10000;
+    &.m-fail{
+        background-color: red;
+        box-shadow: 0 0 15px 5px #000;
+    }
   }
 </style>

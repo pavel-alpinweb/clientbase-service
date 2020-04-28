@@ -1,6 +1,8 @@
 <template lang="pug">
   .app-container
     h1.app-title Clientbase
+      .app-user-menu
+        button.button.button--add(@click="logout") Выйти
     .scroll-up(@click="scrollTop")
       svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
     .app-grid
@@ -39,11 +41,16 @@ export default {
         clearTimeout(this.time)
       }
       return false
+    },
+    logout () {
+      this.$store.dispatch('auth/logout')
+      this.$router.push('/login/?message=logout')
     }
   }
 }
 </script>
 
+<style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .app-container{
@@ -75,6 +82,12 @@ export default {
  .app-grid__bottom-sidebar{
    margin-top:20px;
  }
+.app-user-menu{
+  width: 150px;
+  position: absolute;
+  top:20px;
+  right:20px;
+}
 .scroll-up{
    position: fixed;
    bottom:50px;

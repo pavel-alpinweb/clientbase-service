@@ -50,7 +50,7 @@ export default {
 }
 </script>
 
-<style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .app-container{

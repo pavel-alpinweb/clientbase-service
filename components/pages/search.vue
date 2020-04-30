@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss" scoped>
     @import '@/assets/styles/layout/vars.scss';
-     @mixin placeholder {
+    @mixin placeholder {
         &::-webkit-input-placeholder { @content; }
         &:-moz-placeholder           { @content; }
         &::-moz-placeholder          { @content; }

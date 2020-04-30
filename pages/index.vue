@@ -16,6 +16,7 @@
           .hint-opener(@click="toggleDescWindow(aspirantText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        ClientCard
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -48,10 +49,12 @@
 
 <script>
 import Search from '@/components/pages/search'
+import ClientCard from '@/components/pages/client-card'
 export default {
   middleware: ['admin-auth'],
   components: {
-    Search
+    Search,
+    ClientCard
   },
   data () {
     return {

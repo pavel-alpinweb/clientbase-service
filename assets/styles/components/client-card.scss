@@ -87,62 +87,6 @@
   font-weight: bold;
   color: $accentColor;
 }
-.client-card__move{
-  height: 50px;
-  line-height: 50px;
-  border-radius: 4px;
-  background-color: $mainColor;
-  color: $white;
-  font-size: $textFontSize;
-  font-weight: 500;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  &:hover{
-      background-color: $accentColor;
-      border-radius:4px 4px 0 0;
-      .client-card__move-menu{
-          display: block;
-      }
-  }
-}
-
-.move__opener:hover{
-  transition: all .3s;
-  &>.move-icon{
-      fill: $white;
-  }
-}
-
-.client-card__move-item {
-  width: 100%;
-  height: 50px;
-  background-color: $mainColor;
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-  &:hover{
-      background-color: $accentColor;
-      color: $white;
-      &>.move-icon{
-          fill: $white;
-      }
-  }
-}
-
-.client-card__move-menu{
-  display: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 100%;
-  left: 0;
-  top: 50px;
-  border-radius:0 0 4px 4px;
-  overflow: hidden;
-  z-index: 2;
-  border:2px solid $accentColor;
-}
 
 .move-icon{
   margin-right: 15px;

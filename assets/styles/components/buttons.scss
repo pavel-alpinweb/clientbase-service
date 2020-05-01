@@ -88,5 +88,8 @@
     border-color: $accentColor;
     &:hover{
         color: $accentColor;
+        .btn-icon{
+            fill: $accentColor;
+        }
     }
 }

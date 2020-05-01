@@ -9,22 +9,30 @@
       .app-grid__sidebar
         appMenu
         .app-grid__bottom-sidebar
+          button.button.button--add(@click="openClientForm")
+            svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
+            |Добавить
+        .app-grid__bottom-sidebar
           hintSwitcher(:hint="isHint")
       .app-grid__content
         nuxt
       transition(name="component-fade",  mode="out-in")
         windowDesc
+      transition(name="component-fade",  mode="out-in")
+        clientForm
 </template>
 
 <script>
 import appMenu from '@/components/layout/app-menu'
 import windowDesc from '@/components/layout/window-description'
 import hintSwitcher from '@/components/layout/hint-switcher'
+import clientForm from '@/components/layout/client-form'
 export default {
   components: {
     appMenu,
     windowDesc,
-    hintSwitcher
+    hintSwitcher,
+    clientForm
   },
   data () {
     return {
@@ -45,6 +53,12 @@ export default {
     logout () {
       this.$store.dispatch('auth/logout')
       this.$router.push('/login/?message=logout')
+    },
+    openClientForm () {
+      this.$EventBus.$emit('openClientForm', {
+        isVisible: true,
+        title: 'Добавить нового клиента'
+      })
     }
   }
 }

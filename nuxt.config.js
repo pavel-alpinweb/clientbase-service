@@ -48,7 +48,8 @@ module.exports = {
   */
   plugins: [
     { src: '~/plugins/event-bus.js', ssr: true },
-    { src: '~/plugins/axios', ssr: true }
+    { src: '~/plugins/axios', ssr: true },
+    { src: '~plugins/quillEditor.js', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules

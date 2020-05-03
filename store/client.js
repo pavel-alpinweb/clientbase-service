@@ -1,0 +1,28 @@
+export const actions = {
+  async createClient ({ commit }, client) {
+    const formData = new FormData()
+    if (client.file) {
+      for (const key in client) {
+        if (key === 'file') {
+          formData.append('file', client[key], client[key].name)
+          console.log(`${key} ` + formData.get(key))
+        } else if (key !== 'image') {
+          formData.append(`${key}`, client[key])
+          console.log(`${key} ` + formData.get(key))
+        }
+      }
+    } else {
+      for (const key in client) {
+        formData.append(`${key}`, client[key])
+        console.log(`${key} ` + formData.get(key))
+      }
+    }
+
+    try {
+      return await this.$axios.$post('/api/client/admin/create', formData)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
+  }
+}

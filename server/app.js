@@ -5,6 +5,7 @@ const passport = require('passport')
 const passportStrategy = require('./middleware/passport-strategy')
 const keys = require('./keys')
 const authRoutes = require('./routes/auth.routes')
+const clientRoutes = require('./routes/client.routes')
 const app = express()
 
 mongoose.connect(keys.MONGO_URI, { useNewUrlParser: true })
@@ -22,5 +23,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/client', clientRoutes)
 
 module.exports = app

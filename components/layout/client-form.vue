@@ -17,9 +17,7 @@
                 .client-form__item
                     label.client-form__label Описание
                     .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
-                button.client-form__submit() Сохранить
-                pre {{ client }}
-                pre {{ file }}
+                button.client-form__submit Сохранить
 </template>
 
 <script>
@@ -58,13 +56,16 @@ export default {
     })
   },
   methods: {
-    onSubmit (e) {
+    async onSubmit (e) {
       if (this.client.name.length === 0) {
         this.$EventBus.$emit('adminMessage', {
           text: 'Необходимо заполнить поле "Имя" для нового клиента',
           class: 'm-fail',
           visible: true
         })
+      } else {
+        const client = this.client
+        await this.$store.dispatch('client/createClient', client)
       }
     },
     selectFile (e) {

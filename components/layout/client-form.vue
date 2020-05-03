@@ -3,21 +3,23 @@
        .client-form__overlay(@click="isVisible = false")
        .client-form__content
             svg-icon(@click="isVisible = false", class="close-icon", name="checkmark", width="18", height="18")
-            form.client-form__sending-form
+            form.client-form__sending-form(@submit.prevent="onSubmit")
                 .client-form__item
                     legend.client-form__title {{ title }}
                 .client-form__item
-                    .client-form__image(style="background-image: url('/images/male.jpg');")
+                    .client-form__image(:style="'background-image: url(' + client.image + ');'")
                 .client-form__item
-                    input.client-form__input#inputFile.hide(type="file")
-                    button.client-form__submit Задать фото
+                    input.client-form__input#inputFile.hide(type="file", @change="selectFile")
+                    label(for="inputFile").client-form__submit Задать фото
                 .client-form__item
                     label.client-form__label Имя
-                    input.client-form__input(type="text", placeholder="Имя")
+                    input.client-form__input(type="text", placeholder="Имя", v-model="client.name")
                 .client-form__item
                     label.client-form__label Описание
-                    .quill-editor(v-quill:portfolioQuillEditor="editorOptions")
+                    .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
                 button.client-form__submit() Сохранить
+                pre {{ client }}
+                pre {{ file }}
 </template>
 
 <script>
@@ -30,6 +32,7 @@ export default {
     return {
       isVisible: false,
       title: 'Добавить нового клиента',
+      client: {},
       editorOptions: {
         modules: {
           toolbar: [
@@ -51,7 +54,48 @@ export default {
     this.$EventBus.$on('openClientForm', (data) => {
       this.isVisible = data.isVisible
       this.title = data.title
+      this.client = data.client
     })
+  },
+  methods: {
+    onSubmit (e) {
+      if (this.client.name.length === 0) {
+        this.$EventBus.$emit('adminMessage', {
+          text: 'Необходимо заполнить поле "Имя" для нового клиента',
+          class: 'm-fail',
+          visible: true
+        })
+      }
+    },
+    selectFile (e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      const client = this.client
+      const EventBus = this.$EventBus
+      reader.onload = function () {
+        const isValidType = (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')
+        const isValidSize = file.size / 1024 / 1024 < 2
+        if (isValidType && isValidSize) {
+          client.image = reader.result
+          client.file = file
+        } else if (!isValidType) {
+          document.getElementById('inputFile').value = ''
+          EventBus.$emit('adminMessage', {
+            text: 'Можно загружать только изображения форматов: png, jpeg, jpg',
+            class: 'm-fail',
+            visible: true
+          })
+        } else if (!isValidSize) {
+          document.getElementById('inputFile').value = ''
+          EventBus.$emit('adminMessage', {
+            text: 'Файл не должен привышать размер 2mb',
+            class: 'm-fail',
+            visible: true
+          })
+        }
+      }
+      reader.readAsDataURL(file)
+    }
   }
 }
 </script>
@@ -131,7 +175,10 @@ export default {
         transition: all .3s;
         max-width:332px;
         margin: 0 auto;
-        display:block;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
         &:hover{
             color: $accentColor;
             background-color: transparent;

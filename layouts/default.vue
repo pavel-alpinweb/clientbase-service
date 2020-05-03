@@ -1,5 +1,6 @@
 <template lang="pug">
   .app-container
+    .message(v-if="message.visible", :class="message.class") {{ message.text }}
     h1.app-title Clientbase
       .app-user-menu
         button.button.button--add(@click="logout") Выйти
@@ -36,8 +37,24 @@ export default {
   },
   data () {
     return {
-      time: 0
+      time: 0,
+      message: {
+        text: '',
+        class: '',
+        visible: false
+      }
     }
+  },
+  mounted () {
+    this.$EventBus.$on('adminMessage', (data) => {
+      this.message.visible = true
+      this.message.class = data.class
+      this.message.text = data.text
+
+      setTimeout(() => {
+        this.message.visible = false
+      }, 3000)
+    })
   },
   methods: {
     scrollTop () {
@@ -57,7 +74,15 @@ export default {
     openClientForm () {
       this.$EventBus.$emit('openClientForm', {
         isVisible: true,
-        title: 'Добавить нового клиента'
+        title: 'Добавить нового клиента',
+        client: {
+          status: 'aspirant',
+          name: '',
+          isActive: true,
+          date: new Date(),
+          text: '',
+          image: '/images/male.jpg'
+        }
       })
     }
   }
@@ -117,6 +142,24 @@ export default {
   cursor: pointer;
   &:hover{
     fill:$accentColor;
+  }
+}
+.message{
+  position: fixed;
+  top:20px;
+  right: 20px;
+  display: inline-block;
+  padding: 20px;
+  background-color: #44C21A;
+  border-radius:15px;
+  box-shadow: 0 0 15px 5px #ffce13;
+  font-size: 18px;
+  color: #fff;
+  font-family: $mainFont;
+  z-index: 10000;
+  &.m-fail{
+      background-color: red;
+      box-shadow: 0 0 15px 5px #000;
   }
 }
 </style>

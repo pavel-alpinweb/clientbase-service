@@ -3,6 +3,7 @@
     .message(v-if="message.visible", :class="message.class") {{ message.text }}
     h1.app-title Clientbase
       .app-user-menu
+        span.app-user-menu__name Привет, {{ user.login }}
         button.button.button--add(@click="logout") Выйти
     .scroll-up(@click="scrollTop")
       svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
@@ -38,6 +39,7 @@ export default {
   data () {
     return {
       time: 0,
+      user: {},
       message: {
         text: '',
         class: '',
@@ -55,6 +57,8 @@ export default {
         this.message.visible = false
       }, 3000)
     })
+
+    this.setUser()
   },
   methods: {
     scrollTop () {
@@ -66,6 +70,9 @@ export default {
         clearTimeout(this.time)
       }
       return false
+    },
+    setUser () {
+      this.user = this.$store.getters['auth/user']
     },
     logout () {
       this.$store.dispatch('auth/logout')
@@ -121,10 +128,20 @@ export default {
    margin-top:20px;
  }
 .app-user-menu{
-  width: 150px;
+  .button{
+    width: 150px;
+  }
   position: absolute;
   top:20px;
   right:20px;
+  display: flex;
+  align-items: center;
+}
+.app-user-menu__name{
+  font-size: 20px;
+  margin-right: 10px;
+  font-weight: 500;
+  font-family: $mainFont;
 }
 .scroll-up{
    position: fixed;

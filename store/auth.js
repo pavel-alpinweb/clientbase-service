@@ -78,7 +78,8 @@ export const getters = {
   isAuthenticated: (state) => {
     return Boolean(state.token)
   },
-  token: state => state.token
+  token: state => state.token,
+  user: state => state.user
 }
 
 function isJWTValid (token) {

@@ -4,11 +4,8 @@
     .client-card__avatar(style="background-image: url('/images/male.jpg');")
     .client-card__name Имя Клиента
     .client-card__charact
-        .client-card__title Кол-во заказов:
-        .client-card__raitng 10
-    .client-card__charact
-        .client-card__title Выплаты:
-        .client-card__raitng 10$
+        .client-card__title Последнее изменение:
+        .client-card__raitng 10.10.2020 18:20
     .client-card__control-item
       .client-card__menu
         .client-card__menu-item

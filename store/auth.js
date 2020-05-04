@@ -69,7 +69,7 @@ export const getters = {
   user: (state) => {
     const tokenObj = jwtDecode(state.token)
     return {
-      _id: tokenObj._id,
+      userId: tokenObj.userId,
       login: tokenObj.login
     }
   }

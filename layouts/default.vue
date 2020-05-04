@@ -79,7 +79,7 @@ export default {
       this.$router.push('/login/?message=logout')
     },
     openClientForm () {
-      const userId = this.user._id
+      const userId = this.user.userId
       this.$EventBus.$emit('openClientForm', {
         isVisible: true,
         title: 'Добавить нового клиента',

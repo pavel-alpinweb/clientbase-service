@@ -9,6 +9,7 @@ module.exports.create = async (req, res) => {
     }
   }
 
+  console.log($set)
   const client = new Client($set)
 
   try {

@@ -3,22 +3,15 @@ import Cookies from 'js-cookie'
 import jwtDecode from 'jwt-decode'
 
 export const state = () => ({
-  token: null,
-  user: null
+  token: null
 })
 
 export const mutations = {
   setToken (state, token) {
     state.token = token
   },
-  setUser (state, user) {
-    state.user = user
-  },
   clearToken (state) {
     state.token = null
-  },
-  clearUser (state) {
-    state.user = null
   }
 }
 
@@ -26,9 +19,7 @@ export const actions = {
   async login ({ commit, dispatch }, formData) {
     try {
       const token = await this.$axios.$post('/api/auth/admin/login', formData)
-      const user = jwtDecode(token)
       dispatch('setToken', token)
-      dispatch('setUser', { _id: user.userId, login: user.login })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
@@ -38,7 +29,6 @@ export const actions = {
     try {
       const user = await this.$axios.$post('/api/auth/admin/create', formData)
       dispatch('setToken', user)
-      dispatch('setUser', { _id: user._id, login: user.login })
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
@@ -48,9 +38,6 @@ export const actions = {
     this.$axios.setToken(token, 'Bearer')
     commit('setToken', token)
     Cookies.set('jwt-token', token)
-  },
-  setUser ({ commit }, user) {
-    commit('setUser', user)
   },
   logout ({ commit }) {
     commit('clearToken')
@@ -79,7 +66,13 @@ export const getters = {
     return Boolean(state.token)
   },
   token: state => state.token,
-  user: state => state.user
+  user: (state) => {
+    const tokenObj = jwtDecode(state.token)
+    return {
+      _id: tokenObj._id,
+      login: tokenObj.login
+    }
+  }
 }
 
 function isJWTValid (token) {

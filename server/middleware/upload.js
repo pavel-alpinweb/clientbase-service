@@ -11,7 +11,7 @@ const s3 = new aws.S3({
 const upload = multer({
   storage: multerS3({
     s3,
-    bucket: 'alpinweb-files',
+    bucket: 'clientbase-files',
     acl: 'public-read',
     key (req, file, cb) {
       cb(null, `${Date.now().toString()}_${file.originalname}`)

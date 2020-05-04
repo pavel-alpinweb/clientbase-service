@@ -79,7 +79,6 @@ export default {
           status: 'aspirant',
           name: '',
           isActive: true,
-          date: new Date(),
           text: '',
           image: '/images/male.jpg'
         }

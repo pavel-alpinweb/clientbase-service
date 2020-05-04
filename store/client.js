@@ -5,16 +5,13 @@ export const actions = {
       for (const key in client) {
         if (key === 'file') {
           formData.append('file', client[key], client[key].name)
-          console.log(`${key} ` + formData.get(key))
         } else if (key !== 'image') {
           formData.append(`${key}`, client[key])
-          console.log(`${key} ` + formData.get(key))
         }
       }
     } else {
       for (const key in client) {
         formData.append(`${key}`, client[key])
-        console.log(`${key} ` + formData.get(key))
       }
     }
 

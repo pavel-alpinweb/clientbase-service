@@ -18,6 +18,7 @@
                     label.client-form__label Описание
                     .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
                 button.client-form__submit Сохранить
+                pre {{ client }}
 </template>
 
 <script>

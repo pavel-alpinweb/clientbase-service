@@ -1,11 +1,11 @@
 <template lang="pug">
   .client-card(id="client01")
     .client-card__id id: client01
-    .client-card__avatar(style="background-image: url('/images/male.jpg');")
-    .client-card__name Имя Клиента
+    .client-card__avatar(:style="`background-image: url('${client.image}');`")
+    .client-card__name {{ client.name }}
     .client-card__charact
         .client-card__title Последнее изменение:
-        .client-card__raitng 10.10.2020 18:20
+        .client-card__date {{ client.date | date() }}
     .client-card__control-item
       .client-card__menu
         .client-card__menu-item
@@ -33,5 +33,12 @@
 <style lang="scss" scoped src="@/assets/styles/components/client-card.scss"></style>
 
 <script>
-export default {}
+export default {
+  props: {
+    client: {
+      type: Object,
+      required: true
+    }
+  }
+}
 </script>

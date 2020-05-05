@@ -16,7 +16,7 @@
           .hint-opener(@click="toggleDescWindow(aspirantText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard
+        ClientCard(v-for="client in clients", v-if="client.status=='aspirant'", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")

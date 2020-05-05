@@ -24,10 +24,9 @@
           button.client-card__button.client-card__button--chart
             svg-icon(class="client-card__option-icon", name="chart", width="20", height="20")
           .client-card__menu-tooltipe Статистика
-    .client-card__control-item
-        button.button.button--archive
-          svg-icon(class="btn-icon", name="archive", width="20", height="20")
-          |В архив
+    button.button.button--archive
+      svg-icon(class="btn-icon", name="archive", width="20", height="20")
+      |В архив
 </template>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>

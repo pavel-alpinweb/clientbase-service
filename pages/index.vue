@@ -66,6 +66,11 @@ export default {
       winnerText: 'В этой категории находятся самые важные клиенты. Это клиенты, прибыль от сделок с которыми может составлять, значительную часть Вашего дохода. Сюда следует помещать клиентов, которые находятся на вершине рейтинга(можно посмотреть на странице "рейтинг") или тех клиентов, которые имеют для Вас особое значение. Терять таких клиентов нельзя ни в коем случае, так как они приносят основной доход Вашему бизнесу.'
     }
   },
+  async asyncData ({ store }) {
+    const user = store.getters['auth/user']
+    const clients = await store.dispatch('client/getAll', user.userId)
+    return { clients }
+  },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active

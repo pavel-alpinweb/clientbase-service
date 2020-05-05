@@ -9,14 +9,21 @@ module.exports.create = async (req, res) => {
     }
   }
 
-  console.log($set)
   const client = new Client($set)
 
   try {
     await client.save()
     res.status(201).json(client)
   } catch (error) {
-    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+module.exports.getAll = async (req, res) => {
+  try {
+    const clients = await Client.find({ userId: req.params.id }).sort({ date: -1 })
+    res.json(clients)
+  } catch (error) {
     res.status(500).json(error)
   }
 }

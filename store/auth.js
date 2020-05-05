@@ -41,7 +41,6 @@ export const actions = {
   },
   logout ({ commit }) {
     commit('clearToken')
-    commit('clearUser')
     Cookies.remove('jwt-token')
   },
   autoLogin ({ dispatch }) {
@@ -53,8 +52,6 @@ export const actions = {
 
     if (isJWTValid(token)) {
       dispatch('setToken', token)
-      const user = jwtDecode(token)
-      dispatch('setUser', { _id: user.userId, login: user.login })
     } else {
       dispatch('logout')
     }

@@ -12,4 +12,11 @@ router.post(
   ctr.create
 )
 
+// '/api/client/admin/'
+router.get(
+  '/admin/:id',
+  passport.authenticate('jwt', { session: false }),
+  ctr.getAll
+)
+
 module.exports = router

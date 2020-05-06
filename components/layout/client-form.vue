@@ -66,7 +66,10 @@ export default {
       } else {
         const client = this.client
         try {
-          await this.$store.dispatch('client/createClient', client)
+          const clients = await this.$store.dispatch('client/createClient', client)
+
+          this.$EventBus.$emit('reloadClients', { clients })
+
           this.isVisible = false
           this.$EventBus.$emit('adminMessage', {
             text: 'Новый пользователь успешно создан',

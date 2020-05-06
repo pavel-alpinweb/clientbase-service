@@ -13,7 +13,7 @@ module.exports.create = async (req, res) => {
 
   try {
     await client.save()
-    const clients = await Client.find({ userId: req.params.id }).sort({ date: -1 })
+    const clients = await Client.find({ userId: $set.userId }).sort({ date: -1 })
     res.status(201).json(clients)
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })

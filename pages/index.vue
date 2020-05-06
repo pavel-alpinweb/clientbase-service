@@ -9,7 +9,7 @@
           .hint-opener(@click="toggleDescWindow(aspirantText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clients", v-if="client.status=='aspirant'", :client="client", @key="client._id")
+        ClientCard(v-for="client in clientsArray", v-if="client.status=='aspirant'", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -65,6 +65,11 @@ export default {
       winnerText: 'В этой категории находятся самые важные клиенты. Это клиенты, прибыль от сделок с которыми может составлять, значительную часть Вашего дохода. Сюда следует помещать клиентов, которые находятся на вершине рейтинга(можно посмотреть на странице "рейтинг") или тех клиентов, которые имеют для Вас особое значение. Терять таких клиентов нельзя ни в коем случае, так как они приносят основной доход Вашему бизнесу.'
     }
   },
+  computed: {
+    clientsArray () {
+      return this.clients
+    }
+  },
   async asyncData ({ store }) {
     const user = store.getters['auth/user']
     const clients = await store.dispatch('client/getAll', user.userId)
@@ -72,6 +77,9 @@ export default {
   },
   mounted () {
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
+    this.$EventBus.$on('reloadClients', (data) => {
+      this.clients = data.clients
+    })
   },
   methods: {
     toggleDescWindow (text) {

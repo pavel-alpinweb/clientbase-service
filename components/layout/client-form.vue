@@ -65,7 +65,21 @@ export default {
         })
       } else {
         const client = this.client
-        await this.$store.dispatch('client/createClient', client)
+        try {
+          await this.$store.dispatch('client/createClient', client)
+          this.isVisible = false
+          this.$EventBus.$emit('adminMessage', {
+            text: 'Новый пользователь успешно создан',
+            class: '',
+            visible: true
+          })
+        } catch (error) {
+          this.$EventBus.$emit('adminMessage', {
+            text: error.response.data.message,
+            class: 'm-fail',
+            visible: true
+          })
+        }
       }
     },
     selectFile (e) {

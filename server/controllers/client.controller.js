@@ -13,9 +13,10 @@ module.exports.create = async (req, res) => {
 
   try {
     await client.save()
-    res.status(201).json(client)
+    const clients = await Client.find({ userId: req.params.id }).sort({ date: -1 })
+    res.status(201).json(clients)
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json({ message: 'Ошибка сервера' })
   }
 }
 

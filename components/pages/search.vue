@@ -12,6 +12,15 @@ export default {
     return {
       searchString: ''
     }
+  },
+  methods: {
+    searchEvas () {
+      this.$EventBus.$emit('search', { searchString: this.searchString })
+    },
+    cleanSearch () {
+      this.searchString = ''
+      this.$EventBus.$emit('search', { searchString: this.searchString })
+    }
   }
 }
 </script>

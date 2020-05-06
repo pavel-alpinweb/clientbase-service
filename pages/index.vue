@@ -51,6 +51,7 @@ export default {
   },
   data () {
     return {
+      searchString: '',
       textPage:
       `На этой страницы находятся клиенты с которыми вы на данный момент работаете.
       Каждый клиент относится к той или иной категории.
@@ -67,7 +68,14 @@ export default {
   },
   computed: {
     clientsArray () {
-      return this.clients
+      if (this.searchString === '') {
+        return this.clients
+      } else {
+        const checkClients = this.clients.filter((client) => {
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+        })
+        return checkClients
+      }
     }
   },
   async asyncData ({ store }) {
@@ -79,6 +87,9 @@ export default {
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
     this.$EventBus.$on('reloadClients', (data) => {
       this.clients = data.clients
+    })
+    this.$EventBus.$on('search', (data) => {
+      this.searchString = data.searchString
     })
   },
   methods: {

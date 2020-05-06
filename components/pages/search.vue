@@ -1,7 +1,7 @@
 <template lang="pug">
     .search
-        input.search__input(type="text", placeholder="Введите имя или id клиента..." v-model="searchString")
-        .search__clean
+        input.search__input(@input="searchEvas", type="text", placeholder="Введите имя или id клиента...", v-model="searchString")
+        .search__clean(@click="cleanSearch")
             svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
 </template>
 

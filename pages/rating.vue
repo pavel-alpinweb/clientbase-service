@@ -1,7 +1,5 @@
 <template lang="pug">
   .rating
-    .hint(v-if="isHint")
-      |На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.
     .rating_search
       Search
     ul.rating__list
@@ -17,13 +15,15 @@ export default {
   },
   data () {
     return {
-      isHint: true
+      isHint: true,
+      textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
     }
   },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active
     })
+    this.$EventBus.$emit('changePageText', { textPage: this.textPage })
   }
 }
 </script>

@@ -1,9 +1,5 @@
 <template lang="pug">
   .progress
-    .hint(v-if="isHint")
-      |На этой странице показана общая статистика за все время использования этого приложения.
-      |Здесь вы можете узнать, сколько клиентов попадало в каждую из категрий.
-      |Чтобы узнать подобно, о том кто эти клиенты, зайдите на страницу "Списки"
     .progress__graffics
 </template>
 
@@ -12,13 +8,18 @@ export default {
   middleware: ['admin-auth'],
   data () {
     return {
-      isHint: true
+      isHint: true,
+      textPage:
+      `На этой странице показана общая статистика за все время использования этого приложения. 
+      Здесь вы можете узнать, сколько клиентов попадало в каждую из категорий. 
+      Чтобы узнать подобно, о том кто эти клиенты, зайдите на страницу "Списки"`
     }
   },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active
     })
+    this.$EventBus.$emit('changePageText', { textPage: this.textPage })
   }
 }
 </script>

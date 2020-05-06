@@ -17,6 +17,7 @@
         .app-grid__bottom-sidebar
           hintSwitcher(:hint="isHint")
       .app-grid__content
+        .hint(v-if="isHint") {{ textPage }}
         nuxt
       transition(name="component-fade",  mode="out-in")
         windowDesc
@@ -40,6 +41,8 @@ export default {
     return {
       time: 0,
       user: {},
+      isHint: true,
+      textPage: '',
       message: {
         text: '',
         class: '',
@@ -52,13 +55,19 @@ export default {
       this.message.visible = true
       this.message.class = data.class
       this.message.text = data.text
-
       setTimeout(() => {
         this.message.visible = false
       }, 3000)
     })
-
     this.setUser()
+    this.$EventBus.$on('switchHint', (data) => {
+      this.isHint = data.active
+    })
+  },
+  beforeMount () {
+    this.$EventBus.$on('changePageText', (data) => {
+      this.textPage = data.textPage
+    })
   },
   methods: {
     scrollTop () {
@@ -112,6 +121,7 @@ export default {
   .app-grid__content{
     min-height: 500px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     grid-column-start: 2;

@@ -12,6 +12,14 @@ router.post(
   ctr.create
 )
 
+// '/api/client/admin/update'
+router.put(
+  '/admin/update/:id',
+  passport.authenticate('jwt', { session: false }),
+  upload.any(),
+  ctr.update
+)
+
 // '/api/client/admin/'
 router.get(
   '/admin/:id',

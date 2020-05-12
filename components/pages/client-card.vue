@@ -13,7 +13,7 @@
             svg-icon(class="client-card__option-icon", name="trades", width="20", height="20")
           .client-card__menu-tooltipe Сделки
         .client-card__menu-item
-          button.client-card__button.client-card__button--edit
+          button.client-card__button.client-card__button--edit(@click="openClientForm")
             svg-icon(class="client-card__option-icon", name="edit", width="20", height="20")
           .client-card__menu-tooltipe Редактировать
         .client-card__menu-item
@@ -38,6 +38,16 @@ export default {
     client: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    openClientForm () {
+      this.$EventBus.$emit('openClientForm', {
+        isVisible: true,
+        title: 'Редактировать клиента',
+        client: this.client,
+        isNew: false
+      })
     }
   }
 }

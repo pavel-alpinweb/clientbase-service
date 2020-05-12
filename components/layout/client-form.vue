@@ -30,6 +30,7 @@ export default {
     return {
       isVisible: false,
       title: 'Добавить нового клиента',
+      isNew: true,
       client: {},
       editorOptions: {
         modules: {
@@ -53,6 +54,7 @@ export default {
       this.isVisible = data.isVisible
       this.title = data.title
       this.client = data.client
+      this.isNew = data.isNew
     })
   },
   methods: {
@@ -66,13 +68,17 @@ export default {
       } else {
         const client = this.client
         try {
-          const clients = await this.$store.dispatch('client/createClient', client)
-
+          let clients = null
+          if (this.isNew) {
+            clients = await this.$store.dispatch('client/createClient', client)
+          } else {
+            clients = await this.$store.dispatch('client/updateClient', client)
+          }
           this.$EventBus.$emit('reloadClients', { clients })
 
           this.isVisible = false
           this.$EventBus.$emit('adminMessage', {
-            text: 'Новый пользователь успешно создан',
+            text: this.isNew ? 'Новый клиент успешно создан' : `Ваш клиент ${this.client.name} успешно обновлен`,
             class: '',
             visible: true
           })

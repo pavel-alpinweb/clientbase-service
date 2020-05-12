@@ -91,6 +91,7 @@ export default {
       const userId = this.user.userId
       this.$EventBus.$emit('openClientForm', {
         isVisible: true,
+        isNew: true,
         title: 'Добавить нового клиента',
         client: {
           status: 'aspirant',

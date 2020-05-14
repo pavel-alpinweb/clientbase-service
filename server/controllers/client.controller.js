@@ -38,6 +38,16 @@ module.exports.update = async (req, res) => {
   }
 }
 
+module.exports.archive = async (req, res) => {
+  try {
+    await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'archive', date: new Date() }, { new: true })
+    const clients = await Client.find({ userId: req.params.userID }).sort({ date: -1 })
+    res.status(201).json(clients)
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' })
+  }
+}
+
 module.exports.getAll = async (req, res) => {
   try {
     const clients = await Client.find({ userId: req.params.id }).sort({ date: -1 })

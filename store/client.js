@@ -45,6 +45,14 @@ export const actions = {
       throw error
     }
   },
+  async archiveClient ({ commit }, { clientId, userId }) {
+    try {
+      return await this.$axios.$put(`/api/client/admin/archive/${clientId}/${userId}`)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
+  },
   async getAll ({ commit }, userId) {
     try {
       return await this.$axios.$get('/api/client/admin/' + userId)

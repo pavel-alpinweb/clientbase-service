@@ -6,7 +6,7 @@
     .window-archive__subtitle {{ client.name }}
     .window-archive__image(:style="`background-image: url(${client.image});`")
     .window-archive__button-set
-        button.window-archive__btn да
+        button.window-archive__btn(@click="sendArchiveRequest") да
         button.window-archive__btn.window-archive__btn--close(@click="closeThisWindow") нет
 </template>
 
@@ -31,6 +31,25 @@ export default {
   methods: {
     closeThisWindow () {
       this.isVisible = false
+    },
+    async sendArchiveRequest () {
+      const user = this.$store.getters['auth/user']
+      try {
+        const clients = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
+        this.$EventBus.$emit('reloadClients', { clients })
+        this.isVisible = false
+        this.$EventBus.$emit('adminMessage', {
+          text: `Ваш клиент ${this.client.name} успешно архивирован`,
+          class: '',
+          visible: true
+        })
+      } catch (error) {
+        this.$EventBus.$emit('adminMessage', {
+          text: error.response.data.message,
+          class: 'm-fail',
+          visible: true
+        })
+      }
     }
   }
 }

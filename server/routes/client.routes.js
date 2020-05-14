@@ -12,7 +12,7 @@ router.post(
   ctr.create
 )
 
-// '/api/client/admin/update'
+// '/api/client/admin/update/clientID'
 router.put(
   '/admin/update/:id',
   passport.authenticate('jwt', { session: false }),
@@ -20,7 +20,14 @@ router.put(
   ctr.update
 )
 
-// '/api/client/admin/'
+// '/api/client/admin/archive/clientID/userID'
+router.put(
+  '/admin/archive/:clientID/:userID',
+  passport.authenticate('jwt', { session: false }),
+  ctr.archive
+)
+
+// '/api/client/admin/userID'
 router.get(
   '/admin/:id',
   passport.authenticate('jwt', { session: false }),

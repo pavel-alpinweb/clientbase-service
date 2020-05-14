@@ -23,6 +23,8 @@
         windowDesc
       transition(name="component-fade",  mode="out-in")
         clientForm
+      transition(name="component-fade",  mode="out-in")
+        archiveAlrt
 </template>
 
 <script>
@@ -30,12 +32,14 @@ import appMenu from '@/components/layout/app-menu'
 import windowDesc from '@/components/layout/window-description'
 import hintSwitcher from '@/components/layout/hint-switcher'
 import clientForm from '@/components/layout/client-form'
+import archiveAlrt from '@/components/pages/archive-alert'
 export default {
   components: {
     appMenu,
     windowDesc,
     hintSwitcher,
-    clientForm
+    clientForm,
+    archiveAlrt
   },
   data () {
     return {

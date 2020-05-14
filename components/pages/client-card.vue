@@ -24,7 +24,7 @@
           button.client-card__button.client-card__button--chart
             svg-icon(class="client-card__option-icon", name="chart", width="20", height="20")
           .client-card__menu-tooltipe Статистика
-    button.button.button--archive
+    button.button.button--archive(@click="openArchiveAlert")
       svg-icon(class="btn-icon", name="archive", width="20", height="20")
       |В архив
 </template>
@@ -47,6 +47,16 @@ export default {
         title: 'Редактировать клиента',
         client: this.client,
         isNew: false
+      })
+    },
+    openArchiveAlert () {
+      this.$EventBus.$emit('callArchiveAlert', {
+        isVisible: true,
+        client: {
+          name: this.client.name,
+          id: this.client._id,
+          image: this.client.image
+        }
       })
     }
   }

@@ -9,7 +9,7 @@
     .client-card__control-item
       .client-card__menu
         .client-card__menu-item
-          button.client-card__button.client-card__button--trades
+          button.client-card__button.client-card__button--trades(@click="openWindowTrades")
             svg-icon(class="client-card__option-icon", name="trades", width="20", height="20")
           .client-card__menu-tooltipe Сделки
         .client-card__menu-item
@@ -46,6 +46,7 @@ export default {
         isVisible: true,
         title: 'Редактировать клиента',
         client: this.client,
+        trades: [],
         isNew: false
       })
     },
@@ -57,6 +58,14 @@ export default {
           id: this.client._id,
           image: this.client.image
         }
+      })
+    },
+    openWindowTrades () {
+      this.$EventBus.$emit('callTradesWindow', {
+        visible: true,
+        trades: this.trades,
+        clientName: this.client.name,
+        clientId: this.client._id
       })
     }
   }

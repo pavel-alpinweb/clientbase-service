@@ -1,0 +1,100 @@
+@import '@/assets/styles/layout/vars.scss';
+@mixin placeholder {
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder           { @content; }
+  &::-moz-placeholder          { @content; }
+  &:-ms-input-placeholder      { @content; }
+}
+.trades-row{
+  display: flex;
+  justify-content: space-between;
+}
+
+.trades-row__cell-title{
+  color: $mainColor;
+  font-family: $mainFont;
+  font-size: $h5fontSize;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.trades-row__cell-value{
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  span{
+    color: $accentColor;
+    font-size: $h4fontSize;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+}
+
+.trades-row__cell{
+  flex-grow: 1;
+  padding: 0 5px;
+  &:first-child{
+    flex-grow: 6;
+  }
+}
+
+.trades-row__input{
+  width: 100%;
+  height: 52px;
+  border-radius: 4px;
+  border: 1px solid $mainColor;
+  padding:0 10px;
+  background: transparent;
+  outline:none;
+  color: $mainColor;
+  font-size: $textFontSize;
+  font-weight: 500;
+  font-family: $mainFont;
+  transition: all .3s;
+  @include placeholder{
+      color: $accentColor;
+  }
+  &:focus{
+      box-shadow: 0 0 4px $accentColor;
+      border: 1px solid $accentColor;
+  }
+}
+
+.trades-row__button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border: 2px solid;
+  transition: all .3s;
+  margin-right: 5px;
+}
+
+.trades-row__option-icon{
+  fill:#fff;
+  transition: fill .3s;
+}
+
+.trades-row__button--save{
+  border-color: #80C826;
+  background-color: #80C826;
+  &:hover{
+    background-color: transparent;
+    .trades-row__option-icon{
+      fill: #80C826;
+    }
+  }
+}
+
+.trades-row__button--delete{
+  border-color: red;
+  background-color: red;
+  &:hover{
+    background-color: transparent;
+    .trades-row__option-icon{
+      fill: red;
+    }
+  }
+}

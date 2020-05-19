@@ -63,9 +63,12 @@ export default {
     openWindowTrades () {
       this.$EventBus.$emit('callTradesWindow', {
         visible: true,
-        trades: this.trades,
-        clientName: this.client.name,
-        clientId: this.client._id
+        trades: [],
+        client: {
+          name: this.client.name,
+          id: this.client._id,
+          clientImage: this.client.image
+        }
       })
     }
   }

@@ -4,20 +4,20 @@
       .window-description__content.window-description__content--big
        svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
        .window-description__header
-        .window-description__title Все сделки клиента <span>{{ clientName }}</span>
+        .window-description__title Все сделки клиента <span>{{ client.name }}</span>
         .window-description__search-box
           .search
-            input.search__input(type="text", placeholder="Введите название сдлеки", v-model="searchString")
+            input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
             .search__clean(@click="cleanSearch")
                 svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
         .window-description__date-filter
        .window-description__trades-list
         .window-description__add-button
-          button.button.button--add
+          button.button.button--add(@click="createTrade")
             svg-icon(class="btn-icon", name="trades", width="20", height="20")
             |Создать сделку
-        .window-description__trades-item(v-for="i in 20")
-          tradesRow(:number="i")
+        .window-description__trades-item(v-for="(trade, i) in trades.slice().reverse()", :key="i")
+          tradesRow(:number="trades.length - (i + 1)", :trade="trade")
 </template>
 
 <script>
@@ -32,17 +32,23 @@ export default {
     return {
       trades: [],
       visible: false,
-      clientName: '',
-      clientId: '',
-      searchString: ''
+      searchString: '',
+      client: {}
+    }
+  },
+  computed: {
+    number () {
+      return this.trades.length
     }
   },
   mounted () {
     this.$EventBus.$on('callTradesWindow', (data) => {
       this.visible = data.visible
       this.trades = data.trades
-      this.clientName = data.clientName
-      this.clientId = data.clientId
+      this.client = data.client
+    })
+    this.$EventBus.$on('deleteNewTrade', (data) => {
+      this.trades.splice(data.index, 1)
     })
   },
   methods: {
@@ -51,6 +57,15 @@ export default {
     },
     cleanSearch () {
       this.searchString = ''
+    },
+    createTrade () {
+      const trade = {
+        title: '',
+        date: '',
+        pay: 0,
+        isNew: false
+      }
+      this.trades.push(trade)
     }
   }
 }

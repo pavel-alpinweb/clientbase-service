@@ -16,7 +16,7 @@
     .trades-row__cell
     .trades-row__cell-title Действия
       .trades-row__cell-value
-        button.trades-row__button.trades-row__button--save(@click="saveTrade")
+        button.trades-row__button.trades-row__button--save(@click="saveTrade" :class="{'desabled' : trade.isNewTrade}")
           svg-icon(class="trades-row__option-icon", name="save", width="20", height="20")
         button.trades-row__button.trades-row__button--delete(@click="deleteTrade")
             svg-icon(class="trades-row__option-icon", name="trash", width="20", height="20")
@@ -36,17 +36,34 @@ export default {
   },
   methods: {
     deleteTrade () {
-      if (!this.trade.isNew) {
+      if (this.trade.isNewTrade) {
         this.$EventBus.$emit('deleteNewTrade', {
           index: this.number
         })
       }
     },
-    saveTrade () {
+    async saveTrade () {
       const valide = this.trade.title !== '' && this.trade.date !== '' && this.trade.pay !== ''
 
       if (valide) {
-        console.log('Поехали!')
+        if (this.trade.isNewTrade) {
+          try {
+            const trade = await this.$store.dispatch('trade/createTrade', this.trade)
+            this.trade = trade
+            this.$EventBus.$emit('updateTrade', { trade, index: this.number })
+            this.$EventBus.$emit('adminMessage', {
+              text: 'Новая сделка успешно создана',
+              class: '',
+              visible: true
+            })
+          } catch (error) {
+            this.$EventBus.$emit('adminMessage', {
+              text: error.response.data.message,
+              class: 'm-fail',
+              visible: true
+            })
+          }
+        }
       } else {
         this.$EventBus.$emit('adminMessage', {
           text: 'Необходимо заполнить все поля',

@@ -25,6 +25,12 @@ const clientShema = new Schema({
     type: String,
     required: true
   },
+  trades: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'trades'
+    }
+  ],
   userId: {
     type: String,
     required: true

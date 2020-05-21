@@ -50,6 +50,9 @@ export default {
     this.$EventBus.$on('deleteNewTrade', (data) => {
       this.trades.splice(data.index, 1)
     })
+    this.$EventBus.$on('updateTrade', (data) => {
+      this.trades[data.index] = data.trade
+    })
   },
   methods: {
     closeThisWindow () {
@@ -60,10 +63,12 @@ export default {
     },
     createTrade () {
       const trade = {
+        client: this.client,
         title: '',
         date: '',
         pay: 0,
-        isNew: false
+        isNewTrade: true,
+        clientId: this.client.id
       }
       this.trades.push(trade)
     }

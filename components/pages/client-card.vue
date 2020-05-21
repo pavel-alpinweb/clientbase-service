@@ -46,7 +46,6 @@ export default {
         isVisible: true,
         title: 'Редактировать клиента',
         client: this.client,
-        trades: [],
         isNew: false
       })
     },
@@ -63,7 +62,7 @@ export default {
     openWindowTrades () {
       this.$EventBus.$emit('callTradesWindow', {
         visible: true,
-        trades: [],
+        trades: this.client.trades,
         client: {
           name: this.client.name,
           id: this.client._id,

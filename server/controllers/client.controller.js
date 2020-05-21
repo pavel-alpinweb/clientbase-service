@@ -13,8 +13,12 @@ module.exports.create = async (req, res) => {
 
   try {
     await client.save()
-    const clients = await Client.find({ userId: $set.userId }).sort({ date: -1 })
-    res.status(201).json(clients)
+    await Client.find({ userId: $set.userId }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+      res.json(clients)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -31,8 +35,12 @@ module.exports.update = async (req, res) => {
 
   try {
     await Client.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
-    const clients = await Client.find({ userId: $set.userId }).sort({ date: -1 })
-    res.status(201).json(clients)
+    await Client.find({ userId: req.params.id }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+      res.json(clients)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -41,8 +49,12 @@ module.exports.update = async (req, res) => {
 module.exports.archive = async (req, res) => {
   try {
     await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'archive', date: new Date() }, { new: true })
-    const clients = await Client.find({ userId: req.params.userID }).sort({ date: -1 })
-    res.status(201).json(clients)
+    await Client.find({ userId: req.params.id }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+      res.json(clients)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -50,8 +62,12 @@ module.exports.archive = async (req, res) => {
 
 module.exports.getAll = async (req, res) => {
   try {
-    const clients = await Client.find({ userId: req.params.id }).sort({ date: -1 })
-    res.json(clients)
+    await Client.find({ userId: req.params.id }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+      res.json(clients)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json(error)
   }

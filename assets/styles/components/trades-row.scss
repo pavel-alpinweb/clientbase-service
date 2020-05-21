@@ -80,8 +80,13 @@
 .trades-row__button--save{
   border-color: #80C826;
   background-color: #80C826;
+  &.desabled{
+    border-color: grey;
+    background-color: grey;
+  }
   &:hover{
     background-color: transparent;
+    border-color: #80C826;
     .trades-row__option-icon{
       fill: #80C826;
     }

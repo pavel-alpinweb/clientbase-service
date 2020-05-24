@@ -2,22 +2,22 @@
     .client-form(v-if="isVisible")
        .client-form__overlay(@click="isVisible = false")
        .client-form__content
-            svg-icon(@click="isVisible = false", class="close-icon", name="checkmark", width="18", height="18")
-            form.client-form__sending-form(@submit.prevent="onSubmit")
-                .client-form__item
-                    legend.client-form__title {{ title }}
-                .client-form__item
-                    .client-form__image(:style="'background-image: url(' + client.image + ');'")
-                .client-form__item
-                    input.client-form__input#inputFile.hide(type="file", @change="selectFile")
-                    label(for="inputFile").client-form__submit Задать фото
-                .client-form__item
-                    label.client-form__label Имя
-                    input.client-form__input(type="text", placeholder="Имя", v-model="client.name")
-                .client-form__item
-                    label.client-form__label Описание
-                    .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
-                button.client-form__submit Сохранить
+          svg-icon(@click="isVisible = false", class="close-icon", name="checkmark", width="18", height="18")
+          form.client-form__sending-form(@submit.prevent="onSubmit")
+            .client-form__item
+                legend.client-form__title {{ title }}
+            .client-form__item
+                .client-form__image(:style="'background-image: url(' + client.image + ');'")
+            .client-form__item
+                input.client-form__input#inputFile.hide(type="file", @change="selectFile")
+                label(for="inputFile").client-form__submit Задать фото
+            .client-form__item
+                label.client-form__label Имя
+                input.client-form__input(type="text", placeholder="Имя", v-model="client.name")
+            .client-form__item
+                label.client-form__label Описание
+                .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
+            button.client-form__submit Сохранить
 </template>
 
 <script>
@@ -66,7 +66,15 @@ export default {
           visible: true
         })
       } else {
-        const client = this.client
+        const client = {
+          status: this.client.status,
+          name: this.client.name,
+          isActive: this.client.isActive,
+          text: this.client.text,
+          image: this.client.image,
+          userId: this.client.userId,
+          _id: this.client._id
+        }
         try {
           let clients = null
           if (this.isNew) {

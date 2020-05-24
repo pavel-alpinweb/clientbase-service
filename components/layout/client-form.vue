@@ -66,20 +66,19 @@ export default {
           visible: true
         })
       } else {
-        const client = {
-          status: this.client.status,
-          name: this.client.name,
-          isActive: this.client.isActive,
-          text: this.client.text,
-          image: this.client.image,
-          userId: this.client.userId,
-          _id: this.client._id
+        const client = {}
+        for (const key in this.client) {
+          if (this.client.hasOwnProperty(key) && key !== 'trades') {
+            client[key] = this.client[key]
+          }
         }
         try {
           let clients = null
           if (this.isNew) {
+            // await console.log(client)
             clients = await this.$store.dispatch('client/createClient', client)
           } else {
+            // await console.log(client)
             clients = await this.$store.dispatch('client/updateClient', client)
           }
           this.$EventBus.$emit('reloadClients', { clients })

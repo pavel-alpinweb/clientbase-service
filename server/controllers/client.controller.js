@@ -3,6 +3,7 @@ const Client = require('../models/client.model')
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
 
+  console.log($set)
   if (req.files) {
     for (const image of req.files) {
       $set.image = image.location
@@ -10,7 +11,6 @@ module.exports.create = async (req, res) => {
   }
 
   const client = new Client($set)
-
   try {
     await client.save()
     await Client.find({ userId: $set.userId }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
@@ -20,6 +20,7 @@ module.exports.create = async (req, res) => {
       }
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
   }
 }

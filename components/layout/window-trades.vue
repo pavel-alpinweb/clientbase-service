@@ -47,7 +47,7 @@ export default {
       this.trades = data.trades
       this.client = data.client
     })
-    this.$EventBus.$on('deleteNewTrade', (data) => {
+    this.$EventBus.$on('deleteTrade', (data) => {
       this.trades.splice(data.index, 1)
     })
     this.$EventBus.$on('updateTrade', (data) => {

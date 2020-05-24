@@ -10,4 +10,18 @@ router.post(
   ctr.create
 )
 
+// '/api/trade/admin/update/id'
+router.put(
+  '/admin/update/:id',
+  passport.authenticate('jwt', { session: false }),
+  ctr.update
+)
+
+// '/api/trade/admin/delete/id'
+router.delete(
+  '/admin/delete/:id',
+  passport.authenticate('jwt', { session: false }),
+  ctr.remove
+)
+
 module.exports = router

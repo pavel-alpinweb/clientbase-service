@@ -75,10 +75,8 @@ export default {
         try {
           let clients = null
           if (this.isNew) {
-            // await console.log(client)
             clients = await this.$store.dispatch('client/createClient', client)
           } else {
-            // await console.log(client)
             clients = await this.$store.dispatch('client/updateClient', client)
           }
           this.$EventBus.$emit('reloadClients', { clients })

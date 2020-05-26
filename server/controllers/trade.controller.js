@@ -9,9 +9,17 @@ module.exports.create = async (req, res) => {
   try {
     await trade.save()
     const client = await Client.findById($set.client.id)
+    let message = 'Новая сделка успешно создана'
+
+    if (client.status === 'aspirant') {
+      client.status = 'open'
+      message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+    }
+
     client.trades.push(trade._id)
+    client.date = Date.now()
     await client.save()
-    res.status(201).json(trade)
+    res.status(201).json({ trade, client, message })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

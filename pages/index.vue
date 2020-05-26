@@ -17,6 +17,7 @@
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        ClientCard(v-for="client in clientsArray", v-if="client.status=='sleep'", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
@@ -24,6 +25,7 @@
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        ClientCard(v-for="client in clientsArray", v-if="client.status=='open'", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
@@ -31,6 +33,7 @@
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        ClientCard(v-for="client in clientsArray", v-if="client.status=='repeat'", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
@@ -38,6 +41,7 @@
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        ClientCard(v-for="client in clientsArray", v-if="client.status=='vip'", :client="client", @key="client._id")
 </template>
 
 <script>
@@ -87,6 +91,15 @@ export default {
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
     this.$EventBus.$on('reloadClients', (data) => {
       this.clients = data.clients
+    })
+    this.$EventBus.$on('updateClient', (data) => {
+      // const clients = this.clients
+      this.clients.forEach((client, i) => {
+        if (data.client._id === client._id) {
+          this.clients[i].status = data.client.status
+          this.clients[i].date = data.client.date
+        }
+      })
     })
     this.$EventBus.$on('search', (data) => {
       this.searchString = data.searchString

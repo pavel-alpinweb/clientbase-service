@@ -4,7 +4,7 @@
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
     .client-card__name {{ client.name }}
     .client-card__charact
-        .client-card__title Последнее изменение:
+        .client-card__title Последняя активность:
         .client-card__date {{ client.date | date() }}
     .client-card__control-item
       .client-card__menu

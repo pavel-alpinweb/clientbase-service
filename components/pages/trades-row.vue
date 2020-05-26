@@ -67,23 +67,23 @@ export default {
     },
     async saveTrade () {
       const valide = this.trade.title !== '' && this.trade.date !== '' && this.trade.pay !== ''
-      const succesString = this.trade.isNewTrade ? 'Новая сделка успешно добавлена' : 'Сделка успешно обновлена'
       if (valide) {
         try {
-          let trade = null
+          let req = null
           if (this.trade.isNewTrade) {
-            trade = await this.$store.dispatch('trade/createTrade', this.trade)
+            req = await this.$store.dispatch('trade/createTrade', this.trade)
           } else {
-            trade = await this.$store.dispatch('trade/updateTrade', this.trade)
+            req = await this.$store.dispatch('trade/updateTrade', this.trade)
           }
-          this.trade = trade
+          this.trade = req.trade
           this.isSave = true
-          this.$EventBus.$emit('updateTrade', { trade, index: this.number })
+          this.$EventBus.$emit('updateTrade', { trade: req.trade, index: this.number })
           this.$EventBus.$emit('adminMessage', {
-            text: succesString,
+            text: req.message,
             class: '',
             visible: true
           })
+          this.$EventBus.$emit('updateClient', { client: req.client })
         } catch (error) {
           this.$EventBus.$emit('adminMessage', {
             text: error.response.data.message,

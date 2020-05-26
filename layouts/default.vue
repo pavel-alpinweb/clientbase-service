@@ -65,7 +65,7 @@ export default {
       this.message.text = data.text
       setTimeout(() => {
         this.message.visible = false
-      }, 3000)
+      }, 5000)
     })
     this.setUser()
     this.$EventBus.$on('switchHint', (data) => {
@@ -187,6 +187,8 @@ export default {
   right: 20px;
   display: inline-block;
   padding: 20px;
+  max-width: 500px;
+  height: auto;
   background-color: #44C21A;
   border-radius:15px;
   box-shadow: 0 0 15px 5px #ffce13;

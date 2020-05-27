@@ -93,7 +93,6 @@ export default {
       this.clients = data.clients
     })
     this.$EventBus.$on('updateClient', (data) => {
-      // const clients = this.clients
       this.clients.forEach((client, i) => {
         if (data.client._id === client._id) {
           this.clients[i].status = data.client.status

@@ -3,7 +3,6 @@ const Client = require('../models/client.model')
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
 
-  console.log($set)
   if (req.files) {
     for (const image of req.files) {
       $set.image = image.location

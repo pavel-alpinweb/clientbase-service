@@ -14,6 +14,9 @@ module.exports.create = async (req, res) => {
     if (client.status === 'aspirant') {
       client.status = 'open'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+    } else if (client.trades.length === 2 && client.status === 'open') {
+      client.status = 'repeat'
+      message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
     }
 
     client.trades.push(trade._id)

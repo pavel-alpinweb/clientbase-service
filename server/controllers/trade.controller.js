@@ -11,7 +11,10 @@ module.exports.create = async (req, res) => {
     const client = await Client.findById($set.client.id)
     let message = 'Новая сделка успешно создана'
 
-    if (client.status === 'aspirant') {
+    if ($set.pay >= 100000) {
+      client.status = 'vip'
+      message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
+    } else if (client.status === 'aspirant') {
       client.status = 'open'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список открытых клиентов`
     } else if (client.trades.length === 2 && client.status === 'open') {

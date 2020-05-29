@@ -50,7 +50,7 @@ module.exports.update = async (req, res) => {
 module.exports.archive = async (req, res) => {
   try {
     await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'archive', date: new Date() }, { new: true })
-    await Client.find({ userId: req.params.id }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+    await Client.find({ userId: req.params.userID }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
       res.json(clients)
       if (error) {
         res.status(500).json(error)

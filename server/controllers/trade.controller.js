@@ -53,10 +53,14 @@ module.exports.update = async (req, res) => {
 module.exports.remove = async (req, res) => {
   try {
     const client = await Client.findById(req.params.clientID)
-    const message = 'Сделка успешно удалена'
+    let message = 'Сделка успешно удалена'
 
     const tradeIndex = client.trades.indexOf(req.params.tradeID)
     client.trades.splice(tradeIndex, 1)
+    if (client.trades.length === 0) {
+      client.status = 'aspirant'
+      message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список новых клиентов`
+    }
 
     await client.save()
     await Trade.deleteOne({ _id: req.params.tradeID })

@@ -56,6 +56,7 @@ export default {
             class: '',
             visible: true
           })
+          this.$EventBus.$emit('updateClient', { client: req.client })
         } catch (error) {
           this.$EventBus.$emit('adminMessage', {
             text: error.response.data.message,

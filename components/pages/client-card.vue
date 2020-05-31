@@ -40,6 +40,14 @@ export default {
       required: true
     }
   },
+  mounted () {
+    const now = new Date()
+    const clientDate = new Date(this.client.date)
+    const daysLag = Math.ceil(Math.abs(now.getTime() - clientDate.getTime()) / (1000 * 360))
+    if (daysLag > 10) {
+      this.client.isActive = false
+    }
+  },
   methods: {
     openClientForm () {
       this.$EventBus.$emit('openClientForm', {

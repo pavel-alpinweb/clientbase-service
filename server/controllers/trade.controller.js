@@ -73,6 +73,9 @@ module.exports.remove = async (req, res) => {
         client.status = 'open'
         message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
       }
+    } else if (client.trades.length < 3 && client.status !== 'vip') {
+      client.status = 'open'
+      message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
     }
 
     await client.save()

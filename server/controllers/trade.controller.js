@@ -42,7 +42,6 @@ module.exports.update = async (req, res) => {
       message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
     }
 
-    client.date = Date.now()
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
     res.status(201).json({ trade, client, message })
@@ -53,8 +52,15 @@ module.exports.update = async (req, res) => {
 
 module.exports.remove = async (req, res) => {
   try {
-    await Trade.deleteOne({ _id: req.params.id })
-    res.status(201).json({ message: 'Сделка успешно удалена' })
+    const client = await Client.findById(req.params.clientID)
+    const message = 'Сделка успешно удалена'
+
+    const tradeIndex = client.trades.indexOf(req.params.tradeID)
+    client.trades.splice(tradeIndex, 1)
+
+    await client.save()
+    await Trade.deleteOne({ _id: req.params.tradeID })
+    res.status(201).json({ client, message })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

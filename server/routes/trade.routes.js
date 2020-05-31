@@ -19,7 +19,7 @@ router.put(
 
 // '/api/trade/admin/delete/id'
 router.delete(
-  '/admin/delete/:id',
+  '/admin/delete/:clientID/:tradeID',
   passport.authenticate('jwt', { session: false }),
   ctr.remove
 )

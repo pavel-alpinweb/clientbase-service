@@ -15,9 +15,9 @@ export const actions = {
       throw error
     }
   },
-  async removeTrade ({ commit }, id) {
+  async removeTrade ({ commit }, { clientId, tradeId }) {
     try {
-      return await this.$axios.$delete('/api/trade/admin/delete/' + id)
+      return await this.$axios.$delete(`/api/trade/admin/delete/${clientId}/${tradeId}`)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error

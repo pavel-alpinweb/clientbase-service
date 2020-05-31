@@ -47,7 +47,7 @@ export default {
         })
       } else {
         try {
-          const req = await this.$store.dispatch('trade/removeTrade', this.trade._id)
+          const req = await this.$store.dispatch('trade/removeTrade', { clientId: this.trade.clientId, tradeId: this.trade._id })
           this.$EventBus.$emit('deleteTrade', {
             index: this.number
           })

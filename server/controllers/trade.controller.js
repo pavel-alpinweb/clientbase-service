@@ -57,13 +57,25 @@ module.exports.remove = async (req, res) => {
 
     const tradeIndex = client.trades.indexOf(req.params.tradeID)
     client.trades.splice(tradeIndex, 1)
+    await Trade.deleteOne({ _id: req.params.tradeID })
+
+    const allTrades = await Trade.find({ clientId: req.params.clientID })
+    const hasVIPtrade = allTrades.find(trade => trade.pay >= 100000)
+
     if (client.trades.length === 0) {
       client.status = 'aspirant'
       message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список новых клиентов`
+    } else if (client.status === 'vip' && !hasVIPtrade) {
+      if (client.trades.length >= 3) {
+        client.status = 'repeat'
+        message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
+      } else {
+        client.status = 'open'
+        message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+      }
     }
 
     await client.save()
-    await Trade.deleteOne({ _id: req.params.tradeID })
     res.status(201).json({ client, message })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })

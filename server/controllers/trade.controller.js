@@ -34,8 +34,18 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
   const $set = { ...req.body }
   try {
+    const client = await Client.findById($set.client.id)
+    let message = 'Информация о сделке успешно обновлена'
+
+    if ($set.pay >= 100000) {
+      client.status = 'vip'
+      message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
+    }
+
+    client.date = Date.now()
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
-    res.status(201).json(trade)
+    await client.save()
+    res.status(201).json({ trade, client, message })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

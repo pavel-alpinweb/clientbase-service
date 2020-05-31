@@ -42,6 +42,21 @@
     }
 }
 
+.button--wait{
+    background-color: $accentColor;
+    border-color: $accentColor;
+    color: $mainColor;
+    .btn-icon{
+        fill: $mainColor;
+    }
+    &:hover{
+        color: $accentColor;
+        .btn-icon{
+            fill: $accentColor;
+        }
+    }
+}
+
 .button--text{
     background-color: $mainColor;
     border-color: $mainColor;

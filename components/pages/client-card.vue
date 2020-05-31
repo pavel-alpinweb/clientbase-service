@@ -1,5 +1,5 @@
 <template lang="pug">
-  .client-card(id="client01")
+  .client-card(id="client01", :class="{'client-card--dark' :  !client.isActive}")
     .client-card__id id: client01
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
     .client-card__name {{ client.name }}
@@ -24,9 +24,12 @@
           button.client-card__button.client-card__button--chart
             svg-icon(class="client-card__option-icon", name="chart", width="20", height="20")
           .client-card__menu-tooltipe Статистика
-    button.button.button--archive(@click="openArchiveAlert")
+    button.button.button--archive(@click="openArchiveAlert", v-if="client.isActive")
       svg-icon(class="btn-icon", name="archive", width="20", height="20")
       |В архив
+    button.button.button--wait(@click="openArchiveAlert", v-else="client.isActive")
+      svg-icon(class="btn-icon", name="wait", width="20", height="20")
+      |Ожидает действия
 </template>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>

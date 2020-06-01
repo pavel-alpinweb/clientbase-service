@@ -27,7 +27,7 @@
     button.button.button--archive(@click="openArchiveAlert", v-if="client.isActive")
       svg-icon(class="btn-icon", name="archive", width="20", height="20")
       |В архив
-    button.button.button--wait(@click="openArchiveAlert", v-else="client.isActive")
+    button.button.button--wait(@click="openSleepAlert", v-else="client.isActive")
       svg-icon(class="btn-icon", name="wait", width="20", height="20")
       |Ожидает действия
 </template>
@@ -46,8 +46,8 @@ export default {
   mounted () {
     const now = new Date()
     const clientDate = new Date(this.client.date)
-    const daysLag = Math.ceil(Math.abs(now.getTime() - clientDate.getTime()) / (1000 * 360))
-    if (daysLag > 10) {
+    const daysLag = Math.ceil(Math.abs(now.getTime() - clientDate.getTime()) / (1000 * 3600 * 24))
+    if (daysLag >= 1) {
       this.client.isActive = false
     }
   },
@@ -62,6 +62,16 @@ export default {
     },
     openArchiveAlert () {
       this.$EventBus.$emit('callArchiveAlert', {
+        isVisible: true,
+        client: {
+          name: this.client.name,
+          id: this.client._id,
+          image: this.client.image
+        }
+      })
+    },
+    openSleepAlert () {
+      this.$EventBus.$emit('callSleepAlert', {
         isVisible: true,
         client: {
           name: this.client.name,

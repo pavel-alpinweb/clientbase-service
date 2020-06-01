@@ -27,6 +27,8 @@
         archiveAlrt
       transition(name="component-fade",  mode="out-in")
         windowTrades
+      transition(name="component-fade",  mode="out-in")
+        sleepAlrt
 </template>
 
 <script>
@@ -36,6 +38,7 @@ import hintSwitcher from '@/components/layout/hint-switcher'
 import clientForm from '@/components/layout/client-form'
 import archiveAlrt from '@/components/pages/archive-alert'
 import windowTrades from '@/components/layout/window-trades'
+import sleepAlrt from '@/components/pages/sleep-alert'
 export default {
   components: {
     appMenu,
@@ -43,7 +46,8 @@ export default {
     hintSwitcher,
     clientForm,
     archiveAlrt,
-    windowTrades
+    windowTrades,
+    sleepAlrt
   },
   data () {
     return {

@@ -7,12 +7,12 @@
     .window-sleep__subtitle Выбирите в какую категорию поместить клиента
     .window-sleep__image(:style="`background-image: url(${client.image});`")
     .window-sleep__button-set
-        button.window-sleep__btn
-          svg-icon(class="btn-icon", name="archive", width="20", height="20")
-          |В архив
-        button.window-sleep__btn.window-sleep__btn--sleep
-          svg-icon(class="btn-icon", name="user-clock", width="20", height="20")
-          |В спящие
+      button.window-sleep__btn(@click="sendArchiveRequest")
+        svg-icon(class="btn-icon", name="archive", width="20", height="20")
+        |В архив
+      button.window-sleep__btn.window-sleep__btn--sleep
+        svg-icon(class="btn-icon", name="user-clock", width="20", height="20")
+        |В спящие
 </template>
 
 <script>

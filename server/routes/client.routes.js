@@ -27,6 +27,13 @@ router.put(
   ctr.archive
 )
 
+// '/api/client/admin/sleep/clientID/userID'
+router.put(
+  '/admin/sleep/:clientID/:userID',
+  passport.authenticate('jwt', { session: false }),
+  ctr.sleep
+)
+
 // '/api/client/admin/userID'
 router.get(
   '/admin/:id',

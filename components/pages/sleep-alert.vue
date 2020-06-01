@@ -10,7 +10,7 @@
       button.window-sleep__btn(@click="sendArchiveRequest")
         svg-icon(class="btn-icon", name="archive", width="20", height="20")
         |В архив
-      button.window-sleep__btn.window-sleep__btn--sleep
+      button.window-sleep__btn.window-sleep__btn--sleep(@click="sendSleepRequest")
         svg-icon(class="btn-icon", name="user-clock", width="20", height="20")
         |В спящие
 </template>
@@ -41,6 +41,25 @@ export default {
       const user = this.$store.getters['auth/user']
       try {
         const clients = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
+        this.$EventBus.$emit('reloadClients', { clients })
+        this.isVisible = false
+        this.$EventBus.$emit('adminMessage', {
+          text: `Ваш клиент ${this.client.name} успешно архивирован`,
+          class: '',
+          visible: true
+        })
+      } catch (error) {
+        this.$EventBus.$emit('adminMessage', {
+          text: error.response.data.message,
+          class: 'm-fail',
+          visible: true
+        })
+      }
+    },
+    async sendSleepRequest () {
+      const user = this.$store.getters['auth/user']
+      try {
+        const clients = await this.$store.dispatch('client/sleepClient', { clientId: this.client.id, userId: user.userId })
         this.$EventBus.$emit('reloadClients', { clients })
         this.isVisible = false
         this.$EventBus.$emit('adminMessage', {

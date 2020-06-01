@@ -53,6 +53,14 @@ export const actions = {
       throw error
     }
   },
+  async sleepClient ({ commit }, { clientId, userId }) {
+    try {
+      return await this.$axios.$put(`/api/client/admin/sleep/${clientId}/${userId}`)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
+  },
   async getAll ({ commit }, userId) {
     try {
       return await this.$axios.$get('/api/client/admin/' + userId)

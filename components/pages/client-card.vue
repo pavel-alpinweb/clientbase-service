@@ -47,7 +47,7 @@ export default {
     const now = new Date()
     const clientDate = new Date(this.client.date)
     const daysLag = Math.ceil(Math.abs(now.getTime() - clientDate.getTime()) / (1000 * 3600 * 24))
-    if (daysLag >= 1) {
+    if (daysLag > 30) {
       this.client.isActive = false
     }
   },

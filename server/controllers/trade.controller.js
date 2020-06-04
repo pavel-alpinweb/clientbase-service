@@ -10,22 +10,27 @@ module.exports.create = async (req, res) => {
     await trade.save()
     const client = await Client.findById($set.client.id)
     let message = 'Новая сделка успешно создана'
+    client.trades.push(trade._id)
 
     if ($set.pay >= 100000) {
       client.status = 'vip'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
-    } else if (client.status === 'aspirant') {
+    } else if (client.status === 'aspirant' || (client.status === 'sleep' && client.trades.length < 3)) {
       client.status = 'open'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список открытых клиентов`
-    } else if (client.trades.length === 2 && client.status === 'open') {
+    } else if (client.trades.length >= 3 && (client.status === 'open' || client.status === 'sleep')) {
       client.status = 'repeat'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
     }
 
-    client.trades.push(trade._id)
     client.date = Date.now()
     await client.save()
-    res.status(201).json({ trade, client, message })
+    await Client.findById($set.client.id).populate('trades').exec((error, client) => {
+      res.status(201).json({ trade, client, message })
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -39,12 +44,18 @@ module.exports.update = async (req, res) => {
 
     if ($set.pay >= 100000) {
       client.status = 'vip'
+      client.date = Date.now()
       message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
     }
 
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
-    res.status(201).json({ trade, client, message })
+    await Client.findById($set.client.id).populate('trades').exec((error, client) => {
+      res.status(201).json({ trade, client, message })
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -73,13 +84,18 @@ module.exports.remove = async (req, res) => {
         client.status = 'open'
         message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
       }
-    } else if (client.trades.length < 3 && client.status !== 'vip') {
+    } else if (client.trades.length < 3 && client.status !== 'vip' && client.status !== 'sleep') {
       client.status = 'open'
       message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
     }
 
     await client.save()
-    res.status(201).json({ client, message })
+    await Client.findById(req.params.clientID).populate('trades').exec((error, client) => {
+      res.status(201).json({ client, message })
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

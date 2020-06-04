@@ -35,8 +35,8 @@ export default {
     async sendArchiveRequest () {
       const user = this.$store.getters['auth/user']
       try {
-        const clients = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
-        this.$EventBus.$emit('reloadClients', { clients })
+        const req = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
+        this.$EventBus.$emit('updateClient', { client: req.client })
         this.isVisible = false
         this.$EventBus.$emit('adminMessage', {
           text: `Ваш клиент ${this.client.name} успешно архивирован`,

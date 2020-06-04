@@ -18,6 +18,7 @@
                 label.client-form__label Описание
                 .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
             button.client-form__submit Сохранить
+            pre {{ client }}
 </template>
 
 <script>
@@ -73,13 +74,14 @@ export default {
           }
         }
         try {
-          let clients = null
+          let req = null
           if (this.isNew) {
-            clients = await this.$store.dispatch('client/createClient', client)
+            req = await this.$store.dispatch('client/createClient', client)
+            this.$EventBus.$emit('createClient', { client: req.client })
           } else {
-            clients = await this.$store.dispatch('client/updateClient', client)
+            req = await this.$store.dispatch('client/updateClient', client)
+            this.$EventBus.$emit('updateClient', { client: req.client })
           }
-          this.$EventBus.$emit('reloadClients', { clients })
 
           this.isVisible = false
           this.$EventBus.$emit('adminMessage', {

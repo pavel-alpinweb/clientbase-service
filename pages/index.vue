@@ -9,7 +9,7 @@
           .hint-opener(@click="toggleDescWindow(aspirantText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clientsArray", v-if="client.status=='aspirant'", :client="client", @key="client._id")
+        ClientCard(v-for="client in statusArray('aspirant')", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -17,7 +17,7 @@
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clientsArray", v-if="client.status=='sleep'", :client="client", @key="client._id")
+        ClientCard(v-for="client in statusArray('sleep')", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
@@ -25,7 +25,7 @@
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clientsArray", v-if="client.status=='open'", :client="client", @key="client._id")
+        ClientCard(v-for="client in statusArray('open')", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
@@ -33,7 +33,7 @@
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clientsArray", v-if="client.status=='repeat'", :client="client", @key="client._id")
+        ClientCard(v-for="client in statusArray('repeat')", :client="client", @key="client._id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
@@ -41,7 +41,7 @@
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in clientsArray", v-if="client.status=='vip'", :client="client", @key="client._id")
+        ClientCard(v-for="client in statusArray('vip')", :client="client", @key="client._id")
 </template>
 
 <script>
@@ -73,12 +73,12 @@ export default {
   computed: {
     clientsArray () {
       if (this.searchString === '') {
-        return this.clients
+        return this.sortByDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
           return client.name.toLowerCase().includes(this.searchString.toLowerCase())
         })
-        return checkClients
+        return this.sortByDate(checkClients)
       }
     }
   },
@@ -89,16 +89,15 @@ export default {
   },
   mounted () {
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
-    this.$EventBus.$on('reloadClients', (data) => {
-      this.clients = data.clients
-    })
     this.$EventBus.$on('updateClient', (data) => {
       this.clients.forEach((client, i) => {
         if (data.client._id === client._id) {
-          this.clients[i].status = data.client.status
-          this.clients[i].date = data.client.date
+          Object.assign(this.clients[i], data.client)
         }
       })
+    })
+    this.$EventBus.$on('createClient', (data) => {
+      this.clients.push(data.client)
     })
     this.$EventBus.$on('search', (data) => {
       this.searchString = data.searchString
@@ -107,6 +106,16 @@ export default {
   methods: {
     toggleDescWindow (text) {
       this.$EventBus.$emit('callDescWindow', { visible: true, text })
+    },
+    statusArray (status) {
+      return this.clientsArray.filter(client => client.status === status)
+    },
+    sortByDate (array) {
+      return array.sort((a, b) => {
+        const aDate = new Date(a.date)
+        const bDate = new Date(b.date)
+        return bDate - aDate
+      })
     }
   }
 }

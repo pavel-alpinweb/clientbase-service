@@ -25,6 +25,10 @@ const clientShema = new Schema({
     type: String,
     required: true
   },
+  id: {
+    type: String,
+    required: true
+  },
   trades: [
     {
       type: Schema.Types.ObjectId,

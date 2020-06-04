@@ -11,13 +11,10 @@ module.exports.create = async (req, res) => {
 
   const client = new Client($set)
   try {
+    const clientsArray = await Client.find({ userId: $set.userId })
+    client.id = `client0${clientsArray.length + 1}`
     await client.save()
-    await Client.find({ userId: $set.userId }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
-      res.json(clients)
-      if (error) {
-        res.status(500).json(error)
-      }
-    })
+    res.status(201).json({ client })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
@@ -35,12 +32,12 @@ module.exports.update = async (req, res) => {
 
   try {
     await Client.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
-    await Client.find({ userId: $set.userId }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
-      res.json(clients)
-      if (error) {
-        res.status(500).json(error)
-      }
-    })
+      .populate('trades').exec((error, client) => {
+        res.status(201).json({ client })
+        if (error) {
+          res.status(500).json(error)
+        }
+      })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
@@ -50,12 +47,12 @@ module.exports.update = async (req, res) => {
 module.exports.archive = async (req, res) => {
   try {
     await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'archive', date: new Date() }, { new: true })
-    await Client.find({ userId: req.params.userID }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
-      res.json(clients)
-      if (error) {
-        res.status(500).json(error)
-      }
-    })
+      .populate('trades').exec((error, client) => {
+        res.status(201).json({ client })
+        if (error) {
+          res.status(500).json(error)
+        }
+      })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
@@ -64,12 +61,12 @@ module.exports.archive = async (req, res) => {
 module.exports.sleep = async (req, res) => {
   try {
     await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'sleep', date: new Date() }, { new: true })
-    await Client.find({ userId: req.params.userID }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
-      res.json(clients)
-      if (error) {
-        res.status(500).json(error)
-      }
-    })
+      .populate('trades').exec((error, client) => {
+        res.status(201).json({ client })
+        if (error) {
+          res.status(500).json(error)
+        }
+      })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

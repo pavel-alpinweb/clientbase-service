@@ -118,6 +118,31 @@
 }
 .window-description__content--big{
     max-width: 1024px;
+    height: 100%;
+}
+.window-description__date-filter{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.window-description__half-item{
+    flex-basis: 49%;
+}
+.window-description__form-title{
+    font-size: $h5fontSize;
+    font-weight: 700;
+}
+.window-description__input{
+    padding: 0 15px;
+}
+.window-description__datepicker{
+    position: relative;
+}
+.window-description__date-clean{
+    position: absolute;
+    top: 18px;
+    right: 45px;
+    cursor: pointer;
 }
 .close-icon{
     position:absolute;

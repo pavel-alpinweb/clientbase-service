@@ -29,7 +29,7 @@
       |В архив
     button.button.button--wait(@click="openSleepAlert", v-else="client.isActive")
       svg-icon(class="btn-icon", name="wait", width="20", height="20")
-      |Ожидает действия
+      |Ожидает действий...
 </template>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
@@ -47,7 +47,7 @@ export default {
     const now = new Date()
     const clientDate = new Date(this.client.date)
     const daysLag = Math.ceil(Math.abs(now.getTime() - clientDate.getTime()) / (1000 * 3600 * 24))
-    if (daysLag > 0 && this.client.status !== 'sleep') {
+    if (daysLag > 30 && this.client.status !== 'sleep') {
       this.client.isActive = false
     }
   },

@@ -1,6 +1,6 @@
 <template lang="pug">
   .client-card(id="client01", :class="{'client-card--dark' :  !client.isActive}")
-    .client-card__id id: client01
+    .client-card__id id: {{ client.id }}
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
     .client-card__name {{ client.name }}
     .client-card__charact

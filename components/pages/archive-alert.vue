@@ -2,11 +2,12 @@
   .window-archive(v-if="isVisible")
    .window-archive__overlay(@click="closeThisWindow")
    .window-archive__content
-    .window-archive__title Добавить этого клиента ({{ client.id }}) в архив?
+    .window-archive__title(v-if="client.status !== 'archive'") Добавить этого клиента ({{ client.id }}) в архив?
+    .window-archive__title(v-else) Добавить этого клиента ({{ client.id }}) в списко открытых клиентов?
     .window-archive__subtitle {{ client.name }}
     .window-archive__image(:style="`background-image: url(${client.image});`")
     .window-archive__button-set
-        button.window-archive__btn(@click="sendArchiveRequest") да
+        button.window-archive__btn(@click="sendRequest") да
         button.window-archive__btn.window-archive__btn--close(@click="closeThisWindow") нет
 </template>
 
@@ -15,10 +16,13 @@ export default {
   data () {
     return {
       isVisible: false,
+      index: 0,
       client: {
         name: 'По умолчанию',
+        _id: '',
         id: 'По умолчанию 001',
-        image: '/images/male.jpg'
+        image: '/images/male.jpg',
+        status: ''
       }
     }
   },
@@ -26,20 +30,27 @@ export default {
     this.$EventBus.$on('callArchiveAlert', (data) => {
       this.isVisible = data.isVisible
       this.client = data.client
+      this.index = data.index
     })
   },
   methods: {
     closeThisWindow () {
       this.isVisible = false
     },
-    async sendArchiveRequest () {
+    async sendRequest () {
       const user = this.$store.getters['auth/user']
       try {
-        const req = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
-        this.$EventBus.$emit('updateClient', { client: req.client })
+        let req
+        if (this.client.status === 'archive') {
+          req = await this.$store.dispatch('client/reopenClient', { clientId: this.client._id, userId: user.userId })
+          this.$EventBus.$emit('deleteClient', { index: this.index })
+        } else {
+          req = await this.$store.dispatch('client/archiveClient', { clientId: this.client._id, userId: user.userId })
+          this.$EventBus.$emit('updateClient', { client: req.client })
+        }
         this.isVisible = false
         this.$EventBus.$emit('adminMessage', {
-          text: `Ваш клиент ${this.client.name} успешно архивирован`,
+          text: this.client.status !== 'archive' ? `Ваш клиент ${this.client.name} успешно архивирован` : `Ваш клиент ${this.client.name} перенесен в список открытых клиентов`,
           class: '',
           visible: true
         })

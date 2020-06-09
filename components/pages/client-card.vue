@@ -1,5 +1,5 @@
 <template lang="pug">
-  .client-card(id="client01", :class="{'client-card--dark' :  !client.isActive}")
+  .client-card(id="client01", :class="{'client-card--dark' :  !client.isActive || client.status === 'archive'}")
     .client-card__id id: {{ client.id }}
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
     .client-card__name {{ client.name }}
@@ -24,12 +24,15 @@
           button.client-card__button.client-card__button--chart
             svg-icon(class="client-card__option-icon", name="chart", width="20", height="20")
           .client-card__menu-tooltipe Статистика
-    button.button.button--archive(@click="openArchiveAlert", v-if="client.isActive")
+    button.button.button--archive(@click="openArchiveAlert(client.status)", v-if="client.isActive  && client.status !== 'archive'")
       svg-icon(class="btn-icon", name="archive", width="20", height="20")
       |В архив
-    button.button.button--wait(@click="openSleepAlert", v-else="client.isActive")
+    button.button.button--wait(@click="openSleepAlert", v-if="!client.isActive && client.status !== 'archive'")
       svg-icon(class="btn-icon", name="wait", width="20", height="20")
       |Ожидает действий...
+    button.button.button--wait(@click="openArchiveAlert(client.status)", v-if="client.status === 'archive'")
+      svg-icon(class="btn-icon", name="user-check", width="20", height="20")
+      |Возобновить
 </template>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
@@ -40,6 +43,10 @@ export default {
   props: {
     client: {
       type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
       required: true
     }
   },
@@ -65,9 +72,12 @@ export default {
         isVisible: true,
         client: {
           name: this.client.name,
-          id: this.client._id,
-          image: this.client.image
-        }
+          id: this.client.id,
+          _id: this.client._id,
+          image: this.client.image,
+          status: this.client.status
+        },
+        index: this.index
       })
     },
     openSleepAlert () {
@@ -75,8 +85,9 @@ export default {
         isVisible: true,
         client: {
           name: this.client.name,
-          id: this.client._id,
-          image: this.client.image
+          id: this.client.id,
+          image: this.client.image,
+          _id: this.client._id
         }
       })
     },
@@ -86,8 +97,10 @@ export default {
         trades: this.client.trades,
         client: {
           name: this.client.name,
-          id: this.client._id,
-          clientImage: this.client.image
+          id: this.client.id,
+          _id: this.client._id,
+          clientImage: this.client.image,
+          status: this.client.status
         }
       })
     }

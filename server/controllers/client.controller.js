@@ -58,6 +58,20 @@ module.exports.archive = async (req, res) => {
   }
 }
 
+module.exports.reopen = async (req, res) => {
+  try {
+    await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'open', date: new Date() }, { new: true })
+      .populate('trades').exec((error, client) => {
+        res.status(201).json({ client })
+        if (error) {
+          res.status(500).json(error)
+        }
+      })
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' })
+  }
+}
+
 module.exports.sleep = async (req, res) => {
   try {
     await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'sleep', date: new Date() }, { new: true })
@@ -75,6 +89,19 @@ module.exports.sleep = async (req, res) => {
 module.exports.getAll = async (req, res) => {
   try {
     await Client.find({ userId: req.params.id }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
+      res.json(clients)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+module.exports.getAllArchive = async (req, res) => {
+  try {
+    await Client.find({ userId: req.params.id, status: 'archive' }).sort({ date: -1 }).populate('trades').exec((error, clients) => {
       res.json(clients)
       if (error) {
         res.status(500).json(error)

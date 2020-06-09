@@ -53,6 +53,14 @@ export const actions = {
       throw error
     }
   },
+  async reopenClient ({ commit }, { clientId, userId }) {
+    try {
+      return await this.$axios.$put(`/api/client/admin/reopen/${clientId}/${userId}`)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
+  },
   async sleepClient ({ commit }, { clientId, userId }) {
     try {
       return await this.$axios.$put(`/api/client/admin/sleep/${clientId}/${userId}`)
@@ -64,6 +72,14 @@ export const actions = {
   async getAll ({ commit }, userId) {
     try {
       return await this.$axios.$get('/api/client/admin/' + userId)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
+  },
+  async getAllArchive ({ commit }, userId) {
+    try {
+      return await this.$axios.$get('/api/client/admin/archive/' + userId)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error

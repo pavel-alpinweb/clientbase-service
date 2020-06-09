@@ -1,0 +1,25 @@
+@import '@/assets/styles/layout/vars.scss';
+.date-filter{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.date-filter__half-item{
+  flex-basis: 49%;
+}
+.date-filter__form-title{
+  font-size: $h5fontSize;
+  font-weight: 700;
+}
+.date-filter__input{
+  padding: 0 15px;
+}
+.date-filter__datepicker{
+  position: relative;
+}
+.date-filter__date-clean{
+  position: absolute;
+  top: 18px;
+  right: 45px;
+  cursor: pointer;
+}

@@ -13,13 +13,13 @@
       .trades-row__cell-title Сумма
       .trades-row__cell-value
         input.trades-row__input(type="number", placeholder="Введите дату сделки", min="0", v-model="trade.pay", @input="isSave = false")
-    .trades-row__cell
-    .trades-row__cell-title Действия
-      .trades-row__cell-value
-        button.trades-row__button.trades-row__button--save(@click="saveTrade" :class="{'desabled' : trade.isNewTrade || !isSave}")
-          svg-icon(class="trades-row__option-icon", name="save", width="20", height="20")
-        button.trades-row__button.trades-row__button--delete(@click="deleteTrade")
-            svg-icon(class="trades-row__option-icon", name="trash", width="20", height="20")
+    .trades-row__cell(v-if="actualClientStatus !== 'archive'")
+      .trades-row__cell-title Действия
+        .trades-row__cell-value
+          button.trades-row__button.trades-row__button--save(@click="saveTrade" :class="{'desabled' : trade.isNewTrade || !isSave}")
+            svg-icon(class="trades-row__option-icon", name="save", width="20", height="20")
+          button.trades-row__button.trades-row__button--delete(@click="deleteTrade")
+              svg-icon(class="trades-row__option-icon", name="trash", width="20", height="20")
 </template>
 
 <script>
@@ -31,6 +31,10 @@ export default {
     },
     trade: {
       type: Object,
+      required: true
+    },
+    actualClientStatus: {
+      type: String,
       required: true
     }
   },

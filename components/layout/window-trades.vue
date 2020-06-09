@@ -11,25 +11,26 @@
             .search__clean(@click="cleanSearch")
                 svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
         .window-description__date-filter
-          .window-description__half-item
-            .window-description__form-title Все сделки с
-            .window-description__datepicker
-              .window-description__date-clean(@click="tradesFromDate = ''")
-                svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-              input.search__input.window-description__input(type="date", placeholder="Выберите дату", v-model="tradesFromDate")
-          .window-description__half-item
-            .window-description__form-title Все сделки по
-            .window-description__datepicker
-              .window-description__date-clean(@click="tradesToDate = ''")
-                svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-              input.search__input.window-description__input(type="date", placeholder="Выберите дату", v-model="tradesToDate")
+          .date-filter
+            .date-filter__half-item
+              .date-filter__form-title Все сделки с
+              .date-filter__datepicker
+                .date-filter__date-clean(@click="tradesFromDate = ''")
+                  svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+                input.search__input.window-description__input(type="date", placeholder="Выберите дату", v-model="tradesFromDate")
+            .date-filter__half-item
+              .date-filter__form-title Все сделки по
+              .date-filter__datepicker
+                .date-filter__date-clean(@click="tradesToDate = ''")
+                  svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+                input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="tradesToDate")
        .window-description__trades-list
-        .window-description__add-button
+        .window-description__add-button(v-if="client.status !== 'archive'")
           button.button.button--add(@click="createTrade")
             svg-icon(class="btn-icon", name="trades", width="20", height="20")
             |Создать сделку
         .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
-          tradesRow(:number="filtredTradesArray.length - (i + 1)", :trade="trade")
+          tradesRow(:number="filtredTradesArray.length - (i + 1)", :trade="trade", :actualClientStatus="client.status")
 </template>
 
 <script>
@@ -121,7 +122,7 @@ export default {
         date: '',
         pay: 0,
         isNewTrade: true,
-        clientId: this.client.id
+        clientId: this.client._id
       }
       this.trades.push(trade)
     }
@@ -133,3 +134,4 @@ export default {
 <style lang="scss" scoped src="@/assets/styles/components/search.scss"></style>
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped src="@/assets/styles/components/trades-row.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/components/date-filter.scss"></style>

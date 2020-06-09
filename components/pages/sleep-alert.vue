@@ -23,6 +23,7 @@ export default {
       client: {
         name: 'По умолчанию',
         id: 'По умолчанию 001',
+        _id: '',
         image: '/images/male.jpg'
       }
     }
@@ -40,7 +41,7 @@ export default {
     async sendArchiveRequest () {
       const user = this.$store.getters['auth/user']
       try {
-        const req = await this.$store.dispatch('client/archiveClient', { clientId: this.client.id, userId: user.userId })
+        const req = await this.$store.dispatch('client/archiveClient', { clientId: this.client._id, userId: user.userId })
         this.$EventBus.$emit('updateClient', { client: req.client })
         this.isVisible = false
         this.$EventBus.$emit('adminMessage', {

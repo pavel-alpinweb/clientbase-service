@@ -12,7 +12,11 @@ module.exports.createUser = async (req, res) => {
       password: bcrypt.hashSync(req.body.password, salt)
     })
     await user.save()
-    res.status(201).json(user)
+    const token = jwt.sign({
+      login: user.login,
+      userId: user._id
+    }, keys.JWT, { expiresIn: 60 * 60 * 2 })
+    res.status(201).json(token)
   } else {
     res.status(401).json({ message: 'Такой пользователь уже существует' })
   }

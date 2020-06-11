@@ -5,22 +5,6 @@
                 svg-icon(name="table" class="app-menu__icon")
                 |Клиенты
         li.app-menu__item
-            nuxt-link(to="/progress").app-menu__link
-                svg-icon(name="chart" class="app-menu__icon")
-                |Статистика
-        li.app-menu__item
-            nuxt-link(to="/calendar").app-menu__link
-                svg-icon(name="calendar" class="app-menu__icon")
-                |Календарь
-        li.app-menu__item
-            nuxt-link(to="/rating").app-menu__link
-                svg-icon(name="sort" class="app-menu__icon")
-                |Рейтинг
-        li.app-menu__item
-            nuxt-link(to="/history").app-menu__link
-                svg-icon(name="history" class="app-menu__icon")
-                |История
-        li.app-menu__item
             nuxt-link(to="/archive").app-menu__link
                 svg-icon(name="archive" class="app-menu__icon")
                 |Архив

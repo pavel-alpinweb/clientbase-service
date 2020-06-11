@@ -8,7 +8,7 @@ module.exports.create = async (req, res) => {
   const trade = new Trade($set)
   try {
     await trade.save()
-    const client = await Client.findById($set.client.id)
+    const client = await Client.findById($set.clientId)
     let message = 'Новая сделка успешно создана'
     client.trades.push(trade._id)
 
@@ -25,13 +25,14 @@ module.exports.create = async (req, res) => {
 
     client.date = Date.now()
     await client.save()
-    await Client.findById($set.client.id).populate('trades').exec((error, client) => {
+    await Client.findById($set.clientId).populate('trades').exec((error, client) => {
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)
       }
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
   }
 }
@@ -39,7 +40,7 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
   const $set = { ...req.body }
   try {
-    const client = await Client.findById($set.client.id)
+    const client = await Client.findById($set.clientId)
     let message = 'Информация о сделке успешно обновлена'
 
     if ($set.pay >= 100000) {
@@ -50,7 +51,7 @@ module.exports.update = async (req, res) => {
 
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
-    await Client.findById($set.client.id).populate('trades').exec((error, client) => {
+    await Client.findById($set.clientId).populate('trades').exec((error, client) => {
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)

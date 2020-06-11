@@ -60,7 +60,7 @@ export default {
     async sendSleepRequest () {
       const user = this.$store.getters['auth/user']
       try {
-        const req = await this.$store.dispatch('client/sleepClient', { clientId: this.client.id, userId: user.userId })
+        const req = await this.$store.dispatch('client/sleepClient', { clientId: this.client._id, userId: user.userId })
         this.$EventBus.$emit('updateClient', { client: req.client })
         this.isVisible = false
         this.$EventBus.$emit('adminMessage', {

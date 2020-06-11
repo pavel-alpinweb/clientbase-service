@@ -16,14 +16,6 @@
           button.client-card__button.client-card__button--edit(@click="openClientForm")
             svg-icon(class="client-card__option-icon", name="edit", width="20", height="20")
           .client-card__menu-tooltipe Редактировать
-        .client-card__menu-item
-          button.client-card__button.client-card__button--text
-            svg-icon(class="client-card__option-icon", name="text", width="20", height="20")
-          .client-card__menu-tooltipe Описание
-        .client-card__menu-item
-          button.client-card__button.client-card__button--chart
-            svg-icon(class="client-card__option-icon", name="chart", width="20", height="20")
-          .client-card__menu-tooltipe Статистика
     button.button.button--archive(@click="openArchiveAlert(client.status)", v-if="client.isActive  && client.status !== 'archive'")
       svg-icon(class="btn-icon", name="archive", width="20", height="20")
       |В архив

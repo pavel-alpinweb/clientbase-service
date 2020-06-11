@@ -95,7 +95,7 @@
 
 .client-card__menu{
   display:flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .client-card__button{
@@ -107,6 +107,7 @@
   border-radius: 50px;
   border: 2px solid;
   transition: all .3s;
+  margin: 0 5px;
 }
 
 .client-card__option-icon{
@@ -119,11 +120,8 @@
   background-color: $accentColor;
   & + .client-card__menu-tooltipe{
     background-color: $accentColor;
-    left: 0;
     &:after{
       border-top-color: $accentColor;
-      left: 10px;
-      margin-left: 0;
     }
   }
   &:hover{

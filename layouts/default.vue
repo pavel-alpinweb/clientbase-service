@@ -8,12 +8,17 @@
     .scroll-up(@click="scrollTop")
       svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
     .app-grid
-      .app-grid__sidebar
+      .app-grid__sidebar(:class="{'app-grid__sidebar--open' : menuVisible}")
         appMenu
         .app-grid__bottom-sidebar
           button.button.button--add(@click="openClientForm")
             svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
             |Добавить
+        .app-grid__bottom-sidebar
+          .btn_mnu(:class="{'active' : menuVisible}", @click="menuVisible = !menuVisible")
+            .btn_row
+            .btn_row
+            .btn_row
         .app-grid__bottom-sidebar
           hintSwitcher(:hint="isHint")
       .app-grid__content
@@ -55,6 +60,7 @@ export default {
       user: {},
       isHint: true,
       textPage: '',
+      menuVisible: false,
       message: {
         text: '',
         class: '',
@@ -120,6 +126,7 @@ export default {
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/components/btn-menu.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .app-container{
@@ -204,5 +211,37 @@ export default {
       background-color: red;
       box-shadow: 0 0 15px 5px #000;
   }
+}
+
+@media screen and (max-width:1699.5px){
+    .app-grid__sidebar {
+        position: absolute;
+        z-index: 10;
+        background: $mainColor;
+        left: -300px;
+        top:0;
+        height: 110%;
+        width: 300px;
+        padding: 10px;
+        transition: all .4s;
+    }
+    .app-grid__sidebar--open{
+        left: 0px;
+    }
+    .hint-switcher__title{
+        color: #fff;
+    }
+    .hint-switcher__container{
+        border-color:#fff;
+    }
+    .hint-switcher__tumbler{
+        background-color:#fff;
+    }
+    .app-grid__content{
+        grid-column-start: 1;
+    }
+    .scroll-up{
+        color: $accentColor;
+    }
 }
 </style>

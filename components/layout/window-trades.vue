@@ -17,7 +17,7 @@
               .date-filter__datepicker
                 .date-filter__date-clean(@click="tradesFromDate = ''")
                   svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-                input.search__input.window-description__input(type="date", placeholder="Выберите дату", v-model="tradesFromDate")
+                input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="tradesFromDate")
             .date-filter__half-item
               .date-filter__form-title Все сделки по
               .date-filter__datepicker

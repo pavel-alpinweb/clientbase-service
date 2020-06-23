@@ -33,12 +33,10 @@ const clientShema = new Schema({
     type: String,
     required: true
   },
-  trades: [
-    {
-      type: Array,
-      default: []
-    }
-  ],
+  trades: {
+    type: Array,
+    default: []
+  },
   userId: {
     type: String,
     required: true

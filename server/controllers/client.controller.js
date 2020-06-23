@@ -34,8 +34,10 @@ module.exports.update = async (req, res) => {
       $set.image = image.location
     }
   }
+  $set.trades = JSON.parse($set.trades)
   const historyClient = new HistoryClient($set)
   historyClient.change = 'Обновлена информация'
+  delete $set.trades
   try {
     await historyClient.save()
     await Client.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })

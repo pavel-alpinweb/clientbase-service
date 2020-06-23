@@ -28,16 +28,17 @@ export const actions = {
       for (const key in client) {
         if (key === 'file') {
           formData.append('file', client[key], client[key].name)
-        } else if (key !== 'image') {
-          formData.append(`${key}`, client[key])
         }
       }
     } else {
       for (const key in client) {
-        formData.append(`${key}`, client[key])
+        if (key === 'trades') {
+          formData.append(`${key}`, JSON.stringify(client[key]))
+        } else if (key !== '_id') {
+          formData.append(`${key}`, client[key])
+        }
       }
     }
-
     try {
       return await this.$axios.$put('/api/client/admin/update/' + client._id, formData)
     } catch (error) {

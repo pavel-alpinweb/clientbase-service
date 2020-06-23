@@ -1,4 +1,5 @@
 const Client = require('../models/client.model')
+const HistoryClient = require('../models/history-client.model')
 
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
@@ -10,10 +11,14 @@ module.exports.create = async (req, res) => {
   }
 
   const client = new Client($set)
+  const historyClient = new HistoryClient($set)
+  historyClient.change = 'Клиент создан'
   try {
     const clientsArray = await Client.find({ userId: $set.userId })
     client.id = `client0${clientsArray.length + 1}`
+    historyClient.id = `client0${clientsArray.length + 1}`
     await client.save()
+    await historyClient.save()
     res.status(201).json({ client })
   } catch (error) {
     console.log(error)
@@ -29,8 +34,10 @@ module.exports.update = async (req, res) => {
       $set.image = image.location
     }
   }
-
+  const historyClient = new HistoryClient($set)
+  historyClient.change = 'Обновлена информация'
   try {
+    await historyClient.save()
     await Client.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
       .populate('trades').exec((error, client) => {
         res.status(201).json({ client })

@@ -1,5 +1,6 @@
 const Client = require('../models/client.model')
 const HistoryClient = require('../models/history-client.model')
+const historyFn = require('../modules/historyFn')
 
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
@@ -34,16 +35,16 @@ module.exports.update = async (req, res) => {
       $set.image = image.location
     }
   }
-  $set.trades = JSON.parse($set.trades)
-  const historyClient = new HistoryClient($set)
-  historyClient.change = 'Обновлена информация'
-  delete $set.trades
   try {
-    await historyClient.save()
-    await Client.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
+    await Client.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set },
+      { new: true })
       .populate('trades').exec((error, client) => {
+        historyFn.saveClientInHistory(client, HistoryClient, 'Обновлена информация')
         res.status(201).json({ client })
         if (error) {
+          console.log(error)
           res.status(500).json(error)
         }
       })
@@ -55,31 +56,15 @@ module.exports.update = async (req, res) => {
 
 module.exports.archive = async (req, res) => {
   try {
-    await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'archive', date: new Date() }, { new: true })
-      .populate('trades').exec(async (error, client) => {
-        const updatedClient = {}
-        for (const key in client) {
-          if (key !== '_id') {
-            updatedClient[key] = client[key]
-          }
-        }
-        const historyClient = new HistoryClient(updatedClient)
-        historyClient.change = 'Клиент отправлен в архив'
-        historyClient.trades = []
-        for (const item of client.trades) {
-          const trade = {
-            isNewTrade: item.isNewTrade,
-            client: item.client,
-            title: item.title,
-            date: item.date,
-            pay: item.pay,
-            clientId: item.clientId
-          }
-          historyClient.trades.push(trade)
-        }
-        await historyClient.save()
+    await Client.findOneAndUpdate(
+      { _id: req.params.clientID },
+      { status: 'archive', date: new Date() },
+      { new: true })
+      .populate('trades').exec((error, client) => {
+        historyFn.saveClientInHistory(client, HistoryClient, 'Клиент отправелн в архив')
         res.status(201).json({ client })
         if (error) {
+          console.log(error)
           res.status(500).json(error)
         }
       })
@@ -90,35 +75,20 @@ module.exports.archive = async (req, res) => {
 
 module.exports.reopen = async (req, res) => {
   try {
-    await Client.findOneAndUpdate({ _id: req.params.clientID }, { status: 'open', date: new Date() }, { new: true })
-      .populate('trades').exec(async (error, client) => {
-        const updatedClient = {}
-        for (const key in client) {
-          if (key !== '_id') {
-            updatedClient[key] = client[key]
-          }
-        }
-        const historyClient = new HistoryClient(updatedClient)
-        historyClient.change = 'Возобновленно сотрудничество'
-        historyClient.trades = []
-        for (const item of client.trades) {
-          const trade = {
-            isNewTrade: item.isNewTrade,
-            client: item.client,
-            title: item.title,
-            date: item.date,
-            pay: item.pay,
-            clientId: item.clientId
-          }
-          historyClient.trades.push(trade)
-        }
-        await historyClient.save()
+    await Client.findOneAndUpdate(
+      { _id: req.params.clientID },
+      { status: 'open', date: new Date() },
+      { new: true })
+      .populate('trades').exec((error, client) => {
+        historyFn.saveClientInHistory(client, HistoryClient, 'Сотрудничество возобновлено')
         res.status(201).json({ client })
         if (error) {
+          console.log(error)
           res.status(500).json(error)
         }
       })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
   }
 }
@@ -129,34 +99,14 @@ module.exports.sleep = async (req, res) => {
       { _id: req.params.clientID },
       { status: 'sleep', date: new Date() },
       { new: true })
-      .populate('trades')
-    await Client.findOne({ _id: req.params.clientID }).populate('trades').exec(async (error, client) => {
-      const updatedClient = {}
-      for (const key in client) {
-        if (key !== '_id') {
-          updatedClient[key] = client[key]
+      .populate('trades').exec((error, client) => {
+        historyFn.saveClientInHistory(client, HistoryClient, 'Смена статуса на спящий')
+        res.status(201).json({ client })
+        if (error) {
+          console.log(error)
+          res.status(500).json(error)
         }
-      }
-      const historyClient = new HistoryClient(updatedClient)
-      historyClient.change = 'Смена статуса на "Спящий"'
-      historyClient.trades = []
-      for (const item of client.trades) {
-        const trade = {
-          isNewTrade: item.isNewTrade,
-          client: item.client,
-          title: item.title,
-          date: item.date,
-          pay: item.pay,
-          clientId: item.clientId
-        }
-        historyClient.trades.push(trade)
-      }
-      await historyClient.save()
-      res.status(201).json({ client })
-      if (error) {
-        res.status(500).json(error)
-      }
-    })
+      })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })

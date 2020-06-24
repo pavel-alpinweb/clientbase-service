@@ -18,7 +18,6 @@
                 label.client-form__label Описание
                 .quill-editor(v-quill:portfolioQuillEditor="editorOptions", v-model="client.text")
             button.client-form__submit Сохранить
-            pre {{ client }}
 </template>
 
 <script>
@@ -67,13 +66,19 @@ export default {
           visible: true
         })
       } else {
+        const client = {}
+        for (const key in this.client) {
+          if (this.client.hasOwnProperty(key) && key !== 'trades') {
+            client[key] = this.client[key]
+          }
+        }
         try {
           let req = null
           if (this.isNew) {
-            req = await this.$store.dispatch('client/createClient', this.client)
+            req = await this.$store.dispatch('client/createClient', client)
             this.$EventBus.$emit('createClient', { client: req.client })
           } else {
-            req = await this.$store.dispatch('client/updateClient', this.client)
+            req = await this.$store.dispatch('client/updateClient', client)
             this.$EventBus.$emit('updateClient', { client: req.client })
           }
 

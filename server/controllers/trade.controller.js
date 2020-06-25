@@ -1,5 +1,7 @@
 const Trade = require('../models/trade.model')
 const Client = require('../models/client.model')
+const HistoryClient = require('../models/history-client.model')
+const historyFn = require('../modules/historyFn')
 
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
@@ -26,6 +28,7 @@ module.exports.create = async (req, res) => {
     client.date = Date.now()
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
+      historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка')
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)
@@ -52,6 +55,7 @@ module.exports.update = async (req, res) => {
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
+      historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена')
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)
@@ -92,6 +96,7 @@ module.exports.remove = async (req, res) => {
 
     await client.save()
     await Client.findById(req.params.clientID).populate('trades').exec((error, client) => {
+      historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка')
       res.status(201).json({ client, message })
       if (error) {
         res.status(500).json(error)

@@ -100,7 +100,7 @@ module.exports.sleep = async (req, res) => {
       { status: 'sleep', date: new Date() },
       { new: true })
       .populate('trades').exec((error, client) => {
-        historyFn.saveClientInHistory(client, HistoryClient, 'Смена статуса на спящий')
+        historyFn.saveClientInHistory(client, HistoryClient, 'Смена статуса на "Cпящий"')
         res.status(201).json({ client })
         if (error) {
           console.log(error)

@@ -8,6 +8,8 @@ module.exports.create = async (req, res) => {
   $set.isNewTrade = false
 
   const trade = new Trade($set)
+  let isChangeStatus = false
+  let historyMessage = ''
   try {
     await trade.save()
     const client = await Client.findById($set.clientId)
@@ -17,18 +19,27 @@ module.exports.create = async (req, res) => {
     if ($set.pay >= 100000) {
       client.status = 'vip'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "V.I.P."'
     } else if (client.status === 'aspirant' || (client.status === 'sleep' && client.trades.length < 3)) {
       client.status = 'open'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "Открытый"'
     } else if (client.trades.length >= 3 && (client.status === 'open' || client.status === 'sleep')) {
       client.status = 'repeat'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "Постоянный"'
     }
 
     client.date = Date.now()
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
       historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка')
+      if (isChangeStatus) {
+        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+      }
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)
@@ -42,6 +53,8 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req, res) => {
   const $set = { ...req.body }
+  let isChangeStatus = false
+  let historyMessage = ''
   try {
     const client = await Client.findById($set.clientId)
     let message = 'Информация о сделке успешно обновлена'
@@ -50,12 +63,17 @@ module.exports.update = async (req, res) => {
       client.status = 'vip'
       client.date = Date.now()
       message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "V.I.P."'
     }
 
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
       historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена')
+      if (isChangeStatus) {
+        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+      }
       res.status(201).json({ trade, client, message })
       if (error) {
         res.status(500).json(error)
@@ -67,6 +85,8 @@ module.exports.update = async (req, res) => {
 }
 
 module.exports.remove = async (req, res) => {
+  let isChangeStatus = false
+  let historyMessage = ''
   try {
     const client = await Client.findById(req.params.clientID)
     let message = 'Сделка успешно удалена'
@@ -81,22 +101,33 @@ module.exports.remove = async (req, res) => {
     if (client.trades.length === 0) {
       client.status = 'aspirant'
       message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список новых клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "Новый"'
     } else if (client.status === 'vip' && !hasVIPtrade) {
       if (client.trades.length >= 3) {
         client.status = 'repeat'
         message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
+        isChangeStatus = true
+        historyMessage = 'Смена статуса на "Постоянный"'
       } else {
         client.status = 'open'
         message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+        isChangeStatus = true
+        historyMessage = 'Смена статуса на "Открытый"'
       }
-    } else if (client.trades.length < 3 && client.status !== 'vip' && client.status !== 'sleep') {
+    } else if (client.trades.length < 3 && client.status !== 'vip' && client.status !== 'sleep' && client.status !== 'open') {
       client.status = 'open'
       message = `Новая сделка успешно удалена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+      isChangeStatus = true
+      historyMessage = 'Смена статуса на "Открытый"'
     }
 
     await client.save()
     await Client.findById(req.params.clientID).populate('trades').exec((error, client) => {
       historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка')
+      if (isChangeStatus) {
+        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+      }
       res.status(201).json({ client, message })
       if (error) {
         res.status(500).json(error)

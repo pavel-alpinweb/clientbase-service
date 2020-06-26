@@ -1,4 +1,4 @@
-module.exports.saveClientInHistory = async (client, HistoryClient, message) => {
+module.exports.saveClientInHistory = async (client, HistoryClient, message, lastChangedTrade) => {
   const updatedClient = {}
   for (const key in client) {
     if (key !== '_id') {
@@ -7,6 +7,9 @@ module.exports.saveClientInHistory = async (client, HistoryClient, message) => {
   }
   const historyClient = new HistoryClient(updatedClient)
   historyClient.change = message
+  if (lastChangedTrade) {
+    historyClient.lastChangedTrade = lastChangedTrade
+  }
   historyClient.trades = []
   for (const item of client.trades) {
     const trade = {

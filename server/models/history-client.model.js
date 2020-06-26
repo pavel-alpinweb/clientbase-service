@@ -37,6 +37,10 @@ const clientShema = new Schema({
     type: Array,
     default: []
   },
+  lastChangedTrade: {
+    type: Object,
+    required: false
+  },
   userId: {
     type: String,
     required: true

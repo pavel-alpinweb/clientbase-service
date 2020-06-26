@@ -36,7 +36,11 @@ module.exports.create = async (req, res) => {
     client.date = Date.now()
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
-      historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка')
+      const lastChangedTrade = {
+        type: 'plus',
+        trade
+      }
+      historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка', lastChangedTrade)
       if (isChangeStatus) {
         historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
@@ -70,7 +74,11 @@ module.exports.update = async (req, res) => {
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec((error, client) => {
-      historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена')
+      const lastChangedTrade = {
+        type: 'edit',
+        trade
+      }
+      historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена', lastChangedTrade)
       if (isChangeStatus) {
         historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
@@ -93,6 +101,7 @@ module.exports.remove = async (req, res) => {
 
     const tradeIndex = client.trades.indexOf(req.params.tradeID)
     client.trades.splice(tradeIndex, 1)
+    const trade = await Trade.findById({ _id: req.params.tradeID })
     await Trade.deleteOne({ _id: req.params.tradeID })
 
     const allTrades = await Trade.find({ clientId: req.params.clientID })
@@ -124,7 +133,11 @@ module.exports.remove = async (req, res) => {
 
     await client.save()
     await Client.findById(req.params.clientID).populate('trades').exec((error, client) => {
-      historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка')
+      const lastChangedTrade = {
+        type: 'trash',
+        trade
+      }
+      historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка', lastChangedTrade)
       if (isChangeStatus) {
         historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }

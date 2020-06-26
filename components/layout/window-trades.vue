@@ -27,7 +27,7 @@
        .window-description__trades-list
         .window-description__add-button(v-if="client.status !== 'archive'")
           button.button.button--add(@click="createTrade")
-            svg-icon(class="btn-icon", name="trades", width="20", height="20")
+            svg-icon(class="btn-icon", name="plus", width="20", height="20")
             |Создать сделку
         .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
           tradesRow(:number="filtredTradesArray.length - (i + 1)", :trade="trade", :actualClientStatus="client.status")

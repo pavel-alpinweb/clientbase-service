@@ -63,12 +63,27 @@ module.exports.update = async (req, res) => {
     const client = await Client.findById($set.clientId)
     let message = 'Информация о сделке успешно обновлена'
 
-    if ($set.pay >= 100000) {
+    const allTrades = await Trade.find({ clientId: $set.clientId })
+    const hasVIPtrade = allTrades.find(trade => trade.pay >= 100000)
+
+    if ($set.pay >= 100000 && client.status !== 'vip') {
       client.status = 'vip'
       client.date = Date.now()
       message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
       isChangeStatus = true
       historyMessage = 'Смена статуса на "V.I.P."'
+    } else if (client.status === 'vip' && !hasVIPtrade) {
+      if (client.trades.length >= 3) {
+        client.status = 'repeat'
+        message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список постоянных клиентов`
+        isChangeStatus = true
+        historyMessage = 'Смена статуса на "Постоянный"'
+      } else {
+        client.status = 'open'
+        message = `Информация о сделке успешно обновлена. Ваш клиент ${client.name} перенесен в список открытых клиентов`
+        isChangeStatus = true
+        historyMessage = 'Смена статуса на "Открытый"'
+      }
     }
 
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })

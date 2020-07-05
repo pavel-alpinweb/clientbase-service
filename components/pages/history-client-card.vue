@@ -36,16 +36,21 @@ export default {
   },
   methods: {
     openWindowTrades () {
+      const client = {
+        name: this.client.name,
+        id: this.client.id,
+        _id: this.client._id,
+        clientImage: this.client.image,
+        status: this.client.status,
+        change: this.client.change
+      }
+      if (this.client.lastChangedTrade) {
+        client.lastChangedTrade = this.client.lastChangedTrade
+      }
       this.$EventBus.$emit('callTradesWindow', {
         visible: true,
         trades: this.client.trades,
-        client: {
-          name: this.client.name,
-          id: this.client.id,
-          _id: this.client._id,
-          clientImage: this.client.image,
-          status: this.client.status
-        }
+        client
       })
     }
   }

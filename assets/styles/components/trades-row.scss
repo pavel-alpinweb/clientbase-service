@@ -10,6 +10,24 @@
   justify-content: space-between;
 }
 
+.trades-row__cell--plus{
+  background-color: rgba($accentColor, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.trades-row__cell--edit{
+  background-color: rgba(#80C826, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.trades-row__cell--trash{
+  background-color: rgba(red, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .trades-row__cell-title{
   color: $mainColor;
   font-family: $mainFont;
@@ -18,10 +36,16 @@
   margin-bottom: 5px;
 }
 
+.trades-row__cell-title--center{
+  text-align: center;
+}
+
 .trades-row__cell-value{
   font-weight: 500;
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: center;
   span{
     color: $accentColor;
     font-size: $h4fontSize;
@@ -91,6 +115,16 @@
       fill: #80C826;
     }
   }
+  &.trades-row__button--no-hover{
+    cursor: default;
+    &:hover{
+    background-color: #80C826;
+    border-color: #80C826;
+      .trades-row__option-icon{
+        fill: #fff;
+      }
+    }
+  }
 }
 
 .trades-row__button--delete{
@@ -102,4 +136,20 @@
       fill: red;
     }
   }
+  &.trades-row__button--no-hover{
+    cursor: default;
+    &:hover{
+    background-color: red;
+    border-color: red;
+      .trades-row__option-icon{
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.trades-row__button--plus{
+  border-color: $accentColor;
+  background-color: $accentColor;
+  cursor: default;
 }

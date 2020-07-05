@@ -10,6 +10,14 @@
             input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
             .search__clean(@click="cleanSearch")
                 svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+        .window-description__lastTrade(v-if="client.lastChangedTrade")
+          .window-description__sub-title Последняя измененная сделка
+          tradesRow(
+            :number="-1",
+            :trade="client.lastChangedTrade.trade",
+            :actualClientStatus="client.status",
+            :hasClientPropertyChange="true",
+            :lastChangedTradeType="client.lastChangedTrade.type")
         .window-description__date-filter
           .date-filter
             .date-filter__half-item
@@ -25,12 +33,15 @@
                   svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
                 input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="tradesToDate")
        .window-description__trades-list
-        .window-description__add-button(v-if="client.status !== 'archive'")
+        .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
           button.button.button--add(@click="createTrade")
             svg-icon(class="btn-icon", name="plus", width="20", height="20")
             |Создать сделку
         .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
-          tradesRow(:number="filtredTradesArray.length - (i + 1)", :trade="trade", :actualClientStatus="client.status")
+          tradesRow(
+            :number="filtredTradesArray.length - (i + 1)",
+            :trade="trade", :actualClientStatus="client.status",
+            :hasClientPropertyChange="client.hasOwnProperty('change')")
 </template>
 
 <script>

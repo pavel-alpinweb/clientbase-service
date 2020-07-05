@@ -144,6 +144,17 @@
     }
 }
 
+.window-description__sub-title{
+    font-size: $h5fontSize;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.window-description__lastTrade{
+    margin-bottom: 50px;
+}
+
 .window-description__search-box{
     margin-bottom: 15px;
 }

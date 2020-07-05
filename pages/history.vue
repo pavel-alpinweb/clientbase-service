@@ -2,14 +2,18 @@
   .history
     .history__search
       Search
+    .history__item(v-for="(client, index) in clients", :key="client.id")
+      HistoryClientCard(:client="client", :index="index")
 </template>
 
 <script>
 import Search from '@/components/pages/search'
+import HistoryClientCard from '@/components/pages/history-client-card'
 export default {
   middleware: ['admin-auth'],
   components: {
-    Search
+    Search,
+    HistoryClientCard
   },
   data () {
     return {
@@ -20,6 +24,11 @@ export default {
        Важный совет. Прежде чем перемещать клиента из одной категории в другую, оставляйте запись почему вы это сделали и не забывайте сохранить.
        Это поможет, Вам увидеть точную ретроспективу Вашего сотрудничества.`
     }
+  },
+  async asyncData ({ store }) {
+    const user = store.getters['auth/user']
+    const clients = await store.dispatch('history/getAllHistory', user.userId)
+    return { clients }
   },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
@@ -33,7 +42,7 @@ export default {
 <style lang="scss">
 .history{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
   align-self: flex-start;
   width:100%;
@@ -41,6 +50,6 @@ export default {
   grid-auto-rows: max-content;
 }
 .history__search{
-  grid-column: 1 / 5;
+  grid-column: 1 / 6;
 }
 </style>

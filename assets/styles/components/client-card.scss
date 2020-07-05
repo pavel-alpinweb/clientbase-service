@@ -7,6 +7,10 @@
   margin-bottom: 15px;
 }
 
+.client-card--history{
+  margin-bottom: 0;
+}
+
 .client-card--dark{
   background-color: $mainColor;
   color: $white;
@@ -54,6 +58,11 @@
   font-weight: 700;
 }
 
+.client-card__sub-title{
+  font-size: $h6fontSize;
+  font-weight: 500;
+}
+
 .client-card__text-more{
   font-size: $h6fontSize;
   font-weight: 700;
@@ -98,6 +107,15 @@
   justify-content: space-between;
 }
 
+.client-card--history{
+  .client-card__menu{
+    justify-content: center;
+  }
+  .client-card__menu-item{
+    margin: 0 10px;
+  }
+}
+
 .client-card__button{
   display: flex;
   align-items: center;
@@ -124,6 +142,12 @@
       border-top-color: $accentColor;
       left: 10px;
       margin-left: 0;
+    }
+    &.client-card__menu-tooltipe--center{
+      left: -63px;
+      &:after{
+        left: initial;
+      }
     }
   }
   &:hover{

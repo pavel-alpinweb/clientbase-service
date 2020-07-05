@@ -61,7 +61,7 @@ module.exports.archive = async (req, res) => {
       { status: 'archive', date: new Date() },
       { new: true })
       .populate('trades').exec((error, client) => {
-        historyFn.saveClientInHistory(client, HistoryClient, 'Клиент отправелн в архив')
+        historyFn.saveClientInHistory(client, HistoryClient, 'Клиент отправлен в архив')
         res.status(201).json({ client })
         if (error) {
           console.log(error)

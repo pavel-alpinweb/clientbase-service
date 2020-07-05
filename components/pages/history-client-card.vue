@@ -2,7 +2,14 @@
   .client-card.client-card--history(:class="{'client-card--dark' : client.status === 'archive'}")
     .client-card__id id: {{ client.id }}
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
-    .client-card__name {{ client.name }}
+    .client-card__name
+      |{{ client.name }}
+      .client-card__sub-title(v-if="client.status === 'aspirant'") Новый
+      .client-card__sub-title(v-if="client.status === 'sleep'") Спящий
+      .client-card__sub-title(v-if="client.status === 'open'") Открытый
+      .client-card__sub-title(v-if="client.status === 'repeat'") Постоянный
+      .client-card__sub-title(v-if="client.status === 'vip'") V.I.P.
+      .client-card__sub-title(v-if="client.status === 'archive'") Архивный
     .client-card__charact
         .client-card__title Последняя активность:
         .client-card__sub-title {{ client.change }}

@@ -16,7 +16,7 @@ module.exports.create = async (req, res) => {
     let message = 'Новая сделка успешно создана'
     client.trades.push(trade._id)
 
-    if ($set.pay >= 100000) {
+    if ($set.pay >= 100000 && client.status !== 'vip') {
       client.status = 'vip'
       message = `Новая сделка успешно создана. Ваш клиент ${client.name} перенесен в список V.I.P. клиентов`
       isChangeStatus = true
@@ -35,14 +35,14 @@ module.exports.create = async (req, res) => {
 
     client.date = Date.now()
     await client.save()
-    await Client.findById($set.clientId).populate('trades').exec((error, client) => {
+    await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
       const lastChangedTrade = {
         type: 'plus',
         trade
       }
-      historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка', lastChangedTrade)
+      await historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка', lastChangedTrade)
       if (isChangeStatus) {
-        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+        await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
       res.status(201).json({ trade, client, message })
       if (error) {
@@ -60,6 +60,7 @@ module.exports.update = async (req, res) => {
   let isChangeStatus = false
   let historyMessage = ''
   try {
+    const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     const client = await Client.findById($set.clientId)
     let message = 'Информация о сделке успешно обновлена'
 
@@ -86,16 +87,15 @@ module.exports.update = async (req, res) => {
       }
     }
 
-    const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     await client.save()
-    await Client.findById($set.clientId).populate('trades').exec((error, client) => {
+    await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
       const lastChangedTrade = {
         type: 'edit',
         trade
       }
-      historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена', lastChangedTrade)
+      await historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена', lastChangedTrade)
       if (isChangeStatus) {
-        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+        await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
       res.status(201).json({ trade, client, message })
       if (error) {
@@ -147,14 +147,14 @@ module.exports.remove = async (req, res) => {
     }
 
     await client.save()
-    await Client.findById(req.params.clientID).populate('trades').exec((error, client) => {
+    await Client.findById(req.params.clientID).populate('trades').exec(async (error, client) => {
       const lastChangedTrade = {
         type: 'trash',
         trade
       }
-      historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка', lastChangedTrade)
+      await historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка', lastChangedTrade)
       if (isChangeStatus) {
-        historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
+        await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
       res.status(201).json({ client, message })
       if (error) {

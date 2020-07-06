@@ -7,6 +7,7 @@ module.exports.saveClientInHistory = async (client, HistoryClient, message, last
   }
   const historyClient = new HistoryClient(updatedClient)
   historyClient.change = message
+  historyClient.date = Date.now()
   if (lastChangedTrade) {
     historyClient.lastChangedTrade = lastChangedTrade
   }

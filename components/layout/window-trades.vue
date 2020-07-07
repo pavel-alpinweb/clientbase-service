@@ -12,35 +12,35 @@
                 svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
         .window-description__lastTrade(v-if="client.lastChangedTrade")
           .window-description__sub-title Последняя измененная сделка
-          tradesRow(
+          TradesRow(
             :number="-1",
             :trade="client.lastChangedTrade.trade",
             :actualClientStatus="client.status",
             :hasClientPropertyChange="true",
             :lastChangedTradeType="client.lastChangedTrade.type")
         .window-description__date-filter
-          dateFilter(:target="'window-trades'")
+          DateFilter(:target="'window-trades'")
        .window-description__trades-list
         .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
           button.button.button--add(@click="createTrade")
             svg-icon(class="btn-icon", name="plus", width="20", height="20")
             |Создать сделку
         .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
-          tradesRow(
+          TradesRow(
             :number="filtredTradesArray.length - (i + 1)",
             :trade="trade", :actualClientStatus="client.status",
             :hasClientPropertyChange="client.hasOwnProperty('change')")
 </template>
 
 <script>
-import tradesRow from '@/components/pages/trades-row'
-import dateFilter from '@/components/pages/date-filter'
+import TradesRow from '@/components/pages/trades-row'
+import DateFilter from '@/components/pages/date-filter'
 
 export default {
   name: 'WindowDesc',
   components: {
-    tradesRow,
-    dateFilter
+    TradesRow,
+    DateFilter
   },
   data () {
     return {

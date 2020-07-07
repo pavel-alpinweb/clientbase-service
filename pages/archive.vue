@@ -3,7 +3,7 @@
     .archive__search
       Search
     .archive__date-filter
-      dateFilter(:target="'page-clients'")
+      DateFilter(:target="'page-clients'")
     .archive__item(v-for="(client, i) in clientsArray", @key="client.id")
       ClientCard(:client="client" :index="i")
 </template>
@@ -11,14 +11,14 @@
 <script>
 import Search from '@/components/pages/search'
 import ClientCard from '@/components/pages/client-card'
-import dateFilter from '@/components/pages/date-filter'
+import DateFilter from '@/components/pages/date-filter'
 
 export default {
   middleware: ['admin-auth'],
   components: {
     Search,
     ClientCard,
-    dateFilter
+    DateFilter
   },
   data () {
     return {

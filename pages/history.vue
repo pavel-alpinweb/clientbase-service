@@ -2,6 +2,8 @@
   .history
     .history__search
       Search
+    .history__date-filter
+      DateFilter(:target="'page-clients'")
     .history__item(v-for="(client, index) in clientsArray", :key="client._id")
       HistoryClientCard(:client="client", :index="index")
 </template>
@@ -9,16 +11,21 @@
 <script>
 import Search from '@/components/pages/search'
 import HistoryClientCard from '@/components/pages/history-client-card'
+import DateFilter from '@/components/pages/date-filter'
+
 export default {
   middleware: ['admin-auth'],
   components: {
     Search,
-    HistoryClientCard
+    HistoryClientCard,
+    DateFilter
   },
   data () {
     return {
       searchString: '',
       isHint: true,
+      clientsFromDate: '',
+      clientsToDate: '',
       textPage:
       `На этой странице показана вся история сотрудничества со всеми клиентами.
        Введите в поиск имя или id клиента, чтобы увидеть историю сотрудничества только с данным клиентом.
@@ -29,12 +36,12 @@ export default {
   computed: {
     clientsArray () {
       if (this.searchString === '') {
-        return this.clients
+        return this.filterClientsByDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
           return client.name.toLowerCase().includes(this.searchString.toLowerCase())
         })
-        return checkClients
+        return this.filterClientsByDate(checkClients)
       }
     }
   },
@@ -51,6 +58,36 @@ export default {
       this.searchString = data.searchString
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
+    this.$EventBus.$on('checkDate', (data) => {
+      if (data.target === 'page-clients') {
+        this.clientsFromDate = data.fromDate
+        this.clientsToDate = data.toDate
+      }
+    })
+  },
+  methods: {
+    filterClientsByDate (array) {
+      let filtredClients = array
+      if (this.clientsFromDate !== '') {
+        const fromDate = new Date(this.clientsFromDate)
+        filtredClients = array.filter((client) => {
+          const clientDate = new Date(client.date)
+          if (clientDate >= fromDate) {
+            return client
+          }
+        })
+      }
+      if (this.clientsToDate !== '') {
+        const toDate = new Date(this.clientsToDate)
+        filtredClients = filtredClients.filter((client) => {
+          const clientDate = new Date(client.date)
+          if (clientDate <= toDate) {
+            return client
+          }
+        })
+      }
+      return filtredClients
+    }
   }
 }
 </script>
@@ -66,6 +103,9 @@ export default {
   grid-auto-rows: max-content;
 }
 .history__search{
+  grid-column: 1 / 6;
+}
+.history__date-filter{
   grid-column: 1 / 6;
 }
 </style>

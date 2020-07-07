@@ -3,19 +3,7 @@
     .archive__search
       Search
     .archive__date-filter
-      .date-filter
-        .date-filter__half-item
-          .date-filter__form-title Все клиенты с
-          .date-filter__datepicker
-            .date-filter__date-clean(@click="clientsFromDate = ''")
-              svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-            input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="clientsFromDate")
-        .date-filter__half-item
-          .date-filter__form-title Все клиенты по
-          .date-filter__datepicker
-            .date-filter__date-clean(@click="clientsToDate = ''")
-              svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-            input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="clientsToDate")
+      dateFilter(:target="'page-clients'")
     .archive__item(v-for="(client, i) in clientsArray", @key="client.id")
       ClientCard(:client="client" :index="i")
 </template>
@@ -23,11 +11,14 @@
 <script>
 import Search from '@/components/pages/search'
 import ClientCard from '@/components/pages/client-card'
+import dateFilter from '@/components/pages/date-filter'
+
 export default {
   middleware: ['admin-auth'],
   components: {
     Search,
-    ClientCard
+    ClientCard,
+    dateFilter
   },
   data () {
     return {
@@ -61,6 +52,12 @@ export default {
     })
     this.$EventBus.$on('deleteClient', (data) => {
       this.clients.splice(data.index, 1)
+    })
+    this.$EventBus.$on('checkDate', (data) => {
+      if (data.target === 'page-clients') {
+        this.clientsFromDate = data.fromDate
+        this.clientsToDate = data.toDate
+      }
     })
   },
   methods: {

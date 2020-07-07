@@ -1,0 +1,52 @@
+<template lang="pug">
+  .date-filter
+    .date-filter__half-item
+      .date-filter__form-title(v-if="target === 'window-trades'") Все сделки с
+      .date-filter__form-title(v-else) Все клиенты с
+      .date-filter__datepicker
+        .date-filter__date-clean(@click="fromDate = ''")
+          svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+        input.date-filter__input(type="date", placeholder="Выберите дату", v-model="fromDate")
+    .date-filter__half-item
+      .date-filter__form-title(v-if="target === 'window-trades'") Все сделки по
+      .date-filter__form-title(v-else) Все клиенты по
+      .date-filter__datepicker
+        .date-filter__date-clean(@click="toDate = ''")
+          svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+        input.date-filter__input(type="date", placeholder="Выберите дату", v-model="toDate")
+</template>
+
+<script>
+export default {
+  props: {
+    target: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      fromDate: '',
+      toDate: ''
+    }
+  },
+  watch: {
+    fromDate () {
+      this.$EventBus.$emit('checkDate', {
+        target: this.target,
+        fromDate: this.fromDate,
+        toDate: this.toDate
+      })
+    },
+    toDate () {
+      this.$EventBus.$emit('checkDate', {
+        target: this.target,
+        fromDate: this.fromDate,
+        toDate: this.toDate
+      })
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped src="@/assets/styles/components/date-filter.scss"></style>

@@ -19,19 +19,7 @@
             :hasClientPropertyChange="true",
             :lastChangedTradeType="client.lastChangedTrade.type")
         .window-description__date-filter
-          .date-filter
-            .date-filter__half-item
-              .date-filter__form-title Все сделки с
-              .date-filter__datepicker
-                .date-filter__date-clean(@click="tradesFromDate = ''")
-                  svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-                input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="tradesFromDate")
-            .date-filter__half-item
-              .date-filter__form-title Все сделки по
-              .date-filter__datepicker
-                .date-filter__date-clean(@click="tradesToDate = ''")
-                  svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-                input.search__input.date-filter__input(type="date", placeholder="Выберите дату", v-model="tradesToDate")
+          dateFilter(:target="'window-trades'")
        .window-description__trades-list
         .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
           button.button.button--add(@click="createTrade")
@@ -46,11 +34,13 @@
 
 <script>
 import tradesRow from '@/components/pages/trades-row'
+import dateFilter from '@/components/pages/date-filter'
 
 export default {
   name: 'WindowDesc',
   components: {
-    tradesRow
+    tradesRow,
+    dateFilter
   },
   data () {
     return {
@@ -88,6 +78,12 @@ export default {
     })
     this.$EventBus.$on('updateTrade', (data) => {
       this.trades[data.index] = data.trade
+    })
+    this.$EventBus.$on('checkDate', (data) => {
+      if (data.target === 'window-trades') {
+        this.tradesFromDate = data.fromDate
+        this.tradesToDate = data.toDate
+      }
     })
   },
   methods: {

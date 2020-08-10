@@ -62,6 +62,7 @@ export default {
     return {
       isHint: true,
       searchString: '',
+      currentDate: new Date(),
       textPage:
       `На этой страницы находятся списки всех клиентов, с которыми вы когда-либо сотрудничали.
        Здесь вы можете узнать, какие клиенты попадали в каждую из категорий.
@@ -94,6 +95,9 @@ export default {
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active
+    })
+    this.$EventBus.$on('search', (data) => {
+      this.searchString = data.searchString
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
   },

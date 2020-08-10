@@ -1,7 +1,10 @@
 <template lang="pug">
   .table
-    .table__search
-      Search
+    .table__search.table__search--grid-two
+      .table__searh-container
+        Search
+      .table__searh-container
+        DateChecker(:target="'page-calendar'")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="archive", width="20", height="20")
@@ -47,11 +50,13 @@
 <script>
 import Search from '@/components/pages/search'
 import HistoryClientCard from '@/components/pages/history-client-card'
+import DateChecker from '@/components/pages/date-checker'
 export default {
   middleware: ['admin-auth'],
   components: {
     Search,
-    HistoryClientCard
+    HistoryClientCard,
+    DateChecker
   },
   data () {
     return {

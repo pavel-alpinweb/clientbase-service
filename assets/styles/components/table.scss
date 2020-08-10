@@ -12,6 +12,15 @@
   padding-bottom: 20px;
   background:#ebebeb;
 }
+.table__search--grid-two{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+.table__searh-container{
+  display: flex;
+  align-items: flex-end;
+}
 .table__item{
     border:2px solid white;
     border-right: none;
@@ -27,7 +36,7 @@
     overflow-x: hidden;
     margin-top: 55px;
 }
-.table__heading {
+.table__heading{
     background-color: $accentColor;
     height: 50px;
     text-align: center;

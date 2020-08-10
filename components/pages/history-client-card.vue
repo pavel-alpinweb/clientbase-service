@@ -1,5 +1,5 @@
 <template lang="pug">
-  .client-card.client-card--history(:class="{'client-card--dark' : client.status === 'archive'}")
+  .client-card.client-card--history(:class="{'client-card--dark' : client.status === 'archive' || client.status === 'sleep'}")
     .client-card__id id: {{ client.id }}
     .client-card__avatar(:style="`background-image: url('${client.image}');`")
     .client-card__name

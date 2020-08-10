@@ -9,6 +9,7 @@
           .hint-opener(@click="toggleDescWindow(archiveText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        HistoryClientCard(v-for="(client, index) in statusArray('archive')", :client="client", @key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -16,6 +17,7 @@
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        HistoryClientCard(v-for="(client, index) in statusArray('sleep')", :client="client", @key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
@@ -23,6 +25,7 @@
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        HistoryClientCard(v-for="(client, index) in statusArray('open')", :client="client", @key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
@@ -30,6 +33,7 @@
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        HistoryClientCard(v-for="(client, index) in statusArray('repeat')", :client="client", @key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
@@ -37,18 +41,22 @@
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
+        HistoryClientCard(v-for="(client, index) in statusArray('vip')", :client="client", @key="client._id", :index="index")
 </template>
 
 <script>
 import Search from '@/components/pages/search'
+import HistoryClientCard from '@/components/pages/history-client-card'
 export default {
   middleware: ['admin-auth'],
   components: {
-    Search
+    Search,
+    HistoryClientCard
   },
   data () {
     return {
       isHint: true,
+      searchString: '',
       textPage:
       `На этой страницы находятся списки всех клиентов, с которыми вы когда-либо сотрудничали.
        Здесь вы можете узнать, какие клиенты попадали в каждую из категорий.
@@ -61,6 +69,23 @@ export default {
       winnerText: 'В этой категории находятся самые важные клиенты. Это клиенты, прибыль от сделок с которыми может составлять, значительную часть Вашего дохода. Сюда следует помещать клиентов, которые находятся на вершине рейтинга(можно посмотреть на странице "рейтинг") или тех клиентов, которые имеют для Вас особое значение. Терять таких клиентов нельзя ни в коем случае, так как они приносят основной доход Вашему бизнесу.'
     }
   },
+  computed: {
+    clientsArray () {
+      if (this.searchString === '') {
+        return this.sortByDate(this.clients)
+      } else {
+        const checkClients = this.clients.filter((client) => {
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+        })
+        return this.sortByDate(checkClients)
+      }
+    }
+  },
+  async asyncData ({ store }) {
+    const user = store.getters['auth/user']
+    const clients = await store.dispatch('history/getAllHistory', user.userId)
+    return { clients }
+  },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active
@@ -70,6 +95,16 @@ export default {
   methods: {
     toggleDescWindow (text) {
       this.$EventBus.$emit('callDescWindow', { visible: true, text })
+    },
+    statusArray (status) {
+      return this.clientsArray.filter(client => client.status === status)
+    },
+    sortByDate (array) {
+      return array.sort((a, b) => {
+        const aDate = new Date(a.date)
+        const bDate = new Date(b.date)
+        return bDate - aDate
+      })
     }
   }
 }

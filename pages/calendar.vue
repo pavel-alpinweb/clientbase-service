@@ -78,12 +78,12 @@ export default {
   computed: {
     clientsArray () {
       if (this.searchString === '') {
-        return this.sortByDate(this.clients)
+        return this.filterByCurrentDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
           return client.name.toLowerCase().includes(this.searchString.toLowerCase())
         })
-        return this.sortByDate(checkClients)
+        return this.filterByCurrentDate(checkClients)
       }
     }
   },
@@ -114,6 +114,30 @@ export default {
         const bDate = new Date(b.date)
         return bDate - aDate
       })
+    },
+    filterByCurrentDate (array) {
+      const sortedByDateArray = this.sortByDate(array)
+      sortedByDateArray.sort((a, b) => {
+        if (a.id > b.id) {
+          return 1
+        }
+        if (a.id < b.id) {
+          return -1
+        }
+        return 0
+      })
+      const result = []
+      result.push(sortedByDateArray[0])
+      for (let index = 1; index < sortedByDateArray.length; index++) {
+        const itemDate = new Date(sortedByDateArray[index].date)
+        const lastItemDate = new Date(result[result.length - 1].date)
+        if (sortedByDateArray[index].id !== result[result.length - 1].id) {
+          result.push(sortedByDateArray[index])
+        } else if ((this.currentDate - itemDate) < (this.currentDate - lastItemDate)) {
+          result[result.length - 1] = sortedByDateArray[index]
+        }
+      }
+      return result
     }
   }
 }

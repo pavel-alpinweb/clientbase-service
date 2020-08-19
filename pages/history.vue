@@ -70,6 +70,7 @@ export default {
       let filtredClients = array
       if (this.clientsFromDate !== '') {
         const fromDate = new Date(this.clientsFromDate)
+        fromDate.setSeconds(fromDate.getSeconds() + 23 * 60 * 60 - 1)
         filtredClients = array.filter((client) => {
           const clientDate = new Date(client.date)
           if (clientDate >= fromDate) {
@@ -79,6 +80,7 @@ export default {
       }
       if (this.clientsToDate !== '') {
         const toDate = new Date(this.clientsToDate)
+        toDate.setSeconds(toDate.getSeconds() + 23 * 60 * 60 - 1)
         filtredClients = filtredClients.filter((client) => {
           const clientDate = new Date(client.date)
           if (clientDate <= toDate) {

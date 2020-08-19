@@ -3,7 +3,7 @@
     .date-filter__full-item
       .date-filter__form-title Выбранная дата
       .date-filter__datepicker
-        .date-filter__date-clean(@click="fromDate = ''")
+        .date-filter__date-clean(@click="currentDate = new Date()")
           svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
         input.date-filter__input(type="date", placeholder="Выберите дату", v-model="currentDate")
 </template>
@@ -16,17 +16,16 @@ export default {
       required: true
     }
   },
-  computed: {
-    currentDate () {
-      const currentDate = new Date()
-      return currentDate.toLocaleDateString()
+  data () {
+    return {
+      currentDate: ''
     }
   },
   watch: {
-    curentDate () {
-      this.$EventBus.$emit('curentDate', {
+    currentDate () {
+      this.$EventBus.$emit('currentDate', {
         target: this.target,
-        curentDate: this.curentDate
+        currentDate: new Date(this.currentDate)
       })
     }
   }

@@ -99,6 +99,11 @@ export default {
     this.$EventBus.$on('search', (data) => {
       this.searchString = data.searchString
     })
+    this.$EventBus.$on('currentDate', (data) => {
+      if (data.target === 'page-calendar') {
+        this.currentDate = new Date(data.currentDate)
+      }
+    })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
   },
   methods: {
@@ -126,16 +131,36 @@ export default {
         }
         return 0
       })
+      const currentDate = new Date(this.currentDate)
+      currentDate.setSeconds(currentDate.getSeconds() + 23 * 60 * 60 - 1)
       const result = []
-      result.push(sortedByDateArray[0])
+      debugger
+      const isValidArray = sortedByDateArray.filter((item) => {
+        const itemDate = new Date(item.date)
+        if (itemDate <= currentDate) {
+          return item
+        }
+      })
+      if (isValidArray.length > 0) {
+        result.push(sortedByDateArray[0])
+      } else {
+        return result
+      }
       for (let index = 1; index < sortedByDateArray.length; index++) {
         const itemDate = new Date(sortedByDateArray[index].date)
         const lastItemDate = new Date(result[result.length - 1].date)
-        if (sortedByDateArray[index].id !== result[result.length - 1].id) {
-          result.push(sortedByDateArray[index])
-        } else if ((this.currentDate - itemDate) < (this.currentDate - lastItemDate)) {
-          result[result.length - 1] = sortedByDateArray[index]
+        if (itemDate <= currentDate) {
+          if (sortedByDateArray[index].id !== result[result.length - 1].id) {
+            result.push(sortedByDateArray[index])
+          } else if (lastItemDate > currentDate) {
+            result[result.length - 1] = sortedByDateArray[index]
+          } else if ((currentDate - itemDate) <= (currentDate - lastItemDate)) {
+            result[result.length - 1] = sortedByDateArray[index]
+          }
         }
+      }
+      for (const item of result) {
+        console.log(`Имя: ${item.name} id: ${item.id} Дата: ${item.date}`)
       }
       return result
     }

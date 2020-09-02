@@ -1,0 +1,61 @@
+@import './vars.scss';
+body, html {
+    height: 100%;
+  }
+  
+  body {
+    font-size: $textFontSize;
+    line-height: 24px;
+    color: $mainColor;
+    background-color: #ebebeb;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .wrapper {
+    overflow: hidden;
+    min-height: 100%;
+    position: relative;
+  }
+  
+  .container {
+    margin: 0 auto;
+    width: 95%;
+  }
+
+  .hide{
+    display: none!important;
+  }
+  
+  button {
+    border: 0;
+    cursor: pointer;
+  }
+  
+  * {
+    box-sizing: border-box;
+    outline: none;
+  }
+  
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin: 0;
+  }
+  
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  img{
+    width: 100%;
+    height: auto;
+  }

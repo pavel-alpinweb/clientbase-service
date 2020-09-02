@@ -1,3 +1,20 @@
+const inlineDefs = require('@nuxtjs/svg-sprite/lib/plugins/inlineDefs.js')
+const removeUselessStrokeAndFill = require('svgo/plugins/removeUselessStrokeAndFill')
+const removeDimensions = require('svgo/plugins/removeDimensions')
+const removeAttrs = require('svgo/plugins/removeAttrs')
+
+function defaultPlugins () {
+  removeUselessStrokeAndFill.active = true
+  removeAttrs.active = true
+  removeDimensions.active = true
+  removeAttrs.params.attrs = '(fill|width|height|stroke)'
+
+  return [
+    removeUselessStrokeAndFill,
+    removeAttrs,
+    { inlineDefs } // NOTE: it's important to pass custom plugins as object.
+  ]
+}
 
 module.exports = {
   mode: 'universal',
@@ -18,22 +35,29 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#feb63f' },
   /*
   ** Global CSS
   */
   css: [
+    '@/assets/styles/layout/fonts.scss',
+    '@/assets/styles/layout/base.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/event-bus.js', ssr: true },
+    { src: '~/plugins/axios', ssr: true },
+    { src: '~/plugins/quillEditor.js', ssr: false },
+    { src: '~/plugins/date-filter.js', ssr: true }
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxtjs/svg-sprite',
     '@nuxtjs/eslint-module'
   ],
   /*
@@ -49,6 +73,17 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+  /*
+  ** SVG sprite settings
+  */
+  svgSprite: {
+    input: '~/assets/svg/',
+    svgoConfig () {
+      return {
+        plugins: defaultPlugins()
+      }
+    }
   },
   /*
   ** Build configuration

@@ -1,10 +1,10 @@
 <template lang="pug">
-.rating-client(:class="{active : client.isActive, dark : !client.isActive}")
+.rating-client(:class="{'active' : client.status !== 'archive', 'dark' : client.status === 'archive'}")
     .rating-client__info
         .rating-client__id {{ client.id }}
         .rating-client__name {{ client.name }}
         .rating-client__avatar(:style="'background-image: url(' + client.image + ');'")
-        .rating-client__payouts {{ client.payouts }}$
+        .rating-client__payouts {{ allClientMoney }}
     .rating-client__procent-line
         .rating-client__progress(:style="'width:' + clientProcent + '%;'")
         .rating-client__procents {{ clientProcent }}%
@@ -23,8 +23,15 @@ export default {
     }
   },
   computed: {
+    allClientMoney () {
+      let allClientMoney = 0
+      for (const trade of this.client.trades) {
+        allClientMoney += trade.pay
+      }
+      return allClientMoney
+    },
     clientProcent () {
-      const result = (this.client.payouts / this.procent).toFixed(2)
+      const result = (this.allClientMoney / this.procent).toFixed(2)
       if (isNaN(result)) {
         return 0
       } else {

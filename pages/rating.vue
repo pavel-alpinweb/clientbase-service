@@ -5,7 +5,7 @@
     ul.rating__list
       li.rating__item(v-for="(client, index) in clients")
         .rating__position {{ index + 1 }}
-        RatingClient(:client="client", :procent="100")
+        RatingClient(:client="client", :procent="procent", :key="client.id")
 </template>
 
 <script>
@@ -23,6 +23,13 @@ export default {
       textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
     }
   },
+  computed: {
+    procent () {
+      let procent = 0
+      procent = this.getOnePayloadsProcent()
+      return procent
+    }
+  },
   async asyncData ({ store }) {
     const user = store.getters['auth/user']
     const clients = await store.dispatch('client/getAll', user.userId)
@@ -33,6 +40,22 @@ export default {
       this.isHint = data.active
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
+    this.getOnePayloadsProcent()
+  },
+  methods: {
+    getOnePayloadsProcent () {
+      let allMoney = 0
+      let procent = 0
+      for (const client of this.clients) {
+        for (const trade of client.trades) {
+          allMoney += trade.pay
+        }
+      }
+      if (allMoney !== 0) {
+        procent = allMoney / 100
+      }
+      return procent
+    }
   }
 }
 </script>

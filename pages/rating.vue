@@ -5,7 +5,7 @@
     ul.rating__list
       li.rating__item(v-for="(client, index) in clients")
         .rating__position {{ index + 1 }}
-        RatingClient(:client="client", :procent="procent", :key="client.id")
+        RatingClient(:client="client", :procent="procent", :key="client.id", :typeRating="typeRatingSort")
 </template>
 
 <script>
@@ -20,13 +20,18 @@ export default {
   data () {
     return {
       isHint: true,
+      typeRatingSort: 'payloads',
       textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
     }
   },
   computed: {
     procent () {
       let procent = 0
-      procent = this.getOnePayloadsProcent()
+      if (this.typeRatingSort === 'payloads') {
+        procent = this.getOnePayloadsProcent()
+      } else if (this.typeRatingSort === 'trades') {
+        procent = this.getOneTradesProcent()
+      }
       return procent
     }
   },
@@ -40,7 +45,6 @@ export default {
       this.isHint = data.active
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
-    this.getOnePayloadsProcent()
   },
   methods: {
     getOnePayloadsProcent () {
@@ -53,6 +57,17 @@ export default {
       }
       if (allMoney !== 0) {
         procent = allMoney / 100
+      }
+      return procent
+    },
+    getOneTradesProcent () {
+      let allTrades = 0
+      let procent = 0
+      for (const client of this.clients) {
+        allTrades += client.trades.length
+      }
+      if (allTrades !== 0) {
+        procent = allTrades / 100
       }
       return procent
     }

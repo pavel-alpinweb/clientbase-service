@@ -4,7 +4,8 @@
         .rating-client__id {{ client.id }}
         .rating-client__name {{ client.name }}
         .rating-client__avatar(:style="'background-image: url(' + client.image + ');'")
-        .rating-client__payouts {{ allClientMoney }}
+        .rating-client__payouts(v-if="typeRating === 'payloads'") {{ allClientMoney }}
+        .rating-client__payouts(v-else="typeRating === 'trades'") {{ client.trades.length }}
     .rating-client__procent-line
         .rating-client__progress(:style="'width:' + clientProcent + '%;'")
         .rating-client__procents {{ clientProcent }}%
@@ -20,6 +21,10 @@ export default {
     procent: {
       type: Number,
       required: true
+    },
+    typeRating: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -31,7 +36,12 @@ export default {
       return allClientMoney
     },
     clientProcent () {
-      const result = (this.allClientMoney / this.procent).toFixed(2)
+      let result = 0
+      if (this.typeRating === 'payloads') {
+        result = (this.allClientMoney / this.procent).toFixed(2)
+      } else if (this.typeRating === 'trades') {
+        result = (this.client.trades.length / this.procent).toFixed(2)
+      }
       if (isNaN(result)) {
         return 0
       } else {

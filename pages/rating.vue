@@ -3,7 +3,7 @@
     .rating_search
       Search
     ul.rating__list
-      li.rating__item(v-for="(client, index) in clients")
+      li.rating__item(v-for="(client, index) in sortedClients")
         .rating__position {{ index + 1 }}
         RatingClient(:client="client", :procent="procent", :key="client.id", :typeRating="typeRatingSort")
 </template>
@@ -33,6 +33,15 @@ export default {
         procent = this.getOneTradesProcent()
       }
       return procent
+    },
+    sortedClients () {
+      let clients = []
+      if (this.typeRatingSort === 'payloads') {
+        clients = this.sortByPayloads(this.clients)
+      } else if (this.typeRatingSort === 'trades') {
+        clients = this.sortByTrades(this.clients)
+      }
+      return clients
     }
   },
   async asyncData ({ store }) {
@@ -70,6 +79,24 @@ export default {
         procent = allTrades / 100
       }
       return procent
+    },
+    sortByTrades (array) {
+      return array.sort((a, b) => {
+        return b.trades.length - a.trades.length
+      })
+    },
+    sortByPayloads (array) {
+      return array.sort((a, b) => {
+        let aPayloads = 0
+        let bPayloads = 0
+        for (const trade of a.trades) {
+          aPayloads += trade.pay
+        }
+        for (const trade of b.trades) {
+          bPayloads += trade.pay
+        }
+        return bPayloads - aPayloads
+      })
     }
   }
 }

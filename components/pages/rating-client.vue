@@ -2,7 +2,9 @@
 .rating-client(:class="{'active' : client.status !== 'archive', 'dark' : client.status === 'archive'}")
     .rating-client__info
         .rating-client__id {{ client.id }}
-        .rating-client__name {{ client.name }}
+        .rating-client__name
+          |{{ client.name }}
+          .rating-client__id {{ client.status }}
         .rating-client__avatar(:style="'background-image: url(' + client.image + ');'")
         .rating-client__payouts(v-if="typeRating === 'payloads'") {{ allClientMoney }}
         .rating-client__payouts(v-else="typeRating === 'trades'") {{ client.trades.length }}

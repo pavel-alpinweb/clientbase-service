@@ -65,7 +65,7 @@
                 svg-icon(class="btn-icon", name="gem", width="20", height="20")
                 |V.I.P.
     ul.rating__list
-      li.rating__item(v-for="(client, index) in sortedClients")
+      li.rating__item(v-for="(client, index) in searchingClients")
         .rating__position {{ index + 1 }}
         RatingClient(:client="client", :procent="procent", :key="client.id", :typeRating="typeRatingSort")
 </template>
@@ -84,6 +84,7 @@ export default {
       isHint: true,
       typeRatingSort: 'trades',
       currentStatus: 'all',
+      searchString: '',
       textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
     }
   },
@@ -99,15 +100,27 @@ export default {
     },
     sortedClients () {
       let clients = []
+
       if (this.currentStatus !== 'all') {
         clients = this.filterByStatus(this.clients)
       } else {
         clients = this.clients
       }
+
       if (this.typeRatingSort === 'payloads') {
         clients = this.sortByPayloads(clients)
       } else if (this.typeRatingSort === 'trades') {
         clients = this.sortByTrades(clients)
+      }
+
+      return clients
+    },
+    searchingClients () {
+      let clients = this.sortedClients
+      if (this.searchString !== '') {
+        clients = clients.filter((client) => {
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+        })
       }
       return clients
     }
@@ -120,6 +133,9 @@ export default {
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {
       this.isHint = data.active
+    })
+    this.$EventBus.$on('search', (data) => {
+      this.searchString = data.searchString
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
   },

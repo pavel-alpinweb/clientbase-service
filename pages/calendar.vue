@@ -134,7 +134,6 @@ export default {
       const currentDate = new Date(this.currentDate)
       currentDate.setSeconds(currentDate.getSeconds() + 23 * 60 * 60 - 1)
       const result = []
-      debugger
       const isValidArray = sortedByDateArray.filter((item) => {
         const itemDate = new Date(item.date)
         if (itemDate <= currentDate) {
@@ -158,9 +157,6 @@ export default {
             result[result.length - 1] = sortedByDateArray[index]
           }
         }
-      }
-      for (const item of result) {
-        console.log(`Имя: ${item.name} id: ${item.id} Дата: ${item.date}`)
       }
       return result
     }

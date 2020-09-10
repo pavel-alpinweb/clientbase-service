@@ -55,6 +55,13 @@
             fill: $accentColor;
         }
     }
+    &.button--wait-active {
+        color: $accentColor;
+        background-color: transparent;
+        .btn-icon{
+            fill: $accentColor;
+        }
+    }
 }
 
 .button--text{

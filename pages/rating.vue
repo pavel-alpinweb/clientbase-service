@@ -1,7 +1,24 @@
 <template lang="pug">
-  .rating
+  .rating.rating--grid-two
     .rating_search
       Search
+    .rating_sort
+      nav.rating__menu
+        ul.rating__menu-list
+            li.rating__menu-item.rating__menu-item--active
+              button.button.button--wait(
+                :class="{'button--wait-active' : typeRatingSort === 'trades'}"
+                @click="typeRatingSort = 'trades'"
+              )
+                svg-icon(class="btn-icon", name="trades", width="20", height="20")
+                |По сделкам
+            li.rating__menu-item
+              button.button.button--wait(
+                :class="{'button--wait-active' : typeRatingSort === 'payloads'}"
+                @click="typeRatingSort = 'payloads'"
+              )
+                svg-icon(class="btn-icon", name="money", width="20", height="20")
+                |По выплатам
     ul.rating__list
       li.rating__item(v-for="(client, index) in sortedClients")
         .rating__position {{ index + 1 }}
@@ -20,7 +37,8 @@ export default {
   data () {
     return {
       isHint: true,
-      typeRatingSort: 'payloads',
+      typeRatingSort: 'trades',
+      currentStatus: 'all',
       textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
     }
   },
@@ -36,10 +54,15 @@ export default {
     },
     sortedClients () {
       let clients = []
+      if (this.currentStatus !== 'all') {
+        clients = this.filterByStatus(this.clients)
+      } else {
+        clients = this.clients
+      }
       if (this.typeRatingSort === 'payloads') {
-        clients = this.sortByPayloads(this.clients)
+        clients = this.sortByPayloads(clients)
       } else if (this.typeRatingSort === 'trades') {
-        clients = this.sortByTrades(this.clients)
+        clients = this.sortByTrades(clients)
       }
       return clients
     }
@@ -59,7 +82,7 @@ export default {
     getOnePayloadsProcent () {
       let allMoney = 0
       let procent = 0
-      for (const client of this.clients) {
+      for (const client of this.sortedClients) {
         for (const trade of client.trades) {
           allMoney += trade.pay
         }
@@ -72,7 +95,7 @@ export default {
     getOneTradesProcent () {
       let allTrades = 0
       let procent = 0
-      for (const client of this.clients) {
+      for (const client of this.sortedClients) {
         allTrades += client.trades.length
       }
       if (allTrades !== 0) {
@@ -97,19 +120,33 @@ export default {
         }
         return bPayloads - aPayloads
       })
+    },
+    filterByStatus (array) {
+      return array.filter(client => client.status === this.currentStatus)
     }
   }
 }
 </script>
 
+<style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .rating{
     width: 100%;
     align-self: flex-start;
   }
+  .rating--grid-two{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
   .rating_search{
     padding-bottom: 20px;
+  }
+  .rating__menu-list{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
   }
   .rating__list{
     border-left: 2px solid $mainColor;
@@ -117,6 +154,7 @@ export default {
     min-height: 90vh;
     padding: 0;
     margin: 0;
+    grid-column: 1 / span 3;
   }
   .rating__item{
     margin-bottom: 50px;

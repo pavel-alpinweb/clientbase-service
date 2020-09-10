@@ -19,6 +19,51 @@
               )
                 svg-icon(class="btn-icon", name="money", width="20", height="20")
                 |По выплатам
+    .rating_filters
+      nav.rating__menu
+        ul.rating__sort-list
+            li.rating__menu-item.rating__menu-item--active
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'all'}"
+                @click="currentStatus = 'all'"
+              )
+                svg-icon(class="btn-icon", name="table", width="20", height="20")
+                |Все
+            li.rating__menu-item.rating__menu-item--active
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'archive'}"
+                @click="currentStatus = 'archive'"
+              )
+                svg-icon(class="btn-icon", name="archive", width="20", height="20")
+                |Архив
+            li.rating__menu-item
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'sleep'}"
+                @click="currentStatus = 'sleep'"
+              )
+                svg-icon(class="btn-icon", name="user-clock", width="20", height="20")
+                |Спящие
+            li.rating__menu-item
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'open'}"
+                @click="currentStatus = 'open'"
+              )
+                svg-icon(class="btn-icon", name="user-check", width="20", height="20")
+                |Открытые
+            li.rating__menu-item
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'repeat'}"
+                @click="currentStatus = 'repeat'"
+              )
+                svg-icon(class="btn-icon", name="handshake", width="20", height="20")
+                |Постоянные
+            li.rating__menu-item
+              button.button.button--wait(
+                :class="{'button--wait-active' : currentStatus === 'vip'}"
+                @click="currentStatus = 'vip'"
+              )
+                svg-icon(class="btn-icon", name="gem", width="20", height="20")
+                |V.I.P.
     ul.rating__list
       li.rating__item(v-for="(client, index) in sortedClients")
         .rating__position {{ index + 1 }}
@@ -148,12 +193,20 @@ export default {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
   }
+  .rating__sort-list{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 10px;
+  }
   .rating__list{
     border-left: 2px solid $mainColor;
     border-bottom: 2px solid $mainColor;
     min-height: 90vh;
     padding: 0;
     margin: 0;
+    grid-column: 1 / span 3;
+  }
+  .rating_filters{
     grid-column: 1 / span 3;
   }
   .rating__item{

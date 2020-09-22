@@ -45,6 +45,7 @@ export default {
   data () {
     return {
       trades: [],
+      user: {},
       visible: false,
       searchString: '',
       tradesFromDate: '',
@@ -68,6 +69,7 @@ export default {
     }
   },
   mounted () {
+    this.setUser()
     this.$EventBus.$on('callTradesWindow', (data) => {
       this.visible = data.visible
       this.trades = this.sortByDate(data.trades)
@@ -87,6 +89,9 @@ export default {
     })
   },
   methods: {
+    setUser () {
+      this.user = this.$store.getters['auth/user']
+    },
     closeThisWindow () {
       this.visible = false
     },
@@ -129,7 +134,8 @@ export default {
         date: '',
         pay: 0,
         isNewTrade: true,
-        clientId: this.client._id
+        clientId: this.client._id,
+        userId: this.user.userId
       }
       this.trades.push(trade)
     }

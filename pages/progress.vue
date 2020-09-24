@@ -1,6 +1,7 @@
 <template lang="pug">
   .progress
     .progress__graffics
+      pre {{ trades }}
 </template>
 
 <script>
@@ -14,6 +15,11 @@ export default {
       Здесь вы можете узнать, сколько клиентов попадало в каждую из категорий. 
       Чтобы узнать подобно, о том кто эти клиенты, зайдите на страницу "Списки"`
     }
+  },
+  async asyncData ({ store }) {
+    const user = store.getters['auth/user']
+    const trades = await store.dispatch('trade/getAll', user.userId)
+    return { trades }
   },
   mounted () {
     this.$EventBus.$on('switchHint', (data) => {

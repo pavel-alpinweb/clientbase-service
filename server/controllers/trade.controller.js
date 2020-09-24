@@ -165,3 +165,12 @@ module.exports.remove = async (req, res) => {
     res.status(500).json({ message: 'Ошибка сервера' })
   }
 }
+
+module.exports.getAll = async (req, res) => {
+  try {
+    const trades = await Trade.find({ userId: req.params.usertID })
+    res.status(201).json(trades)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

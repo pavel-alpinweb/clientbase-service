@@ -22,5 +22,13 @@ export const actions = {
       commit('setError', error, { root: true })
       throw error
     }
+  },
+  async getAll ({ commit }, userId) {
+    try {
+      return await this.$axios.$get('/api/trade/admin/' + userId)
+    } catch (error) {
+      commit('setError', error, { root: true })
+      throw error
+    }
   }
 }

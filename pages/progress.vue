@@ -1,8 +1,26 @@
 <template lang="pug">
   .progress
+    .progress.progress--grid-two
+      .progress__date-filter
+        DateFilter(:target="'page-progress'")
+      .progress__progress-type
+        nav.rating__menu
+          ul.rating__menu-list
+              li.rating__menu-item.rating__menu-item--active
+                button.button.button--wait(
+                  :class="{'button--wait-active' : typeProgress === 'trades'}"
+                  @click="typeProgress = 'trades'"
+                )
+                  svg-icon(class="btn-icon", name="trades", width="20", height="20")
+                  |По сделкам
+              li.rating__menu-item
+                button.button.button--wait(
+                  :class="{'button--wait-active' : typeProgress === 'payloads'}"
+                  @click="typeProgress = 'payloads'"
+                )
+                  svg-icon(class="btn-icon", name="money", width="20", height="20")
+                  |По выплатам
     .progress__graffics
-      ratingCategory(:categoryName="'Архивные'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('archive')")
-      ratingCategory(:categoryName="'Спящие'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('sleep')")
       ratingCategory(:categoryName="'Открытые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('open')")
       ratingCategory(:categoryName="'Постоянные'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('repeat')")
       ratingCategory(:categoryName="'V.I.P.'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('vip')")
@@ -10,11 +28,13 @@
 
 <script>
 import ratingCategory from '@/components/pages/rating-category'
+import DateFilter from '@/components/pages/date-filter'
 
 export default {
   middleware: ['admin-auth'],
   components: {
-    ratingCategory
+    ratingCategory,
+    DateFilter
   },
   data () {
     return {
@@ -75,6 +95,7 @@ export default {
 }
 </script>
 
+<style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .progress{
@@ -86,11 +107,35 @@ export default {
       }
   }
 
+  .progress--grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    align-items: end;
+  }
+
+  .rating__menu{
+    margin-bottom: 15px;
+  }
+
+  .rating__menu-list{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+
+  .rating__menu-item--active{
+    .button--text{
+      color: $mainColor;
+      background: transparent;
+    }
+  }
+
   .progress__graffics{
       border-left: 2px solid $mainColor;
       border-bottom: 2px solid $mainColor;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       grid-gap: 150px;
       margin-bottom:20px;
       min-height: 85vh;

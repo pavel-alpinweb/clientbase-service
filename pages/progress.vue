@@ -27,6 +27,7 @@
         b Общее число сделок: {{ filtredTradesArray.length }}
     .progress__graffics
       ratingCategory(:categoryName="'Новые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('aspirant')")
+      ratingCategory(:categoryName="'Спящие'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('sleep')")
       ratingCategory(:categoryName="'Открытые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('open')")
       ratingCategory(:categoryName="'Постоянные'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('repeat')")
       ratingCategory(:categoryName="'V.I.P.'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('vip')")
@@ -178,7 +179,7 @@ export default {
       border-left: 2px solid $mainColor;
       border-bottom: 2px solid $mainColor;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-gap: 150px;
       margin-bottom:20px;
       min-height: 85vh;

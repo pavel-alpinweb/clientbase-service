@@ -24,7 +24,7 @@
       .progress__paylods-summ
         b Общая сумма сделок: {{ allMoney }}
       .progress__tardes-summ
-        b Общее число сделок: {{ trades.length }}
+        b Общее число сделок: {{ filtredTradesArray.length }}
     .progress__graffics
       ratingCategory(:categoryName="'Новые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('aspirant')")
       ratingCategory(:categoryName="'Открытые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('open')")
@@ -46,6 +46,8 @@ export default {
     return {
       isHint: true,
       typeProgress: 'payloads',
+      tradesFromDate: '',
+      tradesToDate: '',
       textPage:
       `На этой странице показана общая статистика за все время использования этого приложения. 
       Здесь вы можете узнать, сколько клиентов попадало в каждую из категорий. 
@@ -64,11 +66,14 @@ export default {
     },
     allMoney () {
       let allMoney = 0
-      for (const trade of this.trades) {
+      for (const trade of this.filtredTradesArray) {
         allMoney += trade.pay
       }
 
       return allMoney
+    },
+    filtredTradesArray () {
+      return this.filterTradeByDate(this.trades)
     }
   },
   async asyncData ({ store }) {
@@ -81,6 +86,12 @@ export default {
       this.isHint = data.active
     })
     this.$EventBus.$emit('changePageText', { textPage: this.textPage })
+    this.$EventBus.$on('checkDate', (data) => {
+      if (data.target === 'page-progress') {
+        this.tradesFromDate = data.fromDate
+        this.tradesToDate = data.toDate
+      }
+    })
   },
   methods: {
     getOnePayloadsProcent () {
@@ -91,7 +102,7 @@ export default {
       return procent
     },
     getOneTradesProcent () {
-      const allTrades = this.trades.length
+      const allTrades = this.filtredTradesArray.length
       let procent = 0
       if (allTrades !== 0) {
         procent = allTrades / 100
@@ -99,7 +110,29 @@ export default {
       return procent
     },
     getCategoryTrades (category) {
-      return this.trades.filter(trade => trade.client.status === category)
+      return this.filtredTradesArray.filter(trade => trade.client.status === category)
+    },
+    filterTradeByDate (array) {
+      let filtredTrades = array
+      if (this.tradesFromDate !== '') {
+        const fromDate = new Date(this.tradesFromDate)
+        filtredTrades = array.filter((trade) => {
+          const tradeDate = new Date(trade.date)
+          if (tradeDate >= fromDate) {
+            return trade
+          }
+        })
+      }
+      if (this.tradesToDate !== '') {
+        const toDate = new Date(this.tradesToDate)
+        filtredTrades = filtredTrades.filter((trade) => {
+          const tradeDate = new Date(trade.date)
+          if (tradeDate <= toDate) {
+            return trade
+          }
+        })
+      }
+      return filtredTrades
     }
   }
 }

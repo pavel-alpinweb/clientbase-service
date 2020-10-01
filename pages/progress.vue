@@ -20,7 +20,13 @@
                 )
                   svg-icon(class="btn-icon", name="money", width="20", height="20")
                   |По выплатам
+    .progress.progress--grid-two
+      .progress__paylods-summ
+        b Общая сумма сделок: {{ allMoney }}
+      .progress__tardes-summ
+        b Общее число сделок: {{ trades.length }}
     .progress__graffics
+      ratingCategory(:categoryName="'Новые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('aspirant')")
       ratingCategory(:categoryName="'Открытые'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('open')")
       ratingCategory(:categoryName="'Постоянные'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('repeat')")
       ratingCategory(:categoryName="'V.I.P.'", :procent="procent", :typeProgress="typeProgress", :categoryTrades="getCategoryTrades('vip')")
@@ -55,6 +61,14 @@ export default {
         procent = this.getOneTradesProcent()
       }
       return procent
+    },
+    allMoney () {
+      let allMoney = 0
+      for (const trade of this.trades) {
+        allMoney += trade.pay
+      }
+
+      return allMoney
     }
   },
   async asyncData ({ store }) {
@@ -70,13 +84,9 @@ export default {
   },
   methods: {
     getOnePayloadsProcent () {
-      let allMoney = 0
       let procent = 0
-      for (const trade of this.trades) {
-        allMoney += trade.pay
-      }
-      if (allMoney !== 0) {
-        procent = allMoney / 100
+      if (this.allMoney !== 0) {
+        procent = this.allMoney / 100
       }
       return procent
     },
@@ -135,7 +145,7 @@ export default {
       border-left: 2px solid $mainColor;
       border-bottom: 2px solid $mainColor;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       grid-gap: 150px;
       margin-bottom:20px;
       min-height: 85vh;

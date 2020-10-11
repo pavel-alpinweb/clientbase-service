@@ -76,7 +76,8 @@ export default {
         return this.sortByDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
-          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase()) ||
+          client.id.toLowerCase().includes(this.searchString.toLowerCase())
         })
         return this.sortByDate(checkClients)
       }

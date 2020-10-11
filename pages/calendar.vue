@@ -81,7 +81,8 @@ export default {
         return this.filterByCurrentDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
-          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase()) ||
+          client.id.toLowerCase().includes(this.searchString.toLowerCase())
         })
         return this.filterByCurrentDate(checkClients)
       }

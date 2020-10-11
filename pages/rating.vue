@@ -119,7 +119,8 @@ export default {
       let clients = this.sortedClients
       if (this.searchString !== '') {
         clients = clients.filter((client) => {
-          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase()) ||
+          client.id.toLowerCase().includes(this.searchString.toLowerCase())
         })
       }
       return clients

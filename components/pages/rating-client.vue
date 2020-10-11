@@ -4,7 +4,12 @@
         .rating-client__id {{ client.id }}
         .rating-client__name
           |{{ client.name }}
-          .rating-client__id {{ client.status }}
+          .rating-client__id(v-if="client.status === 'aspirant'") Новый
+          .rating-client__id(v-if="client.status === 'sleep'") Спящий
+          .rating-client__id(v-if="client.status === 'open'") Открытый
+          .rating-client__id(v-if="client.status === 'repeat'") Постоянный
+          .rating-client__id(v-if="client.status === 'vip'") V.I.P.
+          .rating-client__id(v-if="client.status === 'archive'") Архивный
         .rating-client__avatar(:style="'background-image: url(' + client.image + ');'")
         .rating-client__payouts(v-if="typeRating === 'payloads'") {{ allClientMoney }}
         .rating-client__payouts(v-else="typeRating === 'trades'") {{ client.trades.length }}

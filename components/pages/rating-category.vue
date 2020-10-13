@@ -1,7 +1,8 @@
 <template lang="pug">
 .progress__item
   .progress__procent(v-if="categoryProcent > 0") {{ categoryProcent }}%
-  .progress__bar(:style="'height:' +  categoryProcent + '%;'") {{ categorySumm }}
+  .progress__bar(:style="'height:' +  categoryProcent + '%;'")
+    span.progress__value {{ categorySumm }}
   .progress__name {{ categoryName }}
 </template>
 
@@ -77,11 +78,17 @@ export default {
       font-family: $mainFont;
       font-size: $h6fontSize;
       font-weight: 700;
+      position: relative;
+      top: 25px;
   }
   .progress__procent{
       width: 100%;
       text-align: center;
       font-size: $h5fontSize;
       font-weight: 700;
+  }
+  .progress__value{
+    position: relative;
+    top: 35px;
   }
 </style>

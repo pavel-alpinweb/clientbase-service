@@ -8,7 +8,7 @@
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="archive", width="20", height="20")
-          span Архив (0)
+          span Архив ({{ statusArray('archive').length }})
           .hint-opener(@click="toggleDescWindow(archiveText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
@@ -16,7 +16,7 @@
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
-          span Спящие (0)
+          span Спящие ({{ statusArray('sleep').length }})
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
@@ -24,7 +24,7 @@
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
-          span Открытые (0)
+          span Открытые ({{ statusArray('open').length }})
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
@@ -32,7 +32,7 @@
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
-          span Постоянные (0)
+          span Постоянные ({{ statusArray('repeat').length }})
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
@@ -40,7 +40,7 @@
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
-          span V.I.P. (0)
+          span V.I.P. ({{ statusArray('vip').length }})
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content

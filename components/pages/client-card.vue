@@ -16,7 +16,7 @@
           button.client-card__button.client-card__button--edit(@click="openClientForm")
             svg-icon(class="client-card__option-icon", name="edit", width="20", height="20")
           .client-card__menu-tooltipe Редактировать
-        .client-card__menu-item
+        .client-card__menu-item(@click="toggleDescWindow(client.text)")
           button.client-card__button.client-card__button--text
             svg-icon(class="client-card__option-icon", name="text", width="20", height="20")
           .client-card__menu-tooltipe Описание
@@ -66,6 +66,9 @@ export default {
         client: this.client,
         isNew: false
       })
+    },
+    toggleDescWindow (text) {
+      this.$EventBus.$emit('callDescWindow', { visible: true, text })
     },
     openArchiveAlert () {
       this.$EventBus.$emit('callArchiveAlert', {

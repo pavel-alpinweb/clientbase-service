@@ -6,12 +6,11 @@ const historyFn = require('../modules/historyFn')
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
   $set.isNewTrade = false
-
+  console.log($set)
   const trade = new Trade($set)
   let isChangeStatus = false
   let historyMessage = ''
   try {
-    await trade.save()
     await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
       const lastChangedTrade = {
         type: 'plus',
@@ -24,6 +23,7 @@ module.exports.create = async (req, res) => {
     })
 
     const client = await Client.findById($set.clientId)
+    await trade.save()
     let message = 'Новая сделка успешно создана'
     client.trades.push(trade._id)
 

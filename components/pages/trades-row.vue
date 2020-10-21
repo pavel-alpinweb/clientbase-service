@@ -88,7 +88,7 @@ export default {
       }
     },
     async saveTrade () {
-      const valide = this.trade.title !== '' && this.trade.date !== '' && this.trade.pay !== ''
+      const valide = this.trade.title !== '' && this.trade.date !== '' && this.trade.pay > 0
       if (valide) {
         try {
           let req = null

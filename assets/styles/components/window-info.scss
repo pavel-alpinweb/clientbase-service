@@ -11,86 +11,15 @@
     display:flex;
     padding: 50px 0;
     overflow-wrap: break-word;
-    blockquote{
-        border-left: 4px solid #ccc;
-        margin: 5px 0;
-        padding-left: 16px;
-    }
-    pre.ql-syntax{
-        background-color: #23241f;
-        color: #f8f8f2;
-        overflow: visible;
-        white-space: pre-wrap;
-        margin-bottom: 5px;
-        margin-top: 5px;
-        padding: 5px 10px;
-    }
-    ol{
-        padding-left: 1.5em;
-        li{
-            padding-left: 1.5em;
-            list-style: none;
-            counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
-            counter-increment: list-0;
-            &:before{
-                margin-left: -1.5em;
-                margin-right: 0.3em;
-                text-align: right;
-                content: counter(list-0, decimal) '. ';
-                display: inline-block;
-                white-space: nowrap;
-                width: 1.2em;
-            }
+    &.ql-snow {
+        .ql-editor {
+            width: 100%;
+            height: auto!important;
+            border-radius: 0;
+            border: none;
+            padding: 0;
+            overflow-y: visible;
         }
-    }
-    ul{
-        padding-left: 1.5em;
-        li{
-            padding-left: 1.5em;
-            list-style-type: none;
-            &:before{
-                content: '\2022';
-                margin-left: -1.5em;
-                margin-right: 0.3em;
-                text-align: right;
-                display: inline-block;
-                white-space: nowrap;
-                width: 1.2em;
-            }
-        }
-    }
-    .ql-indent-1{
-        padding-left: 3em;
-    }
-    .ql-indent-2{
-        padding-left: 6em;
-    }
-    .ql-indent-3{
-        padding-left: 9em;
-    }
-    .ql-indent-4{
-        padding-left: 12em;
-    }
-    .ql-indent-5{
-        padding-left: 15em;
-    }
-    .ql-indent-6{
-        padding-left: 18em;
-    }
-    .ql-indent-7{
-        padding-left: 21em;
-    }
-    .ql-indent-8{
-        padding-left: 24em;
-    }
-    .ql-align-center {
-        text-align: center;
-    }
-    .ql-align-right {
-        text-align: right;
-    }
-    .ql-align-justify {
-        text-align: justify;
     }
 }
 .window-description__overlay{

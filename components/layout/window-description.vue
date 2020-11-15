@@ -1,9 +1,9 @@
 <template lang="pug">
-    .window-description(v-if="visible")
+    .window-description.ql-snow(v-if="visible")
        .window-description__overlay(@click="closeThisWindow")
        .window-description__content
         svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
-        div(v-html="text")
+        div.ql-editor(v-html="text")
 </template>
 
 <script>

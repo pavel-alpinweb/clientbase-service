@@ -30,6 +30,7 @@
             :number="filtredTradesArray.length - (i + 1)",
             :trade="trade", :actualClientStatus="client.status",
             :hasClientPropertyChange="client.hasOwnProperty('change')")
+        pre {{ client }}
 </template>
 
 <script>

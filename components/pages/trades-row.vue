@@ -72,7 +72,8 @@ export default {
     async deleteTrade () {
       if (this.trade.isNewTrade) {
         this.$EventBus.$emit('deleteTrade', {
-          index: this.number
+          index: this.number,
+          client: this.trade.client
         })
       } else {
         try {

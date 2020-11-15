@@ -6,7 +6,6 @@ const historyFn = require('../modules/historyFn')
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
   $set.isNewTrade = false
-  console.log($set)
   const trade = new Trade($set)
   let isChangeStatus = false
   let historyMessage = ''

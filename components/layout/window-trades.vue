@@ -30,6 +30,7 @@
             :number="filtredTradesArray.length - (i + 1)",
             :trade="trade", :actualClientStatus="client.status",
             :hasClientPropertyChange="client.hasOwnProperty('change')")
+        pre {{ trades }}
 </template>
 
 <script>
@@ -58,6 +59,7 @@ export default {
       return this.trades.length
     },
     filtredTradesArray () {
+      console.log('Go!')
       if (this.searchString === '') {
         return this.filterTradeByDate(this.trades).slice().reverse()
       } else {
@@ -77,9 +79,20 @@ export default {
     })
     this.$EventBus.$on('deleteTrade', (data) => {
       this.trades.splice(data.index, 1)
+      this.client.name = data.client.name
+      this.client.id = data.client.id
+      this.client._id = data.client._id
+      this.client.clientImage = data.client.image
+      this.client.status = data.client.status
     })
     this.$EventBus.$on('updateTrade', (data) => {
-      this.trades[data.index] = data.trade
+      this.trades.splice(data.index, 1, data.trade)
+      // this.filtredTradesArray[data.index] = data.trade
+      this.client.name = data.client.name
+      this.client.id = data.client.id
+      this.client._id = data.client._id
+      this.client.clientImage = data.client.image
+      this.client.status = data.client.status
     })
     this.$EventBus.$on('checkDate', (data) => {
       if (data.target === 'window-trades') {

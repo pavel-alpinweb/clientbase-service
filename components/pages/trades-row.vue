@@ -4,19 +4,19 @@
       .trades-row__cell-title Название
       .trades-row__cell-value
         span(v-if="!lastChangedTradeType") {{ number + 1 }}
-        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="text", placeholder="Введите название сделки", v-model="trade.title", @input="isSave = false")
+        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="text", placeholder="Введите название сделки", v-model="currentTrade.title", @input="isSave = false")
     .trades-row__cell
       .trades-row__cell-title Дата
       .trades-row__cell-value
-        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="date", placeholder="Введите дату сделки", v-model="trade.date", @input="isSave = false")
+        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="date", placeholder="Введите дату сделки", v-model="currentTrade.date", @input="isSave = false")
     .trades-row__cell
       .trades-row__cell-title Сумма
       .trades-row__cell-value
-        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="number", placeholder="Введите дату сделки", min="0", v-model="trade.pay", @input="isSave = false")
+        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="number", placeholder="Введите дату сделки", min="0", v-model="currentTrade.pay", @input="isSave = false")
     .trades-row__cell(v-if="actualClientStatus !== 'archive' && !hasClientPropertyChange")
       .trades-row__cell-title Действия
       .trades-row__cell-value
-        button.trades-row__button.trades-row__button--save(@click="saveTrade" :class="{'desabled' : trade.isNewTrade || !isSave}")
+        button.trades-row__button.trades-row__button--save(@click="saveTrade" :class="{'desabled' : currentTrade.isNewTrade || !isSave}")
           svg-icon(class="trades-row__option-icon", name="save", width="20", height="20")
         button.trades-row__button.trades-row__button--delete(@click="deleteTrade")
             svg-icon(class="trades-row__option-icon", name="trash", width="20", height="20")
@@ -52,12 +52,20 @@ export default {
     },
     lastChangedTradeType: {
       type: String,
+      default: '',
       required: false
     }
   },
   data () {
     return {
       isSave: true
+    }
+  },
+  computed: {
+    currentTrade: {
+      get () {
+        return this.$props.trade
+      }
     }
   },
   methods: {
@@ -70,7 +78,8 @@ export default {
         try {
           const req = await this.$store.dispatch('trade/removeTrade', { clientId: this.trade.clientId, tradeId: this.trade._id })
           this.$EventBus.$emit('deleteTrade', {
-            index: this.number
+            index: this.number,
+            client: req.client
           })
           this.$EventBus.$emit('adminMessage', {
             text: req.message,
@@ -97,9 +106,8 @@ export default {
           } else {
             req = await this.$store.dispatch('trade/updateTrade', this.trade)
           }
-          this.trade = req.trade
           this.isSave = true
-          this.$EventBus.$emit('updateTrade', { trade: req.trade, index: this.number })
+          this.$EventBus.$emit('updateTrade', { trade: req.trade, client: req.client, index: this.number })
           this.$EventBus.$emit('adminMessage', {
             text: req.message,
             class: '',

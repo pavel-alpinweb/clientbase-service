@@ -1,5 +1,9 @@
 <template lang="pug">
   .app-container
+    transition(name="component-fade",  mode="out-in")
+      .preloader(v-if="preloaderVisible")
+          .preloader__spinner
+            .preloader__animation
     .message(v-if="message.visible", :class="message.class") {{ message.text }}
     h1.app-title Clientbase
       .app-user-menu
@@ -54,6 +58,7 @@ export default {
       time: 0,
       user: {},
       isHint: true,
+      preloaderVisible: false,
       textPage: '',
       message: {
         text: '',
@@ -70,6 +75,9 @@ export default {
       setTimeout(() => {
         this.message.visible = false
       }, 5000)
+    })
+    this.$EventBus.$on('showPreloader', (data) => {
+      this.preloaderVisible = data.preloaderVisible
     })
     this.setUser()
     this.$EventBus.$on('switchHint', (data) => {
@@ -120,6 +128,7 @@ export default {
 </script>
 
 <style lang="scss" scoped src="@/assets/styles/components/buttons.scss"></style>
+<style lang="scss" scoped src="@/assets/styles/components/preloader.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
   .app-container{
@@ -204,5 +213,11 @@ export default {
       background-color: red;
       box-shadow: 0 0 15px 5px #000;
   }
+}
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to{
+  opacity: 0;
 }
 </style>

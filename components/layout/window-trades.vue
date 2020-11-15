@@ -58,7 +58,6 @@ export default {
       return this.trades.length
     },
     filtredTradesArray () {
-      console.log('Go!')
       if (this.searchString === '') {
         return this.filterTradeByDate(this.trades).slice().reverse()
       } else {

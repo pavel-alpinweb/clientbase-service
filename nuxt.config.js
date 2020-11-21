@@ -50,7 +50,8 @@ module.exports = {
     { src: '~/plugins/event-bus.js', ssr: true },
     { src: '~/plugins/axios', ssr: true },
     { src: '~/plugins/quillEditor.js', ssr: false },
-    { src: '~/plugins/date-filter.js', ssr: true }
+    { src: '~/plugins/date-filter.js', ssr: true },
+    { src: '~/plugins/custom-scroll.js', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules

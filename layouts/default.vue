@@ -1,39 +1,40 @@
 <template lang="pug">
   .app-container
-    transition(name="component-fade",  mode="out-in")
-      .preloader(v-if="preloaderVisible")
-          .preloader__spinner
-            .preloader__animation
-    .message(v-if="message.visible", :class="message.class") {{ message.text }}
-    h1.app-title Clientbase
-      .app-user-menu
-        span.app-user-menu__name Привет, {{ user.login }}
-        button.button.button--add(@click="logout") Выйти
-    .scroll-up(@click="scrollTop")
-      svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
-    .app-grid
-      .app-grid__sidebar
-        appMenu
-        .app-grid__bottom-sidebar
-          button.button.button--add(@click="openClientForm")
-            svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
-            |Добавить
-        .app-grid__bottom-sidebar
-          hintSwitcher(:hint="isHint")
-      .app-grid__content
-        transition(name="list")
-          .hint(v-if="isHint") {{ textPage }}
-        nuxt
+    vuescroll
       transition(name="component-fade",  mode="out-in")
-        windowDesc
-      transition(name="component-fade",  mode="out-in")
-        clientForm
-      transition(name="component-fade",  mode="out-in")
-        archiveAlrt
-      transition(name="component-fade",  mode="out-in")
-        windowTrades
-      transition(name="component-fade",  mode="out-in")
-        sleepAlrt
+        .preloader(v-if="preloaderVisible")
+            .preloader__spinner
+              .preloader__animation
+      .message(v-if="message.visible", :class="message.class") {{ message.text }}
+      h1.app-title Clientbase
+        .app-user-menu
+          span.app-user-menu__name Привет, {{ user.login }}
+          button.button.button--add(@click="logout") Выйти
+      .scroll-up(@click="scrollTop")
+        svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
+      .app-grid
+        .app-grid__sidebar
+          appMenu
+          .app-grid__bottom-sidebar
+            button.button.button--add(@click="openClientForm")
+              svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
+              |Добавить
+          .app-grid__bottom-sidebar
+            hintSwitcher(:hint="isHint")
+        .app-grid__content
+          transition(name="list")
+            .hint(v-if="isHint") {{ textPage }}
+          nuxt
+        transition(name="component-fade",  mode="out-in")
+          windowDesc
+        transition(name="component-fade",  mode="out-in")
+          clientForm
+        transition(name="component-fade",  mode="out-in")
+          archiveAlrt
+        transition(name="component-fade",  mode="out-in")
+          windowTrades
+        transition(name="component-fade",  mode="out-in")
+          sleepAlrt
 </template>
 
 <script>
@@ -44,6 +45,7 @@ import clientForm from '@/components/layout/client-form'
 import archiveAlrt from '@/components/pages/archive-alert'
 import windowTrades from '@/components/layout/window-trades'
 import sleepAlrt from '@/components/pages/sleep-alert'
+import vuescroll from 'vuescroll'
 export default {
   components: {
     appMenu,
@@ -52,7 +54,8 @@ export default {
     clientForm,
     archiveAlrt,
     windowTrades,
-    sleepAlrt
+    sleepAlrt,
+    vuescroll
   },
   data () {
     return {
@@ -134,12 +137,15 @@ export default {
   @import '@/assets/styles/layout/vars.scss';
   .app-container{
     position: relative;
-    padding: 20px;
+    height: 100vh;
+    overflow: hidden;
+    padding-left: 20px;
   }
   .app-grid{
     display:grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 20px;
+    padding-right: 40px;
   }
   .app-grid__content{
     min-height: 500px;

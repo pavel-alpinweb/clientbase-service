@@ -12,8 +12,9 @@
           .hint-opener(@click="toggleDescWindow(archiveText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        transition-group(name="component-fade",  mode="out-in")
-          HistoryClientCard(v-for="(client, index) in statusArray('archive')", :client="client", :key="client._id", :index="index")
+        vuescroll
+          transition-group(name="component-fade",  mode="out-in")
+            HistoryClientCard(v-for="(client, index) in statusArray('archive')", :client="client", :key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -21,8 +22,9 @@
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        transition-group(name="component-fade",  mode="out-in")
-          HistoryClientCard(v-for="(client, index) in statusArray('sleep')", :client="client", :key="client._id", :index="index")
+        vuescroll
+          transition-group(name="component-fade",  mode="out-in")
+            HistoryClientCard(v-for="(client, index) in statusArray('sleep')", :client="client", :key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
@@ -30,8 +32,9 @@
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        transition-group(name="component-fade",  mode="out-in")
-          HistoryClientCard(v-for="(client, index) in statusArray('open')", :client="client", :key="client._id", :index="index")
+        vuescroll
+          transition-group(name="component-fade",  mode="out-in")
+            HistoryClientCard(v-for="(client, index) in statusArray('open')", :client="client", :key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
@@ -39,8 +42,9 @@
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        transition-group(name="component-fade",  mode="out-in")
-          HistoryClientCard(v-for="(client, index) in statusArray('repeat')", :client="client", :key="client._id", :index="index")
+        vuescroll
+          transition-group(name="component-fade",  mode="out-in")
+            HistoryClientCard(v-for="(client, index) in statusArray('repeat')", :client="client", :key="client._id", :index="index")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
@@ -48,20 +52,23 @@
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        transition-group(name="component-fade",  mode="out-in")
-          HistoryClientCard(v-for="(client, index) in statusArray('vip')", :client="client", :key="client._id", :index="index")
+        vuescroll
+          transition-group(name="component-fade",  mode="out-in")
+            HistoryClientCard(v-for="(client, index) in statusArray('vip')", :client="client", :key="client._id", :index="index")
 </template>
 
 <script>
 import Search from '@/components/pages/search'
 import HistoryClientCard from '@/components/pages/history-client-card'
 import DateChecker from '@/components/pages/date-checker'
+import vuescroll from 'vuescroll'
 export default {
   middleware: ['admin-auth'],
   components: {
     Search,
     HistoryClientCard,
-    DateChecker
+    DateChecker,
+    vuescroll
   },
   data () {
     return {

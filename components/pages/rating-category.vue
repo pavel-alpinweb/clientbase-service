@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import gsap from 'gsap'
+
 export default {
   props: {
     categoryTrades: {
@@ -26,6 +28,11 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      tweenedNumber: 0
+    }
+  },
   computed: {
     categorySumm () {
       let summ = 0
@@ -40,13 +47,21 @@ export default {
     },
     categoryProcent () {
       let procent = 0
-      procent = (this.categorySumm / this.procent).toFixed(2)
+      procent = (this.categorySumm / this.tweenedNumber).toFixed(2)
       if (isNaN(procent)) {
         return 0
       } else {
         return procent
       }
     }
+  },
+  watch: {
+    procent (newValue) {
+      gsap.to(this.$data, { duration: 1, tweenedNumber: newValue, ease: 'power4.out', immediateRender: false })
+    }
+  },
+  mounted () {
+    gsap.to(this.$data, { duration: 1, tweenedNumber: this.procent, ease: 'power4.out', immediateRender: false })
   }
 }
 </script>

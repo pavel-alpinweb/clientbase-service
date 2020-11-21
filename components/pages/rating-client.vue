@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import gsap from 'gsap'
+
 export default {
   props: {
     client: {
@@ -34,6 +36,11 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      tweenedNumber: 0
+    }
+  },
   computed: {
     allClientMoney () {
       let allClientMoney = 0
@@ -45,9 +52,9 @@ export default {
     clientProcent () {
       let result = 0
       if (this.typeRating === 'payloads') {
-        result = (this.allClientMoney / this.procent).toFixed(2)
+        result = (this.allClientMoney / this.tweenedNumber).toFixed(2)
       } else if (this.typeRating === 'trades') {
-        result = (this.client.trades.length / this.procent).toFixed(2)
+        result = (this.client.trades.length / this.tweenedNumber).toFixed(2)
       }
       if (isNaN(result)) {
         return 0
@@ -55,6 +62,14 @@ export default {
         return result
       }
     }
+  },
+  watch: {
+    procent (newValue) {
+      gsap.to(this.$data, { duration: 0.5, tweenedNumber: newValue, ease: 'power4.out' })
+    }
+  },
+  mounted () {
+    gsap.to(this.$data, { duration: 0.5, tweenedNumber: this.procent, ease: 'power4.out' })
   }
 }
 </script>

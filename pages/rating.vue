@@ -233,6 +233,9 @@ export default {
     width:100%;
     align-items: center;
     padding-left: 20px;
+    span {
+      width: 100%;
+    }
   }
   .rating__position{
     color: $mainColor;

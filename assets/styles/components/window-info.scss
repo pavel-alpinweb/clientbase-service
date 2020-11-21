@@ -48,6 +48,10 @@
 .window-description__content--big{
     max-width: 1024px;
     height: 100%;
+    padding: 0;
+}
+.window-description__scroll-content {
+    padding: 35px 40px;
 }
 .close-icon{
     position:absolute;

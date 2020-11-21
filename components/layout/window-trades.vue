@@ -2,45 +2,50 @@
     .window-description(v-if="visible")
       .window-description__overlay(@click="closeThisWindow")
       .window-description__content.window-description__content--big
-       svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
-       .window-description__header
-        .window-description__title Все сделки клиента <span>{{ client.name }}</span>
-        .window-description__search-box
-          .search
-            input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
-            .search__clean(@click="cleanSearch")
-                svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-        .window-description__lastTrade(v-if="client.lastChangedTrade")
-          .window-description__sub-title Последняя измененная сделка
-          TradesRow(
-            :number="-1",
-            :trade="client.lastChangedTrade.trade",
-            :actualClientStatus="client.status",
-            :hasClientPropertyChange="true",
-            :lastChangedTradeType="client.lastChangedTrade.type")
-        .window-description__date-filter
-          DateFilter(:target="'window-trades'")
-       .window-description__trades-list
-        .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
-          button.button.button--add(@click="createTrade")
-            svg-icon(class="btn-icon", name="plus", width="20", height="20")
-            |Создать сделку
-        .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
-          TradesRow(
-            :number="filtredTradesArray.length - (i + 1)",
-            :trade="trade", :actualClientStatus="client.status",
-            :hasClientPropertyChange="client.hasOwnProperty('change')")
+        vuescroll
+          .window-description__scroll-content
+            svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
+            .window-description__header
+             .window-description__title Все сделки клиента <span>{{ client.name }}</span>
+             .window-description__search-box
+               .search
+                 input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
+                 .search__clean(@click="cleanSearch")
+                     svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+             .window-description__lastTrade(v-if="client.lastChangedTrade")
+               .window-description__sub-title Последняя измененная сделка
+               TradesRow(
+                 :number="-1",
+                 :trade="client.lastChangedTrade.trade",
+                 :actualClientStatus="client.status",
+                 :hasClientPropertyChange="true",
+                 :lastChangedTradeType="client.lastChangedTrade.type")
+             .window-description__date-filter
+               DateFilter(:target="'window-trades'")
+            .window-description__trades-list
+             .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
+               button.button.button--add(@click="createTrade")
+                 svg-icon(class="btn-icon", name="plus", width="20", height="20")
+                 |Создать сделку
+             transition-group(name="component-fade",  mode="out-in")
+               .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
+                 TradesRow(
+                   :number="filtredTradesArray.length - (i + 1)",
+                   :trade="trade", :actualClientStatus="client.status",
+                   :hasClientPropertyChange="client.hasOwnProperty('change')")
 </template>
 
 <script>
 import TradesRow from '@/components/pages/trades-row'
 import DateFilter from '@/components/pages/date-filter'
+import vuescroll from 'vuescroll'
 
 export default {
   name: 'WindowDesc',
   components: {
     TradesRow,
-    DateFilter
+    DateFilter,
+    vuescroll
   },
   data () {
     return {

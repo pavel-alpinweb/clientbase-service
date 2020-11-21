@@ -20,7 +20,7 @@
           button.client-card__button.client-card__button--trades(@click="openWindowTrades")
             svg-icon(class="client-card__option-icon", name="trades", width="20", height="20")
           .client-card__menu-tooltipe.client-card__menu-tooltipe--center Сделки
-        .client-card__menu-item
+        .client-card__menu-item(@click="toggleDescWindow(client.text)")
           button.client-card__button.client-card__button--text
             svg-icon(class="client-card__option-icon", name="text", width="20", height="20")
           .client-card__menu-tooltipe Описание
@@ -59,6 +59,9 @@ export default {
         trades: this.client.trades,
         client
       })
+    },
+    toggleDescWindow (text) {
+      this.$EventBus.$emit('callDescWindow', { visible: true, text })
     }
   }
 }

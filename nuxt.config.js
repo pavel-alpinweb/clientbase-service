@@ -17,7 +17,7 @@ function defaultPlugins () {
 }
 
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -51,7 +51,8 @@ module.exports = {
     { src: '~/plugins/axios', ssr: true },
     { src: '~/plugins/quillEditor.js', ssr: false },
     { src: '~/plugins/date-filter.js', ssr: true },
-    { src: '~/plugins/custom-scroll.js', ssr: false }
+    { src: '~/plugins/custom-scroll.js', ssr: false },
+    { src: '~/plugins/vue-date-picker.js', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules

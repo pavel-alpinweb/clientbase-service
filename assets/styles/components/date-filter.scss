@@ -24,7 +24,7 @@
   font-size: $h5fontSize;
   font-weight: 700;
 }
-.date-filter__input{
+.date-filter__input /deep/input{
   width: 100%;
   height: 52px;
   border-radius: 4px;
@@ -51,12 +51,35 @@
 .date-filter__date-clean{
   position: absolute;
   top: 18px;
-  right: 45px;
+  right: 20px;
   cursor: pointer;
+  z-index: 2;
 }
 .svg-icon{
   fill: $mainColor;
   &:hover{
       fill: $accentColor;
   }
+}
+
+/deep/ .vdp-datepicker__calendar .cell.selected {
+  background-color: $accentColor;
+  color: #fff;
+}
+
+/deep/ .vdp-datepicker__calendar .cell.selected:hover {
+  background-color: $accentColor;
+  color: #fff;
+}
+
+/deep/ .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+  border: 1px solid $accentColor;
+}
+
+/deep/ .vdp-datepicker__calendar header .prev:after {
+  border-right-color: $mainColor;
+}
+
+/deep/ .vdp-datepicker__calendar header .next:after {
+  border-left-color: $mainColor;
 }

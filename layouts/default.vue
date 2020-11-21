@@ -21,7 +21,8 @@
         .app-grid__bottom-sidebar
           hintSwitcher(:hint="isHint")
       .app-grid__content
-        .hint(v-if="isHint") {{ textPage }}
+        transition(name="list")
+          .hint(v-if="isHint") {{ textPage }}
         nuxt
       transition(name="component-fade",  mode="out-in")
         windowDesc
@@ -213,11 +214,5 @@ export default {
       background-color: red;
       box-shadow: 0 0 15px 5px #000;
   }
-}
-.component-fade-enter-active, .component-fade-leave-active {
-  transition: opacity .3s ease;
-}
-.component-fade-enter, .component-fade-leave-to{
-  opacity: 0;
 }
 </style>

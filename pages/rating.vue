@@ -65,9 +65,10 @@
                 svg-icon(class="btn-icon", name="gem", width="20", height="20")
                 |V.I.P.
     ul.rating__list
-      li.rating__item(v-for="(client, index) in searchingClients")
-        .rating__position {{ index + 1 }}
-        RatingClient(:client="client", :procent="procent", :key="client.id", :typeRating="typeRatingSort")
+        li.rating__item(v-for="(client, index) in searchingClients")
+          .rating__position {{ index + 1 }}
+          transition-group(name="component-fade",  mode="out-in")
+              RatingClient(:client="client", :procent="procent", :key="client.id", :typeRating="typeRatingSort")
 </template>
 
 <script>

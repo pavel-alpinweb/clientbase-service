@@ -9,7 +9,8 @@
           .hint-opener(@click="toggleDescWindow(aspirantText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in statusArray('aspirant')", :client="client", :key="client.id")
+        transition-group(name="component-fade",  mode="out-in")
+          ClientCard(v-for="client in statusArray('aspirant')", :client="client", :key="client.id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
@@ -17,7 +18,8 @@
           .hint-opener(@click="toggleDescWindow(sleepText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in statusArray('sleep')", :client="client", :key="client.id")
+        transition-group(name="component-fade",  mode="out-in")
+          ClientCard(v-for="client in statusArray('sleep')", :client="client", :key="client.id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
@@ -25,7 +27,8 @@
           .hint-opener(@click="toggleDescWindow(currentText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in statusArray('open')", :client="client", :key="client.id")
+        transition-group(name="component-fade",  mode="out-in")
+          ClientCard(v-for="client in statusArray('open')", :client="client", :key="client.id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
@@ -33,7 +36,8 @@
           .hint-opener(@click="toggleDescWindow(favoriteText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in statusArray('repeat')", :client="client", :key="client.id")
+        transition-group(name="component-fade",  mode="out-in")
+          ClientCard(v-for="client in statusArray('repeat')", :client="client", :key="client.id")
     .table__item
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
@@ -41,7 +45,8 @@
           .hint-opener(@click="toggleDescWindow(winnerText)")
             svg-icon(class="table__icon", name="question", width="20", height="20")
       .table__content
-        ClientCard(v-for="client in statusArray('vip')", :client="client", :key="client.id")
+        transition-group(name="component-fade",  mode="out-in")
+          ClientCard(v-for="client in statusArray('vip')", :client="client", :key="client.id")
 </template>
 
 <script>

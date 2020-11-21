@@ -32,7 +32,8 @@
     "passport-jwt": "^4.0.0",
     "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "^3.0.6",
+    "vuescroll": "^4.16.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",

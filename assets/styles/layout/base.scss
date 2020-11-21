@@ -59,3 +59,37 @@ body, html {
     width: 100%;
     height: auto;
   }
+
+  .page-enter-active, .page-leave-active {
+    transition: opacity .4s;
+  }
+  
+  .page-enter, .page-leave-active {
+    opacity: 0;
+  }
+  
+  .component-fade-enter-active, .component-fade-leave-active {
+    transition: opacity .3s ease;
+  }
+  
+  .component-fade-enter, .component-fade-leave-to {
+    opacity: 0;
+  }
+
+  .list-enter-active{
+      transition: all .4s;
+      max-height: 10000px;
+      opacity: 1;
+  }
+
+  .list-leave-active {
+      transition: all .4s;
+      max-height: 10000px;
+      opacity: 1; 
+  }
+
+  .list-enter, .list-leave-to {
+      transition: all .4s;
+      max-height: 0;
+      opacity: 0;
+  }

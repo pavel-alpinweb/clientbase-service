@@ -4,8 +4,9 @@
       Search
     .history__date-filter
       DateFilter(:target="'page-clients'")
-    .history__item(v-for="(client, index) in clientsArray", :key="client._id")
-      HistoryClientCard(:client="client", :index="index")
+    .history__item(v-for="(client, index) in clientsArray")
+      transition-group(name="component-fade",  mode="out-in")
+        HistoryClientCard(:client="client", :index="index", :key="client._id")
 </template>
 
 <script>

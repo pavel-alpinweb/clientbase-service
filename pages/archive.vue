@@ -4,8 +4,9 @@
       Search
     .archive__date-filter
       DateFilter(:target="'page-clients'")
-    .archive__item(v-for="(client, i) in clientsArray", @key="client.id")
-      ClientCard(:client="client" :index="i")
+    .archive__item(v-for="(client, i) in clientsArray")
+      transition-group(name="component-fade",  mode="out-in")
+        ClientCard(:client="client" :index="i", :key="client.id")
 </template>
 
 <script>

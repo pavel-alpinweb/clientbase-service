@@ -140,6 +140,9 @@ export default {
     height: 100vh;
     overflow: hidden;
     padding-left: 20px;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
   }
   .app-grid{
     display:grid;

@@ -1,4 +1,5 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 @keyframes shadow {
     from {box-shadow: 0 0px 40px 5px #D0FF00;}
     to {box-shadow: 0 0px 80px 40px $accentColor;}
@@ -108,6 +109,14 @@
     background-color: $accentColor;
     color: $white;
     border-color: $accentColor;
+    @include middle-desktops {
+        padding-left: 15px;
+        justify-content: flex-start;
+        border-radius: 0;
+        .btn-icon {
+            margin-right: 18px;
+        }
+    }
     &:hover{
         color: $accentColor;
         .btn-icon{

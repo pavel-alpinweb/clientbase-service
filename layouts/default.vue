@@ -10,17 +10,29 @@
         .app-user-menu
           span.app-user-menu__name Привет, {{ user.login }}
           button.button.button--add(@click="logout") Выйти
-      .scroll-up(@click="scrollTop")
+      .scroll-up.big-desktops-down-hide(@click="scrollTop")
         svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
       .app-grid
-        .app-grid__sidebar
+        .app-grid__sidebar(
+          :class="{'open': isOpenMenu}"
+        )
+          .app-grid__mobile-menu-switcher.big-desktops-hide(
+            :class="{'active': isOpenMenu}"
+            @click="isOpenMenu = !isOpenMenu"
+          )
+            .app-grid__mobile-menu-row
+            .app-grid__mobile-menu-row
+            .app-grid__mobile-menu-row
           appMenu
           .app-grid__bottom-sidebar
             button.button.button--add(@click="openClientForm")
               svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
               |Добавить
-          .app-grid__bottom-sidebar
+          .app-grid__bottom-sidebar.app-grid__bottom-sidebar--hint-container
             hintSwitcher(:hint="isHint")
+          .app-grid__bottom-sidebar.big-desktops-hide
+            .scroll-up-mobile(@click="scrollTop")
+              svg-icon(class="scroll-up__icon scroll-up__icon--light" name="arrow-up" width="28" height="32")
         .app-grid__content
           transition(name="list")
             .hint(v-if="isHint") {{ textPage }}
@@ -64,6 +76,7 @@ export default {
       isHint: true,
       preloaderVisible: false,
       textPage: '',
+      isOpenMenu: false,
       message: {
         text: '',
         class: '',
@@ -144,12 +157,41 @@ export default {
     width: 100%;
     max-width: 1920px;
     margin: 0 auto;
+     @include middle-desktops {
+       padding-left: 0;
+     }
   }
   .app-grid{
     display:grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 20px;
     padding-right: 40px;
+    @include middle-desktops {
+      position: relative;
+    }
+  }
+  .app-grid__sidebar {
+    @include middle-desktops {
+      width: 50px;
+      height: 100%;
+      overflow-x: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 2;
+      background-color: $mainColor;
+      transition: width .3s;
+      .app-grid__bottom-sidebar--hint-container {
+        display: none;
+      }
+      &.open {
+        width: 240px;
+        .app-grid__bottom-sidebar--hint-container {
+          display: block;
+        }
+      }
+    }
   }
   .app-grid__content{
     min-height: 500px;
@@ -160,6 +202,10 @@ export default {
     grid-column-start: 2;
     grid-column-end: 7;
     margin-bottom: 20px;
+    @include middle-desktops {
+      grid-column-start: 1;
+      padding-left: 60px;
+    }
  }
  .app-title{
    text-align:center;
@@ -171,6 +217,7 @@ export default {
  }
  .app-grid__bottom-sidebar{
    margin-top:20px;
+   min-width: 240px;
  }
 .app-user-menu{
   .button{
@@ -197,6 +244,11 @@ export default {
    transition: all .3s;
    z-index: 9999;
 }
+.scroll-up-mobile {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 0 10px 11px;
+}
 .scroll-up__icon{
   fill:$mainColor;
   transition: all .3s;
@@ -204,6 +256,9 @@ export default {
   &:hover{
     fill:$accentColor;
   }
+}
+.scroll-up__icon--light {
+  fill:$accentColor;
 }
 .message{
   position: fixed;
@@ -224,5 +279,39 @@ export default {
       background-color: red;
       box-shadow: 0 0 15px 5px #000;
   }
+}
+.app-grid__mobile-menu-switcher {
+  width: 50px;
+  height: 50px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $accentColor;
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid $mainColor;
+}
+.app-grid__mobile-menu-row {
+  height: 2px;
+  width: 60%;
+  margin: 2px 0;
+  background-color: #fff;
+  position: relative;
+  -webkit-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
+}
+.app-grid__mobile-menu-switcher.active .app-grid__mobile-menu-row:first-child {
+  transform: rotate(-135deg);
+  top: 6px;
+}
+.app-grid__mobile-menu-switcher.active .app-grid__mobile-menu-row:last-child {
+  transform: rotate(-225deg);
+  top: -6px;
+}
+.app-grid__mobile-menu-switcher.active .app-grid__mobile-menu-row:nth-child(2) {
+  opacity: 0;
 }
 </style>

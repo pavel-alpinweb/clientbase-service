@@ -52,6 +52,12 @@
   }
 }
 
+.big-desktops-down-hide {
+  @media screen and (max-width: 1599px){
+    display: none!important;
+  }
+}
+
 .middle-desktops-hide {
   @media screen and (min-width: 1366px) and (max-width: 1599px){
     display: none!important;

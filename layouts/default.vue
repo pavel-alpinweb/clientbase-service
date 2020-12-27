@@ -135,6 +135,7 @@ export default {
 <style lang="scss" scoped src="@/assets/styles/components/preloader.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .app-container{
     position: relative;
     height: 100vh;

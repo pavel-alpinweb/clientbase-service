@@ -47,6 +47,10 @@
     background-color: $accentColor;
     border-color: $accentColor;
     color: $mainColor;
+    @include middle-desktops {
+        font-size: 10px;
+        white-space: nowrap;
+    }
     .btn-icon{
         fill: $mainColor;
     }

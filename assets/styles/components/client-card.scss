@@ -1,4 +1,5 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 .client-card{
   border-radius: 8px;
   background-color: $white;
@@ -57,11 +58,17 @@
 .client-card__title{
   font-size: $h5fontSize;
   font-weight: 700;
+  @include middle-desktops {
+    font-size: $h6fontSize;
+  }
 }
 
 .client-card__sub-title{
   font-size: $h6fontSize;
   font-weight: 500;
+  @include middle-desktops {
+    font-size: 12px;
+  }
 }
 
 .client-card__text-more{
@@ -93,9 +100,12 @@
   display: flex;
   justify-content: space-between;
   margin: 15px 0;
-  font-size: 18px;
+  font-size: $h5fontSize;
   font-weight: bold;
   color: $accentColor;
+  @include middle-desktops {
+    font-size: $h6fontSize;
+  }
 }
 
 .move-icon{

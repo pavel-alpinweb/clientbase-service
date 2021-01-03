@@ -213,7 +213,7 @@ export default {
   }
   .rating__sort-list{
     display:grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-gap: 10px;
   }
   .rating__list{

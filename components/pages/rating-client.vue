@@ -75,69 +75,92 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/styles/layout/vars.scss';
-    .rating-client{
-        display:flex;
-        align-items: center;
-        width:100%;
-        &.active{
-            .rating-client__progress{
-                background-color: $accentColor;
-                height: 100px;
-            }
-        }
-        &.dark{
-            .rating-client__progress{
-                background-color: $mainColor;
-                height: 100px;
-            }
-        }
-    }
-    .rating-client__info{
-        width: 150px;
-        text-align: center;
-        margin-right: 20px;
-        margin-left: 20px;
-    }
-    .rating-client__procent-line{
-        width: 85%;
-        display: flex;
-        align-items: center;
-    }
-    .rating-client__avatar{
-        margin: 0 auto;
-        width: 150px;
-        height: 150px;
-        border-radius:50%;
-        overflow: hidden;
-        margin-bottom: 20px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    .rating-client__id{
-        width: 100%;
-        text-align: center;
-        font-family: $mainFont;
-        font-size: 12px;
-        font-weight: 400;
-    }
-    .rating-client__name{
-        font-size: $h3fontSize;
-        font-weight: 700;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    .rating-client__payouts{
-        font-size: 26px;
-        font-weight: bold;
-        color: $accentColor;
-        text-align: center;
-    }
-    .rating-client__procents{
-        text-align: center;
-        font-size: $h5fontSize;
-        font-weight: 700;
-        margin-left: 20px;
-    }
+  @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
+  .rating-client{
+      display:flex;
+      align-items: center;
+      width:100%;
+      &.active{
+          .rating-client__progress{
+              background-color: $accentColor;
+              height: 100px;
+              @include all-tablets {
+                height: 50px;
+              }
+          }
+      }
+      &.dark{
+          .rating-client__progress{
+              background-color: $mainColor;
+              height: 100px;
+              @include all-tablets {
+                height: 50px;
+              }
+          }
+      }
+  }
+  .rating-client__info{
+      width: 150px;
+      text-align: center;
+      margin-right: 20px;
+      margin-left: 20px;
+      @include all-tablets {
+        width: 120px;
+        margin: 0 10px;
+      }
+  }
+  .rating-client__procent-line{
+      width: 85%;
+      display: flex;
+      align-items: center;
+  }
+  .rating-client__avatar{
+      margin: 0 auto;
+      width: 150px;
+      height: 150px;
+      border-radius:50%;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      @include all-tablets {
+        width: 120px;
+        height: 120px;
+      }
+  }
+  .rating-client__id{
+      width: 100%;
+      text-align: center;
+      font-family: $mainFont;
+      font-size: 12px;
+      font-weight: 400;
+      @include all-tablets {
+        font-size: 10px;
+        line-height: 0.75em;
+      }
+  }
+  .rating-client__name{
+      font-size: $h3fontSize;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      @include all-tablets {
+        font-size: $h6fontSize;
+        margin-bottom: 10px;
+      }
+  }
+  .rating-client__payouts{
+      font-size: 26px;
+      font-weight: bold;
+      color: $accentColor;
+      text-align: center;
+  }
+  .rating-client__procents{
+      text-align: center;
+      font-size: $h5fontSize;
+      font-weight: 700;
+      margin-left: 20px;
+  }
 </style>

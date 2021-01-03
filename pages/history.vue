@@ -96,7 +96,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/layout/vars.scss';
 @import '@/assets/styles/layout/breakpoints.scss';
 
@@ -111,17 +111,35 @@ export default {
   @include middle-desktops {
     grid-template-columns: repeat(4, 1fr);
   }
+  @include tablets-portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include tablets-landscape {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 .history__search{
   grid-column: 1 / 6;
   @include middle-desktops {
     grid-column: 1 / 5;
   }
+  @include tablets-portrait {
+    grid-column: 1 / 3;
+  }
+  @include tablets-landscape {
+    grid-column: 1 / 4;
+  }
 }
 .history__date-filter{
   grid-column: 1 / 6;
   @include middle-desktops {
     grid-column: 1 / 5;
+  }
+  @include tablets-portrait {
+    grid-column: 1 / 3;
+  }
+  @include tablets-landscape {
+    grid-column: 1 / 4;
   }
 }
 </style>

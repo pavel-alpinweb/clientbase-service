@@ -157,6 +157,10 @@ export default {
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
     align-items: end;
+    @include tablets-portrait {
+      grid-template-columns: 1fr;
+      grid-gap: 0;
+    }
   }
 
   .rating__menu{
@@ -186,6 +190,9 @@ export default {
       min-height: 70vh;
       @include middle-desktops {
         min-height: 65vh;
+      }
+      @include all-tablets {
+        grid-gap: 30px;
       }
   }
 </style>

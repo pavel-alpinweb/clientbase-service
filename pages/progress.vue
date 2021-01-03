@@ -142,6 +142,7 @@ export default {
 <style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .progress{
       width: 100%;
       height: auto;
@@ -182,6 +183,9 @@ export default {
       grid-template-columns: repeat(5, 1fr);
       grid-gap: 150px;
       margin-bottom:20px;
-      min-height: 60vh;
+      min-height: 70vh;
+      @include middle-desktops {
+        min-height: 65vh;
+      }
   }
 </style>

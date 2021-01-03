@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
+
 .archive{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
@@ -98,9 +101,15 @@ export default {
   width:100%;
   min-height: 100vh;
   grid-auto-rows: max-content;
+  @include middle-desktops {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 .archive__search, .archive__date-filter{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
 }
 </style>
 <style lang="scss" src="@/assets/styles/components/hint.scss"></style>

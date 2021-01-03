@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
+
 .history{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
@@ -105,11 +108,20 @@ export default {
   width:100%;
   min-height: 100vh;
   grid-auto-rows: max-content;
+  @include middle-desktops {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 .history__search{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
 }
 .history__date-filter{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
 }
 </style>

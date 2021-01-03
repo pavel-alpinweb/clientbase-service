@@ -206,6 +206,9 @@ export default {
   .rating_search{
     padding-bottom: 20px;
   }
+  .rating_sort {
+    margin-right: -20px;
+  }
   .rating__menu-list{
     display:grid;
     grid-template-columns: repeat(2, 1fr);

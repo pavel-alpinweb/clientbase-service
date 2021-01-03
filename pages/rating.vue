@@ -29,7 +29,7 @@
               )
                 svg-icon(class="btn-icon", name="table", width="20", height="20")
                 |Все
-            li.rating__menu-item.rating__menu-item--active
+            li.rating__menu-item
               button.button.button--wait(
                 :class="{'button--wait-active' : currentStatus === 'archive'}"
                 @click="currentStatus = 'archive'"

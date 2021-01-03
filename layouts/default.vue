@@ -198,7 +198,6 @@ export default {
     min-height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     grid-column-start: 2;
     grid-column-end: 7;

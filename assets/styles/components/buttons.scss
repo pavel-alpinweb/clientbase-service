@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     .btn-icon{
         margin-right: 15px;
         fill:#fff;
@@ -60,11 +61,20 @@
             fill: $accentColor;
         }
     }
+    &.button--wait-not-hover{
+        &:hover{
+            color: $mainColor;
+            background-color: $accentColor;
+            .btn-icon{
+                fill: $mainColor;
+            }
+        }
+    }
     &.button--wait-active {
-        color: $accentColor;
-        background-color: transparent;
+        color: $accentColor!important;
+        background-color: transparent!important;
         .btn-icon{
-            fill: $accentColor;
+            fill: $accentColor!important;
         }
     }
 }

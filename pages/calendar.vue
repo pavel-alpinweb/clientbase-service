@@ -8,48 +8,49 @@
     nav.table__mobile-menu.laptops-hide.all-desktops-hide
       ul.table__mobile-sort-list
         li.table__mobile-sort-item.table__mobile-sort-item--active
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'all'}"
-            @click="currentStatus = 'all'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('all') || currentStatusArray.length === 5}"
+            @click="toggleSelectedStatus('all')"
           )
             svg-icon(class="btn-icon", name="table", width="20", height="20")
-            |Все
+            |Все ({{ clientsArray.length }})
         li.table__mobile-sort-item.table__mobile-sort-item--active
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'archive'}"
-            @click="currentStatus = 'archive'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('archive') || currentStatusArray.includes('all')}"
+            @click="toggleSelectedStatus('archive')"
           )
             svg-icon(class="btn-icon", name="archive", width="20", height="20")
-            |Архив
+            |Архив ({{ statusArray('archive').length }})
         li.table__mobile-sort-item
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'sleep'}"
-            @click="currentStatus = 'sleep'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('sleep') || currentStatusArray.includes('all')}"
+            @click="toggleSelectedStatus('sleep')"
           )
             svg-icon(class="btn-icon", name="user-clock", width="20", height="20")
-            |Спящие
+            |Спящие ({{ statusArray('sleep').length }})
         li.table__mobile-sort-item
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'open'}"
-            @click="currentStatus = 'open'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('open') || currentStatusArray.includes('all')}"
+            @click="toggleSelectedStatus('open')"
           )
             svg-icon(class="btn-icon", name="user-check", width="20", height="20")
-            |Открытые
+            |Открытые ({{ statusArray('open').length }})
         li.table__mobile-sort-item
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'repeat'}"
-            @click="currentStatus = 'repeat'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('repeat') || currentStatusArray.includes('all')}"
+            @click="toggleSelectedStatus('repeat')"
           )
             svg-icon(class="btn-icon", name="handshake", width="20", height="20")
-            |Постоянные
+            |Постоянные ({{ statusArray('repeat').length }})
         li.table__mobile-sort-item
-          button.button.button--wait(
-            :class="{'button--wait-active' : currentStatus === 'vip'}"
-            @click="currentStatus = 'vip'"
+          button.button.button--wait.button--wait-not-hover(
+            :class="{'button--wait-active' : currentStatusArray.includes('vip') || currentStatusArray.includes('all')}"
+            @click="toggleSelectedStatus('vip')"
           )
             svg-icon(class="btn-icon", name="gem", width="20", height="20")
-            |V.I.P.
-    .table__item
+            |V.I.P. ({{ statusArray('vip').length }})
+
+    .table__item(:class="{'table__item--devices-view' : currentStatusArray.includes('archive')}")
       .table__heading
           svg-icon(class="table__icon", name="archive", width="20", height="20")
           span Архив ({{ statusArray('archive').length }})
@@ -59,7 +60,8 @@
         vuescroll
           transition-group(name="component-fade",  mode="out-in")
             HistoryClientCard.client-calendar(v-for="(client, index) in statusArray('archive')", :client="client", :key="client._id", :index="index")
-    .table__item
+
+    .table__item(:class="{'table__item--devices-view' : currentStatusArray.includes('sleep')}")
       .table__heading
           svg-icon(class="table__icon", name="user-clock", width="20", height="20")
           span Спящие ({{ statusArray('sleep').length }})
@@ -69,7 +71,8 @@
         vuescroll
           transition-group(name="component-fade",  mode="out-in")
             HistoryClientCard.client-calendar(v-for="(client, index) in statusArray('sleep')", :client="client", :key="client._id", :index="index")
-    .table__item
+
+    .table__item(:class="{'table__item--devices-view' : currentStatusArray.includes('open')}")
       .table__heading
           svg-icon(class="table__icon", name="user-check", width="20", height="20")
           span Открытые ({{ statusArray('open').length }})
@@ -79,7 +82,8 @@
         vuescroll
           transition-group(name="component-fade",  mode="out-in")
             HistoryClientCard.client-calendar(v-for="(client, index) in statusArray('open')", :client="client", :key="client._id", :index="index")
-    .table__item
+
+    .table__item(:class="{'table__item--devices-view' : currentStatusArray.includes('repeat')}")
       .table__heading
           svg-icon(class="table__icon", name="handshake", width="20", height="20")
           span Постоянные ({{ statusArray('repeat').length }})
@@ -89,7 +93,8 @@
         vuescroll
           transition-group(name="component-fade",  mode="out-in")
             HistoryClientCard.client-calendar(v-for="(client, index) in statusArray('repeat')", :client="client", :key="client._id", :index="index")
-    .table__item
+
+    .table__item(:class="{'table__item--devices-view' : currentStatusArray.includes('vip')}")
       .table__heading
           svg-icon(class="table__icon", name="gem", width="20", height="20")
           span V.I.P. ({{ statusArray('vip').length }})
@@ -119,6 +124,7 @@ export default {
       isHint: true,
       searchString: '',
       currentDate: new Date(),
+      currentStatusArray: ['open'],
       textPage:
       `На этой страницы находятся списки всех клиентов, с которыми вы когда-либо сотрудничали.
        Здесь вы можете узнать, какие клиенты попадали в каждую из категорий.
@@ -216,6 +222,19 @@ export default {
         }
       }
       return result
+    },
+    toggleSelectedStatus (status) {
+      const allStatuses = ['archive', 'open', 'repeat', 'vip', 'sleep']
+      const index = this.currentStatusArray.indexOf(status)
+      if (status === 'all' && this.currentStatusArray.length !== 5) {
+        this.currentStatusArray = allStatuses
+      } else if (status === 'all' && this.currentStatusArray.length === 5) {
+        this.currentStatusArray = []
+      } else if (index !== -1) {
+        this.currentStatusArray.splice(index, 1)
+      } else {
+        this.currentStatusArray.push(status)
+      }
     }
   }
 }

@@ -39,7 +39,12 @@
     @include all-tablets {
       height: auto;
       border: none;
+      display: none;
+      margin-bottom: 15px;
     }
+}
+.table__item--devices-view {
+  display: block;
 }
 .table__content{
     height: calc(100% - 3.44rem);

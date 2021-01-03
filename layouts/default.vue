@@ -169,6 +169,9 @@ export default {
     @include middle-desktops {
       position: relative;
     }
+    @include all-tablets {
+      padding-right: 20px;
+    }
   }
   .app-grid__sidebar {
     @include middle-desktops {

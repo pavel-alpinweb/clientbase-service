@@ -182,6 +182,7 @@ export default {
       z-index: 2;
       background-color: $mainColor;
       transition: width .3s;
+      border-right: 1px solid $accentColor;
       .app-grid__bottom-sidebar--hint-container {
         display: none;
       }

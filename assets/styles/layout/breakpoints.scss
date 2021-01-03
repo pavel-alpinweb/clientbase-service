@@ -22,6 +22,12 @@
   }
 }
 
+@mixin all-tablets {
+  @media screen and (max-width: 1199px){
+    @content;
+  }
+}
+
 @mixin big-mobiles-landscape {
   @media screen and (max-width: 767px) and (orientation: landscape){
     @content;

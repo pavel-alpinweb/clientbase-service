@@ -182,6 +182,6 @@ export default {
       grid-template-columns: repeat(5, 1fr);
       grid-gap: 150px;
       margin-bottom:20px;
-      min-height: 85vh;
+      min-height: 60vh;
   }
 </style>

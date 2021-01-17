@@ -161,16 +161,17 @@ export default {
         bottom:0;
     }
     .client-form__content{
-        width: 800px;
-        min-height:500px;
-        max-height: 100%;
-        overflow:auto;
-        border-radius: 4px;
-        background-color: #ebebeb;
-        padding: 30px 35px;
-        margin: auto;
-        position:relative;
-        border: 2px solid $accentColor;
+      width: 95%;
+      max-width: 800px;
+      min-height:500px;
+      max-height: 100%;
+      overflow:auto;
+      border-radius: 4px;
+      background-color: #ebebeb;
+      padding: 30px 35px;
+      margin: auto;
+      position:relative;
+      border: 2px solid $accentColor;
     }
     .client-form__title{
         color: $mainColor;

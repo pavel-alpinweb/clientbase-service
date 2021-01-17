@@ -23,6 +23,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+  @include all-big-mobiles {
+    grid-template-columns: 1fr;
+  }
 }
 .table__searh-container{
   display: flex;

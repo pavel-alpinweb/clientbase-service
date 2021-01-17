@@ -40,6 +40,12 @@
   }
 }
 
+@mixin all-big-mobiles {
+  @media screen and (max-width: 767px){
+    @content;
+  }
+}
+
 @mixin small-mobiles-landscape {
   @media screen and (max-width: 539px) and (orientation: landscape){
     @content;
@@ -48,6 +54,12 @@
 
 @mixin small-mobiles-portrait {
   @media screen and (max-width: 539px) and (orientation: portrait){
+    @content;
+  }
+}
+
+@mixin all-small-mobiles {
+  @media screen and (max-width: 539px){
     @content;
   }
 }

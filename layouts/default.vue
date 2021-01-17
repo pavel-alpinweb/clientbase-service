@@ -208,7 +208,6 @@ export default {
     @include middle-desktops {
       grid-column-start: 1;
       padding-left: 60px;
-      padding-right: 15px;
     }
  }
  .app-title{

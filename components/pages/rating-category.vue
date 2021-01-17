@@ -68,11 +68,15 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .progress__item{
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       margin-bottom: -24px;
+      @include all-big-mobiles {
+        margin-top: -24px;
+      }
   }
   .progress__bar{
       background-color: $accentColor;
@@ -85,6 +89,9 @@ export default {
       font-weight: 700;
       padding-bottom: 5px;
       width: 100%;
+      @include all-big-mobiles {
+        font-size: $h5fontSize;
+      }
   }
   .progress__name{
       width: 100%;

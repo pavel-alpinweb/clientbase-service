@@ -194,5 +194,9 @@ export default {
       @include all-tablets {
         grid-gap: 30px;
       }
+      @include all-big-mobiles {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 5px;
+      }
   }
 </style>

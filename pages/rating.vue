@@ -217,6 +217,9 @@ export default {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
+    @include all-small-mobiles {
+      grid-template-columns: 1fr;
+    }
   }
   .rating__sort-list{
     display:grid;
@@ -249,12 +252,18 @@ export default {
     span {
       width: 100%;
     }
+    @include all-small-mobiles {
+      padding-left: 10px;
+    }
   }
   .rating__position{
     color: $mainColor;
     font-family: $mainFont;
     font-size: $h3fontSize;
     font-weight: 700;
+    @include all-small-mobiles {
+      font-size: $h6fontSize;
+    }
   }
   .rating__menu-item--active{
     .button--text{

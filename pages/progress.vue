@@ -171,6 +171,9 @@ export default {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
+    @include all-small-mobiles {
+      grid-template-columns: 1fr;
+    }
   }
 
   .rating__menu-item--active{

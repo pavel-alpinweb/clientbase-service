@@ -109,6 +109,10 @@ export default {
         width: 120px;
         margin: 0 10px;
       }
+      @include all-small-mobiles {
+        margin: 0;
+        width: 100px;
+      }
   }
   .rating-client__procent-line{
       width: 85%;
@@ -128,6 +132,10 @@ export default {
       @include all-tablets {
         width: 120px;
         height: 120px;
+      }
+      @include all-small-mobiles {
+        width: 60px;
+        height: 60px;
       }
   }
   .rating-client__id{
@@ -156,11 +164,17 @@ export default {
       font-weight: bold;
       color: $accentColor;
       text-align: center;
+      @include all-small-mobiles {
+        font-size: $h6fontSize;
+      }
   }
   .rating-client__procents{
       text-align: center;
       font-size: $h5fontSize;
       font-weight: 700;
       margin-left: 20px;
+      @include all-small-mobiles {
+        font-size: $h6fontSize;
+      }
   }
 </style>

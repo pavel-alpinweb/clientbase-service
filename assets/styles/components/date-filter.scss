@@ -11,12 +11,18 @@
   justify-content: space-between;
   margin-bottom: 15px;
   width: 100%;
+  @include all-small-mobiles {
+    flex-wrap: wrap;
+  }
 }
 .date-filter--checker{
   margin-bottom: 0;
 }
 .date-filter__half-item{
   flex-basis: 49%;
+  @include all-small-mobiles {
+    flex-basis: 100%;
+  }
 }
 .date-filter__full-item{
   flex-basis: 100%;

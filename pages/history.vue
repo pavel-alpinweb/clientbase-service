@@ -117,6 +117,9 @@ export default {
   @include tablets-landscape {
     grid-template-columns: repeat(3, 1fr);
   }
+  @include all-small-mobiles {
+    grid-template-columns: 1fr;
+  }
 }
 .history__search{
   grid-column: 1 / 6;
@@ -129,6 +132,9 @@ export default {
   @include tablets-landscape {
     grid-column: 1 / 4;
   }
+  @include all-small-mobiles {
+    grid-column: 1;
+  }
 }
 .history__date-filter{
   grid-column: 1 / 6;
@@ -140,6 +146,9 @@ export default {
   }
   @include tablets-landscape {
     grid-column: 1 / 4;
+  }
+  @include all-small-mobiles {
+    grid-column: 1;
   }
 }
 </style>

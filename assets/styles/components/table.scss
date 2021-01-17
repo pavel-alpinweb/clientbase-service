@@ -54,6 +54,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 55px;
+    span[mode] {
+      display: block;
+    }
     @include all-tablets {
       height: auto;
       span[mode] {

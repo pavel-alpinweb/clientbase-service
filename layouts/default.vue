@@ -211,12 +211,26 @@ export default {
     }
  }
  .app-title{
-   text-align:center;
+   text-align:left;
    margin-bottom:20px;
    font-family: 'Dancing Script', cursive;
-   font-size:80px;
+   font-size:70px;
    line-height:1em;
    color:$accentColor;
+   margin-right: auto;
+   padding-top: 20px;
+   @include middle-desktops {
+     padding-left: 60px;
+   }
+   @include all-big-mobiles {
+     font-size: 40px;
+   }
+   @include all-small-mobiles {
+     font-size: 50px;
+     padding-top: 70px;
+     text-align: center;
+     padding-left: 0;
+   }
  }
  .app-grid__bottom-sidebar{
    margin-top:20px;
@@ -237,6 +251,9 @@ export default {
   margin-right: 10px;
   font-weight: 500;
   font-family: $mainFont;
+  @include all-big-mobiles {
+    font-size: 10px;
+  }
 }
 .scroll-up{
    position: fixed;

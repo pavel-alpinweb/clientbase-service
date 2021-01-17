@@ -77,6 +77,12 @@
         grid-gap: 10px;
       }
     } 
+    @include all-small-mobiles {
+      span[mode] {
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+      }
+    }
 }
 .table__heading{
   background-color: $accentColor;

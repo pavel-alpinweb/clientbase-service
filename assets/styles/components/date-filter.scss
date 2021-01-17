@@ -1,4 +1,5 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 @mixin placeholder {
   &::-webkit-input-placeholder { @content; }
   &:-moz-placeholder           { @content; }
@@ -40,6 +41,9 @@
   @include placeholder{
       color: $accentColor;
   }
+  @include all-small-mobiles {
+    font-size: $h6fontSize;
+}
   &:focus{
       box-shadow: 0 0 4px $accentColor;
       border: 1px solid $accentColor;

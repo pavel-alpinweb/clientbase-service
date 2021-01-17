@@ -194,6 +194,7 @@ export default {
 <style lang="scss" src="@/assets/styles/components/buttons.scss"></style>
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .rating{
     width: 100%;
     align-self: flex-start;
@@ -202,6 +203,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
+    @include all-big-mobiles {
+      grid-template-columns: 1fr;
+    }
   }
   .rating_search{
     padding-bottom: 20px;
@@ -226,9 +230,15 @@ export default {
     padding: 0;
     margin: 0;
     grid-column: 1 / span 3;
+    @include all-big-mobiles {
+      grid-column: 1;
+    }
   }
   .rating_filters{
     grid-column: 1 / span 3;
+    @include all-big-mobiles {
+      grid-column: 1;
+    }
   }
   .rating__item{
     margin-bottom: 50px;

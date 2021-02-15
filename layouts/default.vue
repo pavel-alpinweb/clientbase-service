@@ -1,6 +1,6 @@
 <template lang="pug">
   .app-container
-    vuescroll
+    vuescroll(ref="vs")
       transition(name="component-fade",  mode="out-in")
         .preloader(v-if="preloaderVisible")
             .preloader__spinner
@@ -108,14 +108,11 @@ export default {
   },
   methods: {
     scrollTop () {
-      const top = Math.max(document.body.scrollTop, document.documentElement.scrollTop)
-      if (top > 0) {
-        window.scrollTo(0, Math.floor(top / 1.1))
-        this.time = setTimeout(this.scrollTop, 15)
-      } else {
-        clearTimeout(this.time)
-      }
-      return false
+      const vs = this.$refs.vs
+      vs.scrollTo({
+        x: 0,
+        y: 0
+      })
     },
     setUser () {
       this.user = this.$store.getters['auth/user']

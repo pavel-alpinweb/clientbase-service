@@ -1,52 +1,53 @@
 <template lang="pug">
-  .app-container
+  .app-scroller
     vuescroll(ref="vs")
-      transition(name="component-fade",  mode="out-in")
-        .preloader(v-if="preloaderVisible")
-            .preloader__spinner
-              .preloader__animation
-      .message(v-if="message.visible", :class="message.class") {{ message.text }}
-      h1.app-title Clientbase
-        .app-user-menu
-          span.app-user-menu__name Привет, {{ user.login }}
-          button.button.button--add(@click="logout") Выйти
-      .scroll-up.big-desktops-down-hide(@click="scrollTop")
-        svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
-      .app-grid
-        .app-grid__sidebar(
-          :class="{'open': isOpenMenu}"
-        )
-          .app-grid__mobile-menu-switcher.big-desktops-hide(
-            :class="{'active': isOpenMenu}"
-            @click="isOpenMenu = !isOpenMenu"
-          )
-            .app-grid__mobile-menu-row
-            .app-grid__mobile-menu-row
-            .app-grid__mobile-menu-row
-          appMenu
-          .app-grid__bottom-sidebar
-            button.button.button--add(@click="openClientForm")
-              svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
-              |Добавить
-          .app-grid__bottom-sidebar.app-grid__bottom-sidebar--hint-container
-            hintSwitcher(:hint="isHint")
-          .app-grid__bottom-sidebar.big-desktops-hide
-            .scroll-up-mobile(@click="scrollTop")
-              svg-icon(class="scroll-up__icon scroll-up__icon--light" name="arrow-up" width="28" height="32")
-        .app-grid__content
-          transition(name="list")
-            .hint(v-if="isHint") {{ textPage }}
-          nuxt
-        transition(name="component-fade",  mode="out-in")
-          windowDesc
-        transition(name="component-fade",  mode="out-in")
-          clientForm
-        transition(name="component-fade",  mode="out-in")
-          archiveAlrt
-        transition(name="component-fade",  mode="out-in")
-          windowTrades
-        transition(name="component-fade",  mode="out-in")
-          sleepAlrt
+      .app-container
+          transition(name="component-fade",  mode="out-in")
+            .preloader(v-if="preloaderVisible")
+                .preloader__spinner
+                  .preloader__animation
+          .message(v-if="message.visible", :class="message.class") {{ message.text }}
+          h1.app-title Clientbase
+            .app-user-menu
+              span.app-user-menu__name Привет, {{ user.login }}
+              button.button.button--add(@click="logout") Выйти
+          .scroll-up.big-desktops-down-hide(@click="scrollTop")
+            svg-icon(class="scroll-up__icon" name="arrow-up" width="28" height="32")
+          .app-grid
+            .app-grid__sidebar(
+              :class="{'open': isOpenMenu}"
+            )
+              .app-grid__mobile-menu-switcher.big-desktops-hide(
+                :class="{'active': isOpenMenu}"
+                @click="isOpenMenu = !isOpenMenu"
+              )
+                .app-grid__mobile-menu-row
+                .app-grid__mobile-menu-row
+                .app-grid__mobile-menu-row
+              appMenu
+              .app-grid__bottom-sidebar
+                button.button.button--add(@click="openClientForm")
+                  svg-icon(class="btn-icon", name="user-plus", width="20", height="20")
+                  |Добавить
+              .app-grid__bottom-sidebar.app-grid__bottom-sidebar--hint-container
+                hintSwitcher(:hint="isHint")
+              .app-grid__bottom-sidebar.big-desktops-hide
+                .scroll-up-mobile(@click="scrollTop")
+                  svg-icon(class="scroll-up__icon scroll-up__icon--light" name="arrow-up" width="28" height="32")
+            .app-grid__content
+              transition(name="list")
+                .hint(v-if="isHint") {{ textPage }}
+              nuxt
+            transition(name="component-fade",  mode="out-in")
+              windowDesc
+            transition(name="component-fade",  mode="out-in")
+              clientForm
+            transition(name="component-fade",  mode="out-in")
+              archiveAlrt
+            transition(name="component-fade",  mode="out-in")
+              windowTrades
+            transition(name="component-fade",  mode="out-in")
+              sleepAlrt
 </template>
 
 <script>
@@ -147,9 +148,6 @@ export default {
   @import '@/assets/styles/layout/vars.scss';
   @import '@/assets/styles/layout/breakpoints.scss';
   .app-container{
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
     padding-left: 20px;
     width: 100%;
     max-width: 1920px;
@@ -157,6 +155,11 @@ export default {
      @include middle-desktops {
        padding-left: 0;
      }
+  }
+  .app-scroller{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
   }
   .app-grid{
     display:grid;

@@ -6,24 +6,20 @@
       .date-filter__datepicker
         .date-filter__date-clean(@click="fromDate = ''")
           svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-        Datepicker.date-filter__input(placeholder="Выберите дату", v-model="fromDate", :format="'dd.MM.yyyy'", :language="lang")
+        date-picker.date-filter__input(placeholder="Выберите дату", v-model="fromDate", :format="'dd.MM.yyyy'", :language="lang")
     .date-filter__half-item
       .date-filter__form-title(v-if="target === 'page-progress'") Все сделки по
       .date-filter__form-title(v-else) Все клиенты по
       .date-filter__datepicker
         .date-filter__date-clean(@click="toDate = ''")
           svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-        Datepicker.date-filter__input(placeholder="Выберите дату", v-model="toDate", :format="'dd.MM.yyyy'", :language="lang")
+        date-picker.date-filter__input(placeholder="Выберите дату", v-model="toDate", :format="'dd.MM.yyyy'", :language="lang")
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker'
-import { ru } from 'vuejs-datepicker/src/locale'
+import { ru } from 'vuejs-datepicker/dist/locale'
 
 export default {
-  components: {
-    Datepicker
-  },
   props: {
     target: {
       type: String,

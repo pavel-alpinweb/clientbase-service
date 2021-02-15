@@ -17,7 +17,7 @@ function defaultPlugins () {
 }
 
 module.exports = {
-  mode: 'spa',
+  mode: 'ssr',
   /*
   ** Headers of the page
   */

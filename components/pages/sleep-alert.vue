@@ -169,7 +169,7 @@ export default {
       display:flex;
       margin:0 auto;
       justify-content: space-between;
-      @include all-small-mobiles {
+      @include all-big-mobiles {
         width: 100%;
       }
   }

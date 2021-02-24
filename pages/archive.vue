@@ -129,6 +129,9 @@ export default {
     grid-column: 1;
   }
 }
+.archive__item {
+  margin-bottom: -10px;
+}
 </style>
 <style lang="scss" src="@/assets/styles/components/hint.scss"></style>
 <style lang="scss" scoped src="@/assets/styles/components/search.scss"></style>

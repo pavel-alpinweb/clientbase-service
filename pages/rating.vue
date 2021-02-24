@@ -86,7 +86,7 @@ export default {
       typeRatingSort: 'trades',
       currentStatus: 'all',
       searchString: '',
-      textPage: 'На этой странице показан рейтинг всех клиентов, а так-же процент от общей прибыли, которую принес Вам каждый из клиентов.'
+      textPage: 'На этой странице показан рейтинг всех клиентов.'
     }
   },
   computed: {

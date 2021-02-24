@@ -8,7 +8,14 @@
     .trades-row__cell
       .trades-row__cell-title Дата
       .trades-row__cell-value
-        input.trades-row__input(:disabled="hasClientPropertyChange || actualClientStatus == 'archive'", type="date", placeholder="Введите дату сделки", v-model="currentTrade.date", @input="isSave = false")
+        date-picker.trades-row__date-input(
+          :disabled="hasClientPropertyChange || actualClientStatus == 'archive'"
+          placeholder="Введите дату сделки",
+          v-model="currentTrade.date",
+          :format="'dd.MM.yyyy'",
+          :language="lang"
+          @input="isSave = false"
+        )
     .trades-row__cell
       .trades-row__cell-title Сумма
       .trades-row__cell-value
@@ -32,6 +39,8 @@
 </template>
 
 <script>
+import { ru } from 'vuejs-datepicker/dist/locale'
+
 export default {
   props: {
     number: {
@@ -58,7 +67,8 @@ export default {
   },
   data () {
     return {
-      isSave: true
+      isSave: true,
+      lang: ru
     }
   },
   computed: {

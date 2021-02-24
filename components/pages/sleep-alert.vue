@@ -82,6 +82,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .window-sleep{
       position: fixed;
       width: 100vw;
@@ -104,7 +105,7 @@ export default {
       bottom:0;
   }
   .window-sleep__content{
-      width:100%;
+      width:95%;
       max-width: 768px;
       max-height: 100%;
       overflow:auto;
@@ -113,6 +114,9 @@ export default {
       padding: 35px 40px;
       margin: auto;
       position:relative;
+      @include all-tablets {
+        padding: 15px;
+      }
   }
 
   .close-icon{
@@ -134,6 +138,9 @@ export default {
       line-height: 1.2em;
       text-align:center;
       margin-bottom:20px;
+      @include all-big-mobiles {
+        font-size: $h3fontSize;
+      }
   }
   .window-sleep__subtitle{
       color: $mainColor;
@@ -143,6 +150,9 @@ export default {
       line-height: 1.2em;
       text-align:center;
       margin-bottom:20px;
+      @include all-big-mobiles {
+        font-size: $h4fontSize;
+      }
   }
   .window-sleep__image{
       width: 150px;
@@ -159,6 +169,9 @@ export default {
       display:flex;
       margin:0 auto;
       justify-content: space-between;
+      @include all-big-mobiles {
+        width: 100%;
+      }
   }
   .window-sleep__btn{
       height: 50px;

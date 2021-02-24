@@ -2,49 +2,55 @@
     .window-description(v-if="visible")
       .window-description__overlay(@click="closeThisWindow")
       .window-description__content.window-description__content--big
-       svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
-       .window-description__header
-        .window-description__title Все сделки клиента <span>{{ client.name }}</span>
-        .window-description__search-box
-          .search
-            input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
-            .search__clean(@click="cleanSearch")
-                svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-        .window-description__lastTrade(v-if="client.lastChangedTrade")
-          .window-description__sub-title Последняя измененная сделка
-          TradesRow(
-            :number="-1",
-            :trade="client.lastChangedTrade.trade",
-            :actualClientStatus="client.status",
-            :hasClientPropertyChange="true",
-            :lastChangedTradeType="client.lastChangedTrade.type")
-        .window-description__date-filter
-          DateFilter(:target="'window-trades'")
-       .window-description__trades-list
-        .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
-          button.button.button--add(@click="createTrade")
-            svg-icon(class="btn-icon", name="plus", width="20", height="20")
-            |Создать сделку
-        .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
-          TradesRow(
-            :number="filtredTradesArray.length - (i + 1)",
-            :trade="trade", :actualClientStatus="client.status",
-            :hasClientPropertyChange="client.hasOwnProperty('change')")
+        vuescroll
+          .window-description__scroll-content
+            svg-icon(@click="closeThisWindow", class="close-icon", name="checkmark", width="18", height="18")
+            .window-description__header
+             .window-description__title Все сделки клиента <span>{{ client.name }}</span>
+             .window-description__search-box
+               .search
+                 input.search__input(type="text", placeholder="Поиск сделки", v-model="searchString")
+                 .search__clean(@click="cleanSearch")
+                     svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
+             .window-description__lastTrade(v-if="client.lastChangedTrade")
+               .window-description__sub-title Последняя измененная сделка
+               TradesRow(
+                 :number="-1",
+                 :trade="client.lastChangedTrade.trade",
+                 :actualClientStatus="client.status",
+                 :hasClientPropertyChange="true",
+                 :lastChangedTradeType="client.lastChangedTrade.type")
+             .window-description__date-filter
+               DateFilter(:target="'window-trades'")
+            .window-description__trades-list
+             .window-description__add-button(v-if="client.status !== 'archive' && !client.hasOwnProperty('change')")
+               button.button.button--add(@click="createTrade")
+                 svg-icon(class="btn-icon", name="plus", width="20", height="20")
+                 |Создать сделку
+             transition-group(name="component-fade",  mode="out-in")
+               .window-description__trades-item(v-for="(trade, i) in filtredTradesArray", :key="i")
+                 TradesRow(
+                   :number="filtredTradesArray.length - (i + 1)",
+                   :trade="trade", :actualClientStatus="client.status",
+                   :hasClientPropertyChange="client.hasOwnProperty('change')")
 </template>
 
 <script>
 import TradesRow from '@/components/pages/trades-row'
 import DateFilter from '@/components/pages/date-filter'
+import vuescroll from 'vuescroll'
 
 export default {
   name: 'WindowDesc',
   components: {
     TradesRow,
-    DateFilter
+    DateFilter,
+    vuescroll
   },
   data () {
     return {
       trades: [],
+      user: {},
       visible: false,
       searchString: '',
       tradesFromDate: '',
@@ -68,6 +74,7 @@ export default {
     }
   },
   mounted () {
+    this.setUser()
     this.$EventBus.$on('callTradesWindow', (data) => {
       this.visible = data.visible
       this.trades = this.sortByDate(data.trades)
@@ -75,9 +82,20 @@ export default {
     })
     this.$EventBus.$on('deleteTrade', (data) => {
       this.trades.splice(data.index, 1)
+      this.client.name = data.client.name
+      this.client.id = data.client.id
+      this.client._id = data.client._id
+      this.client.clientImage = data.client.image
+      this.client.status = data.client.status
     })
     this.$EventBus.$on('updateTrade', (data) => {
-      this.trades[data.index] = data.trade
+      this.trades.splice(data.index, 1, data.trade)
+      // this.filtredTradesArray[data.index] = data.trade
+      this.client.name = data.client.name
+      this.client.id = data.client.id
+      this.client._id = data.client._id
+      this.client.clientImage = data.client.image
+      this.client.status = data.client.status
     })
     this.$EventBus.$on('checkDate', (data) => {
       if (data.target === 'window-trades') {
@@ -87,6 +105,9 @@ export default {
     })
   },
   methods: {
+    setUser () {
+      this.user = this.$store.getters['auth/user']
+    },
     closeThisWindow () {
       this.visible = false
     },
@@ -129,7 +150,8 @@ export default {
         date: '',
         pay: 0,
         isNewTrade: true,
-        clientId: this.client._id
+        clientId: this.client._id,
+        userId: this.user.userId
       }
       this.trades.push(trade)
     }

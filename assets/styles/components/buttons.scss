@@ -1,4 +1,5 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 @keyframes shadow {
     from {box-shadow: 0 0px 40px 5px #D0FF00;}
     to {box-shadow: 0 0px 80px 40px $accentColor;}
@@ -20,6 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     .btn-icon{
         margin-right: 15px;
         fill:#fff;
@@ -46,6 +48,10 @@
     background-color: $accentColor;
     border-color: $accentColor;
     color: $mainColor;
+    @include middle-desktops {
+        font-size: 10px;
+        white-space: nowrap;
+    }
     .btn-icon{
         fill: $mainColor;
     }
@@ -53,6 +59,22 @@
         color: $accentColor;
         .btn-icon{
             fill: $accentColor;
+        }
+    }
+    &.button--wait-not-hover{
+        &:hover{
+            color: $mainColor;
+            background-color: $accentColor;
+            .btn-icon{
+                fill: $mainColor;
+            }
+        }
+    }
+    &.button--wait-active {
+        color: $accentColor!important;
+        background-color: transparent!important;
+        .btn-icon{
+            fill: $accentColor!important;
         }
     }
 }
@@ -101,6 +123,14 @@
     background-color: $accentColor;
     color: $white;
     border-color: $accentColor;
+    @include middle-desktops {
+        padding-left: 15px;
+        justify-content: flex-start;
+        border-radius: 0;
+        .btn-icon {
+            margin-right: 18px;
+        }
+    }
     &:hover{
         color: $accentColor;
         .btn-icon{

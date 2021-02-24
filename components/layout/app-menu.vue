@@ -28,8 +28,10 @@
 
 <style lang="scss">
     @import '@/assets/styles/layout/vars.scss';
+    @import '@/assets/styles/layout/breakpoints.scss';
     .app-menu{
         width: 100%;
+        min-width: 240px;
         margin: 0;
         padding: 0;
         padding: 0;
@@ -62,6 +64,9 @@
         transition: all .3s;
         padding-left: 60px;
         cursor: pointer;
+        @include middle-desktops {
+            padding-left: 18px;
+        }
         &.nuxt-link-exact-active{
             background-color: $accentColor;
         }
@@ -75,5 +80,8 @@
         height: $h6fontSize;
         fill: $white;
         margin-right: 10px;
+        @include middle-desktops {
+            margin-right: 18px;
+        }
     }
 </style>

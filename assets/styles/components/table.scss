@@ -1,58 +1,120 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 .table{
   display: grid;
   width: 100%;
   grid-template-columns: repeat(5, 1fr);
   border-radius: 4px;
   transition: all .4s;
+  @include all-tablets {
+    grid-template-columns: 1fr;
+  }
 }
 .table__search{
   grid-column: 1 / 6;
   height:auto;
   padding-bottom: 20px;
   background:#ebebeb;
+  @include all-tablets {
+    grid-column: 1;
+  }
 }
 .table__search--grid-two{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
+  @include all-big-mobiles {
+    grid-template-columns: 1fr;
+  }
 }
 .table__searh-container{
   display: flex;
   align-items: flex-end;
 }
 .table__item{
-    border:2px solid white;
+    border: 2px solid white;
     border-right: none;
     height: 90vh;
     position: relative;
     &:last-of-type{
-        border-right:2px solid white;
+      border-right:2px solid white;
     }
+    @include all-tablets {
+      height: auto;
+      border: none;
+      display: none;
+      margin-bottom: 15px;
+    }
+}
+.table__item--devices-view {
+  display: block;
 }
 .table__content{
     height: calc(100% - 3.44rem);
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 55px;
+    span[mode] {
+      display: block;
+    }
+    @include all-tablets {
+      height: auto;
+      span[mode] {
+        display: grid;
+        height: auto;
+        width: 100%;
+      }
+    }
+    @include tablets-portrait {
+      span[mode] {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5px;
+      }
+    } 
+    @include tablets-landscape {
+      span[mode] {
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+    } 
+    @include all-small-mobiles {
+      span[mode] {
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+      }
+    }
 }
 .table__heading{
-    background-color: $accentColor;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
+  background-color: $accentColor;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: $h5fontSize;
+  margin-bottom: 20px;
+  position: absolute;
+  width: 100%;
+  color: $mainColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include middle-desktops {
+    font-size: $h6fontSize;
+  }
+  @include all-tablets {
     font-size: $h5fontSize;
-    margin-bottom: 20px;
-    position: absolute;
-    width: 100%;
-    color: $mainColor;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    span{
-        margin: 0 10px;
-    }
+    font-weight: 500;
+  }
+  span{
+      margin: 0 10px;
+  }
 }
 .table__icon{
   fill: $mainColor;
+}
+
+.table__mobile-sort-list{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-gap: 10px;
+  margin-bottom: 10px;
 }

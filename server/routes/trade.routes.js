@@ -3,6 +3,13 @@ const passport = require('passport')
 const ctr = require('../controllers/trade.controller')
 const router = Router()
 
+// '/api/trade/admin/:usertID'
+router.get(
+  '/admin/:usertID',
+  passport.authenticate('jwt', { session: false }),
+  ctr.getAll
+)
+
 // '/api/trade/admin/create'
 router.post(
   '/admin/create',

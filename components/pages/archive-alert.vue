@@ -68,6 +68,7 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/styles/layout/vars.scss';
+  @import '@/assets/styles/layout/breakpoints.scss';
   .window-archive{
       position: fixed;
       width: 100vw;
@@ -90,7 +91,7 @@ export default {
       bottom:0;
   }
   .window-archive__content{
-      width:100%;
+      width:95%;
       max-width: 768px;
       max-height: 100%;
       overflow:auto;
@@ -99,6 +100,9 @@ export default {
       padding: 35px 40px;
       margin: auto;
       position:relative;
+      @include all-tablets {
+        padding: 15px;
+      }
   }
 
   .close-icon{
@@ -120,6 +124,9 @@ export default {
       line-height: 1.2em;
       text-align:center;
       margin-bottom:20px;
+      @include all-big-mobiles {
+        font-size: $h3fontSize;
+      }
   }
   .window-archive__subtitle{
       color: $mainColor;
@@ -129,6 +136,9 @@ export default {
       line-height: 1.2em;
       text-align:center;
       margin-bottom:20px;
+      @include all-big-mobiles {
+        font-size: $h4fontSize;
+      }
   }
   .window-archive__image{
       width: 150px;
@@ -145,6 +155,9 @@ export default {
       display:flex;
       margin:0 auto;
       justify-content: space-between;
+      @include all-small-mobiles {
+        width: 100%;
+      }
   }
   .window-archive__btn{
       height: 50px;

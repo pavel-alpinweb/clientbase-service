@@ -4,8 +4,9 @@
       Search
     .history__date-filter
       DateFilter(:target="'page-clients'")
-    .history__item(v-for="(client, index) in clientsArray", :key="client._id")
-      HistoryClientCard(:client="client", :index="index")
+    .history__item(v-for="(client, index) in clientsArray")
+      transition-group(name="component-fade",  mode="out-in")
+        HistoryClientCard(:client="client", :index="index", :key="client._id")
 </template>
 
 <script>
@@ -28,9 +29,7 @@ export default {
       clientsToDate: '',
       textPage:
       `На этой странице показана вся история сотрудничества со всеми клиентами.
-       Введите в поиск имя или id клиента, чтобы увидеть историю сотрудничества только с данным клиентом.
-       Важный совет. Прежде чем перемещать клиента из одной категории в другую, оставляйте запись почему вы это сделали и не забывайте сохранить.
-       Это поможет, Вам увидеть точную ретроспективу Вашего сотрудничества.`
+       Введите в поиск имя или id клиента, чтобы увидеть историю сотрудничества только с данным клиентом.`
     }
   },
   computed: {
@@ -39,7 +38,8 @@ export default {
         return this.filterClientsByDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
-          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase()) ||
+          client.id.toLowerCase().includes(this.searchString.toLowerCase())
         })
         return this.filterClientsByDate(checkClients)
       }
@@ -94,7 +94,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
+
 .history{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
@@ -103,11 +106,47 @@ export default {
   width:100%;
   min-height: 100vh;
   grid-auto-rows: max-content;
+  @include middle-desktops {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include tablets-portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include tablets-landscape {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include all-small-mobiles {
+    grid-template-columns: 1fr;
+  }
 }
 .history__search{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
+  @include tablets-portrait {
+    grid-column: 1 / 3;
+  }
+  @include tablets-landscape {
+    grid-column: 1 / 4;
+  }
+  @include all-small-mobiles {
+    grid-column: 1;
+  }
 }
 .history__date-filter{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
+  @include tablets-portrait {
+    grid-column: 1 / 3;
+  }
+  @include tablets-landscape {
+    grid-column: 1 / 4;
+  }
+  @include all-small-mobiles {
+    grid-column: 1;
+  }
 }
 </style>

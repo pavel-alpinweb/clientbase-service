@@ -16,10 +16,13 @@ export const actions = {
     }
 
     try {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: true })
       return await this.$axios.$post('/api/client/admin/create', formData)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    } finally {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: false })
     }
   },
   async updateClient ({ commit }, client) {
@@ -40,34 +43,46 @@ export const actions = {
       }
     }
     try {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: true })
       return await this.$axios.$put('/api/client/admin/update/' + client._id, formData)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    } finally {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: false })
     }
   },
   async archiveClient ({ commit }, { clientId, userId }) {
     try {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: true })
       return await this.$axios.$put(`/api/client/admin/archive/${clientId}/${userId}`)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    } finally {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: false })
     }
   },
   async reopenClient ({ commit }, { clientId, userId }) {
     try {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: true })
       return await this.$axios.$put(`/api/client/admin/reopen/${clientId}/${userId}`)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    } finally {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: false })
     }
   },
   async sleepClient ({ commit }, { clientId, userId }) {
     try {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: true })
       return await this.$axios.$put(`/api/client/admin/sleep/${clientId}/${userId}`)
     } catch (error) {
       commit('setError', error, { root: true })
       throw error
+    } finally {
+      this.$EventBus.$emit('showPreloader', { preloaderVisible: false })
     }
   },
   async getAll ({ commit }, userId) {

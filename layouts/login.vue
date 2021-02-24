@@ -45,7 +45,8 @@
  .login-container{
      margin: auto;
      position: relative;
-     width: 500px;
+     max-width: 500px;
+     width: 98%;
      min-height: 410px;
      z-index: 2;
  }

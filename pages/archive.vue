@@ -4,8 +4,9 @@
       Search
     .archive__date-filter
       DateFilter(:target="'page-clients'")
-    .archive__item(v-for="(client, i) in clientsArray", @key="client.id")
-      ClientCard(:client="client" :index="i")
+    .archive__item(v-for="(client, i) in clientsArray")
+      transition-group(name="component-fade",  mode="out-in")
+        ClientCard(:client="client" :index="i", :key="client.id")
 </template>
 
 <script>
@@ -25,7 +26,7 @@ export default {
       searchString: '',
       clientsFromDate: '',
       clientsToDate: '',
-      textPage: 'На этой странице находятся все клиенты, сотрудничество с которыми так или иначе не сложилось. Заметьте в этом приложении вообще нет кнопки "Удалить". Любого потерянного клиента можно вернуть в главную таблицу. Помните, каждый потерянный клиент это потерянная прибыль. Почитайте свои записи, оставленные к потерянному клиенту, посмотрите как развивалось Ваше сотрудничество, на странице "История". Может быть Вам удастся возобновить сотрудничество.'
+      textPage: 'На этой странице находятся все клиенты, сотрудничество с которыми так или иначе не сложилось. Заметьте в этом приложении нет кнопки "Удалить". Любого потерянного клиента можно вернуть в главную таблицу. Помните, каждый потерянный клиент это потерянная прибыль. Почитайте свои записи, оставленные к потерянному клиенту, посмотрите как развивалось Ваше сотрудничество, на странице "История". Может быть Вам удастся возобновить сотрудничество.'
     }
   },
   computed: {
@@ -34,7 +35,8 @@ export default {
         return this.filterClientsByDate(this.clients)
       } else {
         const checkClients = this.clients.filter((client) => {
-          return client.name.toLowerCase().includes(this.searchString.toLowerCase())
+          return client.name.toLowerCase().includes(this.searchString.toLowerCase()) ||
+          client.id.toLowerCase().includes(this.searchString.toLowerCase())
         })
         return this.filterClientsByDate(checkClients)
       }
@@ -87,7 +89,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
+
 .archive{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
@@ -96,9 +101,36 @@ export default {
   width:100%;
   min-height: 100vh;
   grid-auto-rows: max-content;
+  @include middle-desktops {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include tablets-portrait {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include tablets-landscape {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include all-small-mobiles {
+    grid-template-columns: 1fr;
+  }
 }
 .archive__search, .archive__date-filter{
   grid-column: 1 / 6;
+  @include middle-desktops {
+    grid-column: 1 / 5;
+  }
+  @include tablets-portrait {
+    grid-column: 1 / 3;
+  }
+  @include tablets-landscape {
+    grid-column: 1 / 4;
+  }
+  @include all-small-mobiles {
+    grid-column: 1;
+  }
+}
+.archive__item {
+  margin-bottom: -10px;
 }
 </style>
 <style lang="scss" src="@/assets/styles/components/hint.scss"></style>

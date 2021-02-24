@@ -6,13 +6,23 @@ const historyFn = require('../modules/historyFn')
 module.exports.create = async (req, res) => {
   const $set = { ...req.body }
   $set.isNewTrade = false
-
   const trade = new Trade($set)
   let isChangeStatus = false
   let historyMessage = ''
   try {
-    await trade.save()
+    await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
+      const lastChangedTrade = {
+        type: 'plus',
+        trade
+      }
+      await historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка', lastChangedTrade)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
+
     const client = await Client.findById($set.clientId)
+    await trade.save()
     let message = 'Новая сделка успешно создана'
     client.trades.push(trade._id)
 
@@ -36,11 +46,6 @@ module.exports.create = async (req, res) => {
     client.date = Date.now()
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
-      const lastChangedTrade = {
-        type: 'plus',
-        trade
-      }
-      await historyFn.saveClientInHistory(client, HistoryClient, 'Добавлена сделка', lastChangedTrade)
       if (isChangeStatus) {
         await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
@@ -60,6 +65,16 @@ module.exports.update = async (req, res) => {
   let isChangeStatus = false
   let historyMessage = ''
   try {
+    await Client.findById($set.clientId).populate('trades').exec(async (error, client1) => {
+      const lastChangedTrade = {
+        type: 'edit',
+        trade: $set
+      }
+      await historyFn.saveClientInHistory(client1, HistoryClient, 'Сделка обнолена', lastChangedTrade)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
     const trade = await Trade.findOneAndUpdate({ _id: req.params.id }, { $set }, { new: true })
     const client = await Client.findById($set.clientId)
     let message = 'Информация о сделке успешно обновлена'
@@ -89,11 +104,6 @@ module.exports.update = async (req, res) => {
 
     await client.save()
     await Client.findById($set.clientId).populate('trades').exec(async (error, client) => {
-      const lastChangedTrade = {
-        type: 'edit',
-        trade
-      }
-      await historyFn.saveClientInHistory(client, HistoryClient, 'Сделка обнолена', lastChangedTrade)
       if (isChangeStatus) {
         await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
@@ -111,12 +121,23 @@ module.exports.remove = async (req, res) => {
   let isChangeStatus = false
   let historyMessage = ''
   try {
+    const trade = await Trade.findById({ _id: req.params.tradeID })
+
+    await Client.findById(req.params.clientID).populate('trades').exec(async (error, client) => {
+      const lastChangedTrade = {
+        type: 'trash',
+        trade
+      }
+      await historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка', lastChangedTrade)
+      if (error) {
+        res.status(500).json(error)
+      }
+    })
+
     const client = await Client.findById(req.params.clientID)
     let message = 'Сделка успешно удалена'
-
     const tradeIndex = client.trades.indexOf(req.params.tradeID)
     client.trades.splice(tradeIndex, 1)
-    const trade = await Trade.findById({ _id: req.params.tradeID })
     await Trade.deleteOne({ _id: req.params.tradeID })
 
     const allTrades = await Trade.find({ clientId: req.params.clientID })
@@ -148,11 +169,6 @@ module.exports.remove = async (req, res) => {
 
     await client.save()
     await Client.findById(req.params.clientID).populate('trades').exec(async (error, client) => {
-      const lastChangedTrade = {
-        type: 'trash',
-        trade
-      }
-      await historyFn.saveClientInHistory(client, HistoryClient, 'Удалена сделка', lastChangedTrade)
       if (isChangeStatus) {
         await historyFn.saveClientInHistory(client, HistoryClient, historyMessage)
       }
@@ -163,5 +179,14 @@ module.exports.remove = async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })
+  }
+}
+
+module.exports.getAll = async (req, res) => {
+  try {
+    const trades = await Trade.find({ userId: req.params.usertID })
+    res.status(201).json(trades)
+  } catch (error) {
+    res.status(500).json(error)
   }
 }

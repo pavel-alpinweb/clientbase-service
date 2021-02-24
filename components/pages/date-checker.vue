@@ -5,10 +5,12 @@
       .date-filter__datepicker
         .date-filter__date-clean(@click="currentDate = new Date()")
           svg-icon(class="svg-icon", name="checkmark", width="18", height="18")
-        input.date-filter__input(type="date", placeholder="Выберите дату", v-model="currentDate")
+        date-picker.date-filter__input(placeholder="Выберите дату", v-model="currentDate", :format="'dd.MM.yyyy'", :language="lang")
 </template>
 
 <script>
+import { ru } from 'vuejs-datepicker/dist/locale'
+
 export default {
   props: {
     target: {
@@ -18,7 +20,8 @@ export default {
   },
   data () {
     return {
-      currentDate: ''
+      currentDate: '',
+      lang: ru
     }
   },
   watch: {

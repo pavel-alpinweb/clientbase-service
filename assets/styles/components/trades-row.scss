@@ -1,4 +1,5 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 @mixin placeholder {
   &::-webkit-input-placeholder { @content; }
   &:-moz-placeholder           { @content; }
@@ -8,6 +9,9 @@
 .trades-row{
   display: flex;
   justify-content: space-between;
+  @include all-tablets {
+    flex-wrap: wrap;
+  }
 }
 
 .trades-row__cell--plus{
@@ -57,12 +61,51 @@
 .trades-row__cell{
   flex-grow: 1;
   padding: 0 5px;
+  @include all-tablets {
+    flex-basis: 33%;
+  }
+  @include all-tablets {
+    flex-basis: 100%;
+  }
   &:first-child{
     flex-grow: 6;
+    @include all-tablets {
+      flex-grow: 1;
+    }
+  }
+  &:last-child {
+    @include all-tablets {
+      flex-basis: 100%;
+      .trades-row__cell-title {
+        text-align: center;
+      }
+    }
   }
 }
 
 .trades-row__input{
+  width: 100%;
+  height: 52px;
+  border-radius: 4px;
+  border: 1px solid $mainColor;
+  padding:0 10px;
+  background: transparent;
+  outline:none;
+  color: $mainColor;
+  font-size: $textFontSize;
+  font-weight: 500;
+  font-family: $mainFont;
+  transition: all .3s;
+  @include placeholder{
+      color: $accentColor;
+  }
+  &:focus{
+      box-shadow: 0 0 4px $accentColor;
+      border: 1px solid $accentColor;
+  }
+}
+
+.trades-row__date-input /deep/input{
   width: 100%;
   height: 52px;
   border-radius: 4px;

@@ -1,10 +1,14 @@
 @import '@/assets/styles/layout/vars.scss';
+@import '@/assets/styles/layout/breakpoints.scss';
 .client-card{
   border-radius: 8px;
   background-color: $white;
   border: 2px solid $accentColor;
   padding: 15px;
   margin-bottom: 15px;
+  @include all-tablets {
+    margin: 0;
+  }
 }
 
 .client-card--history{
@@ -56,11 +60,17 @@
 .client-card__title{
   font-size: $h5fontSize;
   font-weight: 700;
+  @include middle-desktops {
+    font-size: $h6fontSize;
+  }
 }
 
 .client-card__sub-title{
   font-size: $h6fontSize;
   font-weight: 500;
+  @include middle-desktops {
+    font-size: 12px;
+  }
 }
 
 .client-card__text-more{
@@ -92,9 +102,12 @@
   display: flex;
   justify-content: space-between;
   margin: 15px 0;
-  font-size: 18px;
+  font-size: $h5fontSize;
   font-weight: bold;
   color: $accentColor;
+  @include middle-desktops {
+    font-size: $h6fontSize;
+  }
 }
 
 .move-icon{
@@ -104,7 +117,7 @@
 
 .client-card__menu{
   display:flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .client-card--history{
@@ -137,10 +150,11 @@
   background-color: $accentColor;
   & + .client-card__menu-tooltipe{
     background-color: $accentColor;
-    left: 0;
+    left: 10px;
+    border-bottom-left-radius: 0;
     &:after{
       border-top-color: $accentColor;
-      left: 10px;
+      left: 0px;
       margin-left: 0;
     }
     &.client-card__menu-tooltipe--center{
@@ -180,8 +194,14 @@
   background-color: blue;
   & + .client-card__menu-tooltipe{
     background-color: blue;
+    left: initial;
+    right: 10px;
+    border-bottom-right-radius: 0;
     &:after{
       border-top-color: blue;
+      margin-left: 0;
+      left: initial;
+      right: 0px;
     }
   }
   &:hover{

@@ -68,14 +68,27 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/proxy'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000'
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    proxy: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://alpinweb.com',
+      pathRewrite: {
+        '^/api': '/'
+      }
+    }
+  },
+  pwa: {
+    workbox: {}
   },
   /*
   ** SVG sprite settings
